@@ -11,6 +11,8 @@ AI-assisted customer support and onboarding over a Twilio WhatsApp webhook for S
 - Lets a client send `bug: ...` or `note: ...` to create a note.
 - Sends new notes to the configured owner WhatsApp number through Twilio.
 - Keeps a small local conversation history and notes file for development.
+- Uses a reviewed PlaySmart knowledge catalog and retrieves only relevant product records for AI replies.
+- Creates structured support cases with `PS-000001` identifiers and lifecycle status `NEW`.
 
 ## Cloudflare Worker deployment
 
@@ -43,6 +45,16 @@ https://YOUR_DOMAIN/webhook/whatsapp
 
 `VALIDATE_TWILIO_SIGNATURE=true` is configured for production. Twilio signs the request using the exact Worker URL that receives the request.
 
+## Phase 2 support architecture
+
+The public support Worker has no GitHub access and cannot modify the PlaySmart repository. The reviewed knowledge snapshot is in `knowledge.js`; it contains sanitized summaries of routes, lessons, reading, spelling, perceptual activities, comprehension, eye kinetics, evaluations, results, parent/centre workflows, authentication, licensing, SQLite, sync, platforms, and recovery paths.
+
+`searchKnowledge()` selects a small number of matching records before an OpenAI request. The full PlaySmart source is never sent to the model. The catalog is versioned and should be regenerated through a reviewed process when PlaySmart changes.
+
+Support cases are defined in `support-cases.js`. Cases are stored under individual KV keys such as `support-case:PS-000001`, with the sequence stored separately. The `CaseRepository` abstraction allows KV to be replaced by a database later. Case content and owner notifications redact phone numbers, email addresses, token-like values, license values, and student/parent names where they are explicitly labelled.
+
+Meaningful issue messages create cases containing the client description, AI summary, category, severity, confidence, app/build/platform fields, route/screen fields, sanitized diagnostics, sync/database status, an internal hashed conversation reference, and status. Owner WhatsApp alerts contain a concise case summary and never include the client's WhatsApp number or full transcript.
+
 ## Client commands
 
 - `menu` - show the main options
@@ -56,3 +68,12 @@ https://YOUR_DOMAIN/webhook/whatsapp
 ## Production notes
 
 Conversation history is intentionally bounded and process-local. Notes use the `NoteStore` abstraction and Cloudflare KV when the `NOTES_KV` binding is configured. Keep Twilio credentials and `OPENAI_API_KEY` in Cloudflare secrets, never in source control.
+
+## Test locally
+
+```bash
+npm run check
+npm test
+```
+
+The test suite exercises the health endpoint, TwiML webhook, fallback responses, knowledge retrieval, structured case IDs, and privacy sanitization. The production Worker should still be tested through a staging URL before changing the live Twilio webhook.

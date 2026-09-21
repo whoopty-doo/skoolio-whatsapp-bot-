@@ -1,5 +1,7 @@
+import { searchKnowledge } from './knowledge.js';
+import { CaseRepository, ownerNotification } from './support-cases.js';
+
 const conversations = new Map();
-const memoryNotes = [];
 
 const SYSTEM_PROMPT = 'You are Skoolio support on WhatsApp. Help clients with PlaySmart, ReadSmart, and onboarding. Be warm, concise, practical, and ask one useful follow-up question. Never invent account-specific facts, passwords, refunds, or technical fixes. If the issue needs a person, say so and suggest the client send details. Use plain text suitable for WhatsApp.';
 
@@ -38,14 +40,14 @@ async function handleWhatsAppWebhook(request, env) {
   history.push({ role: 'user', content: message });
   conversations.set(from, history.slice(-10));
 
-  const noteMatch = message.match(/^(bug|issue|problem|note|feedback)\s*:\s*(.*)$/i);
-  const note = isNoteMessage(message)
-    ? await createNote(env, { from, body: noteMatch?.[2] || message, kind: noteMatch?.[1]?.toUpperCase() || 'SUPPORT ISSUE' })
+  const knowledge = searchKnowledge(message);
+  const supportCase = isNoteMessage(message)
+    ? await createSupportCase(env, { from, message, knowledge })
     : null;
 
-  const reply = await aiReply(env, message, from, history);
-  const finalReply = note
-    ? `Thanks, I recorded this for the Skoolio team as ${note.id}. A team member can follow up with you.\n\n${reply}`
+  const reply = await aiReply(env, message, history, knowledge);
+  const finalReply = supportCase
+    ? `Thanks, I recorded this for the Skoolio team as ${supportCase.caseId}. A team member can follow up with you.\n\n${reply}`
     : reply;
   history.push({ role: 'assistant', content: finalReply });
   conversations.set(from, history.slice(-10));
@@ -90,9 +92,10 @@ function fallbackReply(message) {
   return 'I can help with PlaySmart, ReadSmart, app onboarding, or support. Try MENU, PLAYSMART, READSMART, ONBOARDING, or HUMAN. For an issue, send it as: BUG: what happened.';
 }
 
-async function aiReply(env, message, from, history) {
+async function aiReply(env, message, history, knowledge) {
   if (!env.OPENAI_API_KEY) return fallbackReply(message);
   try {
+    const knowledgeContext = knowledge.map((record) => `[${record.id}] ${record.title}: ${record.content}`).join('\n');
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { Authorization: `Bearer ${env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
@@ -100,7 +103,11 @@ async function aiReply(env, message, from, history) {
         model: env.OPENAI_MODEL || 'gpt-4o-mini',
         temperature: 0.3,
         max_tokens: 280,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history.slice(-8), { role: 'user', content: `Client ${from}: ${message}` }]
+        messages: [
+          { role: 'system', content: `${SYSTEM_PROMPT} Use only the relevant product knowledge below for product-specific claims. If it does not answer the question, say that you need more information or a team member. Never reveal source paths, internal identifiers, or private data.\n\nRelevant product knowledge:\n${knowledgeContext || 'No matching product knowledge was found.'}` },
+          ...history.slice(-8),
+          { role: 'user', content: message }
+        ]
       })
     });
     if (!response.ok) throw new Error(`OpenAI returned ${response.status}`);
@@ -116,31 +123,30 @@ function isNoteMessage(message) {
   return /^(bug|issue|problem|note|feedback)\s*:/i.test(message) || /\b(can't|cannot|doesn't|won't|broken|error|bug|crash|stuck)\b/i.test(message);
 }
 
-class NoteStore {
-  constructor(env) {
-    this.kv = env.NOTES_KV;
-  }
-
-  async add(note) {
-    if (!this.kv) {
-      memoryNotes.push(note);
-      return note;
+async function createSupportCase(env, { from, message, knowledge }) {
+  const category = knowledge[0]?.category?.toUpperCase() || 'OTHER';
+  const supportCase = await new CaseRepository(env.NOTES_KV).create({
+    userDescription: message,
+    aiSummary: `Client reports a possible ${category.toLowerCase()} support issue.`,
+    category,
+    severity: /crash|cannot|can't|broken|blocked/i.test(message) ? 'HIGH' : 'MEDIUM',
+    confidence: knowledge.length ? 0.65 : 0.35,
+    actualBehaviour: message,
+    conversationReference: { channel: 'whatsapp', conversationId: await internalConversationId(from), messageCount: (conversations.get(from) || []).length }
+  });
+  if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_WHATSAPP_FROM && env.OWNER_WHATSAPP_NUMBER) {
+    try {
+      await sendTwilioMessage(env, env.OWNER_WHATSAPP_NUMBER, ownerNotification(supportCase));
+    } catch (error) {
+      console.error('Owner alert failed:', error.message);
     }
-    const existing = JSON.parse(await this.kv.get('notes') || '[]');
-    existing.push(note);
-    await this.kv.put('notes', JSON.stringify(existing));
-    return note;
   }
+  return supportCase;
 }
 
-async function createNote(env, { from, body, kind }) {
-  const note = { id: `note_${Date.now()}`, createdAt: new Date().toISOString(), from, kind, body };
-  await new NoteStore(env).add(note);
-  if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_WHATSAPP_FROM && env.OWNER_WHATSAPP_NUMBER) {
-    const ownerMessage = `Skoolio ${kind} from ${from}\n\n${body}\n\nNote ID: ${note.id}`;
-    await sendTwilioMessage(env, env.OWNER_WHATSAPP_NUMBER, ownerMessage);
-  }
-  return note;
+async function internalConversationId(value) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('').slice(0, 16);
 }
 
 async function sendTwilioMessage(env, to, body) {

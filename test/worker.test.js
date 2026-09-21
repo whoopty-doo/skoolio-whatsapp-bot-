@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker, { fallbackReply } from '../worker.js';
+import { searchKnowledge } from '../knowledge.js';
+import { CaseRepository, ownerNotification } from '../support-cases.js';
 
 const env = { VALIDATE_TWILIO_SIGNATURE: 'false' };
 
@@ -29,4 +31,27 @@ test('bug messages are acknowledged and sanitized in TwiML', async () => {
 
 test('fallback remains available without OpenAI', () => {
   assert.match(fallbackReply('READSMART'), /ReadSmart supports reading practice/);
+});
+
+test('knowledge retrieval returns focused product records', () => {
+  const matches = searchKnowledge('student reading lesson loading sync');
+  assert.ok(matches.length > 0);
+  assert.ok(matches.length <= 4);
+  assert.ok(matches.some((record) => record.category === 'reading' || record.category === 'sync'));
+  assert.ok(matches.every((record) => !('sourceCode' in record)));
+});
+
+test('support cases have PS IDs and sanitize sensitive data', async () => {
+  const supportCase = await new CaseRepository().create({
+    userDescription: 'Student Jane cannot login. token: secret-value, jane@example.com, +27821234567',
+    aiSummary: 'Authentication issue',
+    category: 'AUTHENTICATION',
+    confidence: 0.8,
+    actualBehaviour: 'Login fails'
+  });
+  assert.match(supportCase.caseId, /^PS-\d{6}$/);
+  assert.doesNotMatch(supportCase.userDescription, /secret-value|jane@example.com|27821234567/);
+  assert.equal(supportCase.status, 'NEW');
+  assert.match(ownerNotification(supportCase), new RegExp(supportCase.caseId));
+  assert.doesNotMatch(ownerNotification(supportCase), /jane@example.com|27821234567/);
 });
