@@ -10,7 +10,7 @@ AI-assisted customer support and onboarding over a Twilio WhatsApp webhook for S
 - Captures messages containing bug/problem language as owner notes.
 - Lets a client send `bug: ...` or `note: ...` to create a note.
 - Sends new notes to the configured owner WhatsApp number through Twilio.
-- Keeps a small local conversation history and notes file for development.
+- Maintains one OpenAI Responses API conversation per WhatsApp sender.
 - Uses a reviewed PlaySmart knowledge catalog and retrieves only relevant product records for AI replies.
 - Creates structured support cases with `PS-000001` identifiers and lifecycle status `NEW`.
 
@@ -53,6 +53,8 @@ The public support Worker has no GitHub access and cannot modify the PlaySmart r
 
 Support cases are defined in `support-cases.js`. Cases are stored under individual KV keys such as `support-case:PS-000001`, with the sequence stored separately. The `CaseRepository` abstraction allows KV to be replaced by a database later. Case content and owner notifications redact phone numbers, email addresses, token-like values, license values, and student/parent names where they are explicitly labelled.
 
+Conversation state is separate from support-case state. The sender's WhatsApp number is hashed to form a KV mapping key; the value is only the OpenAI conversation ID. The OpenAI Responses API receives the same `conversation` ID for subsequent messages from that sender. Conversation mappings expire after 30 days by default (`CONVERSATION_RETENTION_SECONDS`), while OpenAI conversation retention is governed by OpenAI account/API policy. The bot does not put phone numbers, names, passwords, tokens, API keys, or student/parent details into OpenAI conversation metadata. Send `new conversation`, `start over`, `reset conversation`, or `new chat` to delete the mapping and begin fresh on the next message.
+
 Meaningful issue messages create cases containing the client description, AI summary, category, severity, confidence, app/build/platform fields, route/screen fields, sanitized diagnostics, sync/database status, an internal hashed conversation reference, and status. Owner WhatsApp alerts contain a concise case summary and never include the client's WhatsApp number or full transcript.
 
 ## Client commands
@@ -67,7 +69,7 @@ Meaningful issue messages create cases containing the client description, AI sum
 
 ## Production notes
 
-Conversation history is intentionally bounded and process-local. Notes use the `NoteStore` abstraction and Cloudflare KV when the `NOTES_KV` binding is configured. Keep Twilio credentials and `OPENAI_API_KEY` in Cloudflare secrets, never in source control.
+Notes and support cases use Cloudflare KV when the `NOTES_KV` binding is configured. Keep Twilio credentials and `OPENAI_API_KEY` in Cloudflare secrets, never in source control. The in-memory mapping fallback is for local tests only; production requires KV for persistence across Worker instances.
 
 ## Test locally
 
@@ -76,4 +78,4 @@ npm run check
 npm test
 ```
 
-The test suite exercises the health endpoint, TwiML webhook, fallback responses, knowledge retrieval, structured case IDs, and privacy sanitization. The production Worker should still be tested through a staging URL before changing the live Twilio webhook.
+The test suite exercises the health endpoint, TwiML webhook, fallback responses, knowledge retrieval, structured case IDs, privacy sanitization, sender isolation, persistence, and reset behavior. The production Worker should still be tested through a staging URL before changing the live Twilio webhook.
