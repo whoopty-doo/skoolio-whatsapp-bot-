@@ -12,23 +12,36 @@ AI-assisted customer support and onboarding over a Twilio WhatsApp webhook for S
 - Sends new notes to the configured owner WhatsApp number through Twilio.
 - Keeps a small local conversation history and notes file for development.
 
-## Run locally
+## Cloudflare Worker deployment
 
 ```bash
 npm install
-cp .env.example .env
-npm start
+npx wrangler login
+npx wrangler kv namespace create NOTES_KV
 ```
 
-The health endpoint is `GET /health` and the webhook is `POST /webhook/whatsapp`.
+Put the returned KV namespace ID into `wrangler.jsonc` in place of `REPLACE_WITH_CLOUDFLARE_KV_NAMESPACE_ID`, then set production secrets:
 
-For local testing, set `VALIDATE_TWILIO_SIGNATURE=false`. To receive real WhatsApp messages, expose the server with a public HTTPS URL (for example, a deployment or an HTTPS tunnel) and set the Twilio WhatsApp sender webhook to:
+```bash
+npx wrangler secret put OPENAI_API_KEY
+npx wrangler secret put TWILIO_ACCOUNT_SID
+npx wrangler secret put TWILIO_AUTH_TOKEN
+npx wrangler secret put TWILIO_WHATSAPP_FROM
+npx wrangler secret put OWNER_WHATSAPP_NUMBER
+npm run deploy
+```
+
+The Worker exposes `GET /health` and `POST /webhook/whatsapp`.
+
+For local testing, run `npm run dev` and use `VALIDATE_TWILIO_SIGNATURE=false` only in a local Wrangler environment. Cloudflare KV is the production note store; the Worker uses a process-local fallback only for tests and local development.
+
+Set the Twilio WhatsApp sender webhook to:
 
 ```text
 https://YOUR_DOMAIN/webhook/whatsapp
 ```
 
-Set `VALIDATE_TWILIO_SIGNATURE=true` in production. Twilio signs the request using the exact public URL configured in `BASE_URL`.
+`VALIDATE_TWILIO_SIGNATURE=true` is configured for production. Twilio signs the request using the exact Worker URL that receives the request.
 
 ## Client commands
 
@@ -42,4 +55,4 @@ Set `VALIDATE_TWILIO_SIGNATURE=true` in production. Twilio signs the request usi
 
 ## Production notes
 
-For a multi-instance deployment, replace the in-memory conversations with Redis or a database. Keep Twilio credentials and `OPENAI_API_KEY` in deployment secrets, never in source control.
+Conversation history is intentionally bounded and process-local. Notes use the `NoteStore` abstraction and Cloudflare KV when the `NOTES_KV` binding is configured. Keep Twilio credentials and `OPENAI_API_KEY` in Cloudflare secrets, never in source control.

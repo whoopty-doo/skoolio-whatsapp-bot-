@@ -2,20 +2,19 @@
   "name": "skoolio-whatsapp-bot",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "AI-integrated Twilio WhatsApp support and onboarding bot for Skoolio PlaySmart and ReadSmart.",
-  "main": "server.js",
+  "main": "worker.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "check": "node --check server.js"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "node --check worker.js",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18"
   },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "openai": "^4.77.0",
-    "twilio": "^5.4.0"
+  "devDependencies": {
+    "wrangler": "^4.34.0"
   }
 }
