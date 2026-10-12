@@ -1,0 +1,41 @@
+{
+  "id": "admin.access",
+  "product": "SKOOLIO_ADMIN",
+  "module": "access",
+  "title": "Admin console sign-in or access is denied",
+  "content": "Applies to the console showing Sign in or Not authorized. An ordinary product account is not evidence of permission to use the admin console. Support can gather the screen and the error without requesting passwords or changing access.",
+  "keywords": [
+    "login",
+    "sign in",
+    "access",
+    "denied",
+    "authorized",
+    "aanmeld"
+  ],
+  "document_type": "TROUBLESHOOTING",
+  "version": "source-review-2026-09-23",
+  "updated_at": "2026-09-23",
+  "source": "super-admin/playsmart_admin_console/lib/screens/login_screen.dart; lib/screens/not_authorized_screen.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true,
+  "troubleshooting": {
+    "symptoms": [
+      "Sign in fails.",
+      "The console displays Not authorized."
+    ],
+    "questions": [
+      "Does the screen say Sign in or Not authorized?",
+      "Are you using the account intended for admin work?"
+    ],
+    "safe_steps": [
+      "Check that you opened the intended console.",
+      "If the wrong account is signed in, use the visible Sign out button, then sign in with your intended account.",
+      "Keep passwords and verification codes private."
+    ],
+    "collect_if_unresolved": [
+      "Screen title and sanitized error wording.",
+      "Whether access previously worked and the approximate time it stopped."
+    ],
+    "escalate_as": "HUMAN_ASSISTANCE"
+  }
+}

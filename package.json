@@ -3,18 +3,36 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "AI-integrated Twilio WhatsApp support and onboarding bot for Skoolio PlaySmart and ReadSmart.",
+  "description": "Multi-product Skoolio support and operations workspace",
   "main": "worker.js",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "check": "node --check worker.js",
-    "test": "node --test"
+    "dev": "wrangler dev --local --config wrangler.local.jsonc",
+    "deploy": "node scripts/deploy.mjs",
+    "check": "npm run knowledge:check && node scripts/build-admin.mjs --check && node scripts/build-store-admin.mjs --check && node scripts/check.mjs",
+    "test": "node --test test/*.test.js",
+    "test:store-support:runtime": "node scripts/store-support-runtime.mjs",
+    "test:runtime": "node scripts/runtime-smoke.mjs",
+    "test:cutover": "node scripts/cutover-smoke.mjs",
+    "test:staging:runtime": "node scripts/staging-rehearsal-runtime.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "deploy:staging": "node scripts/staging-deploy.mjs",
+    "test:staging": "node scripts/staging-smoke.mjs",
+    "test:staging:cutover": "node scripts/staging-cutover.mjs",
+    "browser:staging-owner": "node scripts/staging-owner-browser.mjs",
+    "build:admin": "node scripts/build-admin.mjs && node scripts/build-store-admin.mjs",
+    "predev": "npm run knowledge:build && npm run build:admin",
+    "test:media:runtime": "node scripts/media-runtime-smoke.mjs",
+    "knowledge:build": "node scripts/knowledge-build.mjs",
+    "knowledge:validate": "node scripts/knowledge-build.mjs --validate",
+    "knowledge:check": "node scripts/knowledge-build.mjs --check"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "devDependencies": {
-    "wrangler": "^4.34.0"
+    "wrangler": "^4.34.0",
+    "esbuild": "0.28.1",
+    "miniflare": "5.20260918.0-alpha",
+    "ws": "8.21.0"
   }
 }

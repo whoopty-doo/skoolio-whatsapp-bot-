@@ -1,0 +1,44 @@
+{
+  "id": "playsmart.sync-troubleshooting",
+  "product": "PLAYSMART",
+  "module": "sync",
+  "title": "Results or home lessons are not syncing",
+  "content": "Use this troubleshooting record when saved results or assigned home lessons differ between devices. Offline completion can wait for a connection. A replaced assignment cannot complete over the newer assignment. Preserve local work; do not clear app data or reinstall as a speculative fix.",
+  "keywords": [
+    "sync",
+    "offline",
+    "missing",
+    "results",
+    "connection",
+    "homework",
+    "sinkroniseer"
+  ],
+  "document_type": "TROUBLESHOOTING",
+  "version": "source-c045a58",
+  "updated_at": "2026-09-23",
+  "source": "playsmart@c045a58/docs/home-lesson-lifecycle.md; lib/sync/node_sync_service.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true,
+  "troubleshooting": {
+    "symptoms": [
+      "Saved results do not appear on the other device.",
+      "A completed home assignment still appears pending."
+    ],
+    "questions": [
+      "Is the device connected to the internet?",
+      "Was this home lesson replaced by newly sent work?",
+      "Does this affect one learner or multiple learners?"
+    ],
+    "safe_steps": [
+      "Check whether another website opens on the same device.",
+      "Keep the saved work and the app data intact while reconnecting.",
+      "Check the currently assigned lesson rather than reopening an older notification."
+    ],
+    "collect_if_unresolved": [
+      "Product and app version on each device.",
+      "Whether the issue started offline and whether a replacement lesson was sent.",
+      "Sanitized on-screen message and activity date; no learner identity."
+    ],
+    "escalate_as": "SYNC"
+  }
+}

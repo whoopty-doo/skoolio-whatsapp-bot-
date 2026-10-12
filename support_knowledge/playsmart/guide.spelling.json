@@ -1,0 +1,24 @@
+{
+  "id": "guide.spelling",
+  "product": "PLAYSMART",
+  "module": "spelling",
+  "title": "Work through a spelling lesson",
+  "content": "1. Use the spelling word list for the selected story.\n2. Watch the word during its timed display, then type your answer and select Check answer.\n3. Review the feedback, then continue to the next word. Use the incorrect-word retry when offered.\n4. Complete the lesson to record the scored first round. Practice Spelling does not save a scored result, and retrying words does not replace the first-round score.\nExpected result: scored spelling shows correct answers and the percentage. Are you starting spelling, practising, or retrying incorrect words?",
+  "keywords": [
+    "spelling",
+    "word",
+    "wrong",
+    "redo",
+    "retry",
+    "answer",
+    "practice",
+    "spel",
+    "woorde"
+  ],
+  "document_type": "HOW_TO",
+  "version": "source-c045a58",
+  "updated_at": "2026-09-23",
+  "source": "playsmart@c045a58/lib/features/spelling/state/spelling_session_controller.dart; lib/screens/spelling_screen.dart; docs/mobile-lessons.md",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

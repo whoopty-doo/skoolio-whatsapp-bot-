@@ -1,0 +1,21 @@
+{
+  "id": "admin.tenant-lookup",
+  "product": "SKOOLIO_ADMIN",
+  "module": "tenants",
+  "title": "Find a tenant in the admin console",
+  "content": "Applies to authorised users of the source-reviewed PlaySmart Admin Console, not an unverified backoffice interface.\n1. Open the Tenants screen.\n2. Enter the tenant you are looking for in Search tenants.\n3. Check the matching row and its displayed timezone before choosing any action.\nExpected result: the list narrows to matching tenants. If the screen differs, describe its title and visible controls without sharing private tenant records.",
+  "keywords": [
+    "tenant",
+    "tenants",
+    "search",
+    "find",
+    "list",
+    "timezone"
+  ],
+  "document_type": "HOW_TO",
+  "version": "source-review-2026-09-23",
+  "updated_at": "2026-09-23",
+  "source": "super-admin/playsmart_admin_console/lib/screens/tenants/tenants_screen.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

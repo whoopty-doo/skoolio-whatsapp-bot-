@@ -1,0 +1,64 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "skoolio-whatsapp-bot",
+  "account_id": "9a735099f119c54fac3674b6d165b5c9",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-21",
+  "compatibility_flags": [],
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "redact_query_string": false,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "routes": [
+    {
+      "pattern": "ai.skoolio.co.za",
+      "custom_domain": true,
+      "zone_id": "1ea082b0520297e11aa673b3bc2e767a"
+    }
+  ],
+  "vars": {
+    "CONVERSATION_RETENTION_SECONDS": "2592000",
+    "OPENAI_MODEL": "gpt-4o-mini",
+    "VALIDATE_TWILIO_SIGNATURE": "true",
+    "ENVIRONMENT": "production",
+    "COORDINATOR_BOOTSTRAP_APPROVED": "false",
+    "CUTOVER_MODE": "hold",
+    "MIGRATION_EXPECTED_SHA256": "3d18c5e6a2a0b201ef5a6fea911a740d0057187162caa620fbcbcc5a8e37d696"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "NOTES_KV",
+      "id": "8e4abd1b9586435eb123ebb65ec007de"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SUPPORT_COORDINATOR",
+        "class_name": "SupportCoordinator"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "support-coordinator-v1",
+      "new_sqlite_classes": [
+        "SupportCoordinator"
+      ]
+    }
+  ]
+}

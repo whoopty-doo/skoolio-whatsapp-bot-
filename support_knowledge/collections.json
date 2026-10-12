@@ -1,0 +1,29 @@
+[
+  {
+    "product": "PLAYSMART",
+    "status": "SOURCE_REVIEWED_SEED",
+    "missing_areas": [
+      "Installation and supported release matrix",
+      "Activation and billing support policies",
+      "Source review against installed customer versions"
+    ]
+  },
+  {
+    "product": "READSMART",
+    "status": "AWAITING_SOURCE",
+    "missing_areas": [
+      "Overview and navigation",
+      "Reading and spelling workflows",
+      "Installation, account access and troubleshooting"
+    ]
+  },
+  {
+    "product": "SKOOLIO_ADMIN",
+    "status": "SOURCE_REVIEWED_SEED",
+    "missing_areas": [
+      "Confirm available console matches deployed Skoolio backoffice",
+      "Verified customer and centre identity integration",
+      "Other backoffice workflows"
+    ]
+  }
+]

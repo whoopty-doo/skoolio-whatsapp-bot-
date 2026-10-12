@@ -1,0 +1,56 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "skoolio-support-staging",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-21",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ENVIRONMENT": "staging",
+    "VALIDATE_TWILIO_SIGNATURE": "true",
+    "CONVERSATION_RETENTION_SECONDS": "604800",
+    "COORDINATOR_BOOTSTRAP_APPROVED": "false",
+    "ADMIN_ACCESS_TEAM_DOMAIN": "https://falling-band-2215.cloudflareaccess.com",
+    "ADMIN_EMAILS": "cowleyjared@gmail.com",
+    "ADMIN_ACCESS_AUDIENCE": "ed1df70c20bd8ce8b5553f903efc07965efce88ff808ca427758bc109b60e376"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "NOTES_KV",
+      "id": "015fcf45ef6a4f058b8b1b88fb0b0584"
+    },
+    {
+      "binding": "RECOVERY_KV",
+      "id": "b7ef3be367b2463eaf702d03f3333730"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SUPPORT_COORDINATOR",
+        "class_name": "SupportCoordinator"
+      },
+      {
+        "name": "SUPPORT_RECOVERY",
+        "class_name": "StagingRecoveryCoordinator"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "support-coordinator-v1",
+      "new_sqlite_classes": [
+        "SupportCoordinator"
+      ]
+    },
+    {
+      "tag": "staging-recovery-v1",
+      "new_sqlite_classes": [
+        "StagingRecoveryCoordinator"
+      ]
+    }
+  ]
+}

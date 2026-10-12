@@ -1,0 +1,22 @@
+{
+  "id": "guide.reports",
+  "product": "PLAYSMART",
+  "module": "reports",
+  "title": "View learner progress and reports",
+  "content": "For centre staff using the student dashboard.\n1. Open the relevant learner’s dashboard.\n2. Select Report Card to open the report area.\n3. Review report history and the relevant activity/date. This area also supports evaluation-linked reports and shared parent-facing reading reports.\nExpected result: you can identify the intended report. Are you using the centre dashboard or a parent view? Do not send learner names or report contents in WhatsApp.",
+  "keywords": [
+    "report",
+    "results",
+    "progress",
+    "history",
+    "scores",
+    "report card",
+    "verslag"
+  ],
+  "document_type": "HOW_TO",
+  "version": "source-c045a58",
+  "updated_at": "2026-09-23",
+  "source": "playsmart@c045a58/lib/onboarding/guides/student_dashboard_guide_steps.dart; lib/screens/student_dashboard.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

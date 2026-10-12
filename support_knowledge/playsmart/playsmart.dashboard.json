@@ -1,0 +1,23 @@
+{
+  "id": "playsmart.dashboard",
+  "product": "PLAYSMART",
+  "module": "dashboard",
+  "title": "Prepare and save a learner lesson",
+  "content": "For centre staff using the student dashboard.\n1. Open the learner’s dashboard and check the current progress.\n2. Adjust the level, story, speed and other lesson settings for the next session.\n3. Select Save before starting Play or using Send Online.\n4. Select Play to start with the saved settings.\nExpected result: the next lesson uses the saved setup. Ask which dashboard section is visible if the controls differ.",
+  "keywords": [
+    "dashboard",
+    "settings",
+    "save",
+    "level",
+    "story",
+    "start",
+    "lesson",
+    "instellings"
+  ],
+  "document_type": "HOW_TO",
+  "version": "source-c045a58",
+  "updated_at": "2026-09-23",
+  "source": "playsmart@c045a58/lib/onboarding/guides/student_dashboard_guide_steps.dart; lib/screens/student_dashboard.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}
