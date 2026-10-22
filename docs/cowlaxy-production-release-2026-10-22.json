@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-22",
+  "featureCommits": {
+    "app": "7520be3",
+    "backend": "d7f1286",
+    "admin": "fec323c"
+  },
+  "branch": "engineering/cowlaxy-discoveries",
+  "sourceSetSha256": "6c786e3d94d6d329d23a7fd592199e85f644ad5c43164622c3821e1a7aeb4753",
+  "sourceHashes": {
+    "src/routes/arcade.ts": "42fdca5fd4f1d668594038eb5e754488cc524a153e9c2c39c31cc052a31cc75f",
+    "src/routes/store.ts": "910a0b9a5de7e5cbf2179ee3080565910f07b309f4cf8e9099150ba0e8a5d244",
+    "src/services/arcadeState.ts": "2f5e9bbb6fda18eaeaa0e7b3597772a7453eb256af8dcb46643e68ca607e423b",
+    "src/services/rewardsAccountRead.ts": "f03ee40dc5c9f68571b448da0e6b3bd90cb548ca181b53625d7ccda71f5c348c",
+    "src/services/rewardsLedger.ts": "5fd6ef43c548b84c075577246a49f39f2db2305fc3d5ab0030d3fbaa7e347ebf",
+    "src/services/rewardsLedgerState.ts": "63e5854e9078bb352ab1c5971df0c3942dfa85e764f9cc4800639f7b87580269",
+    "src/services/storeCatalog.ts": "ebdbe7d6905e8713ffccce39afb5c4f3936aed31031c533b0d4d42155f06d542",
+    "src/services/cowlaxyCatalog.ts": "2b0352c0def7021e6b6145273fdf2b03566b2efee53a12a4682126600c574ab6"
+  },
+  "runtimeHashes": {
+    "dist/src/routes/arcade.js": "8fc8e7c4893b1bb15ef46df7edb1bb16f12e182e9f2c0f8e38ce67b345b3a007",
+    "dist/src/routes/store.js": "ae03c52b4a540c15ea63fceb0064c89f78474ded617433a3e4659150c118d14e",
+    "dist/src/services/arcadeState.js": "d96e7df99caccc0483473e401bace7d0e2142e2e76f0f7e18f4a51c3cc773965",
+    "dist/src/services/rewardsAccountRead.js": "dbec446af9e9f5357abb366cb9a0ea58cb2206a937c7df5f6a5007bafef2289d",
+    "dist/src/services/rewardsLedger.js": "5fe195ba3e050f628f921485e69a3dce8404ab8cd4019996cd353f848bd4849c",
+    "dist/src/services/rewardsLedgerState.js": "8b66c3b8b37abac7194f6d1d33b7dc7880c5662d516821e49870e97e84b26d4f",
+    "dist/src/services/storeCatalog.js": "0ddace55e55628889847741e394067d6e4e6702a30abeac987c764d8f403889c",
+    "dist/src/services/cowlaxyCatalog.js": "f41d8b10d69df94f16984b3fd1640d3c86f25e88531afbcc45e44fabe72fdd6c"
+  },
+  "baseImage": "gcr.io/playsmart-test/super-admin-api@sha256:1c670e7cfa45f7787cfca2b6ffe045e056d20856fde4466d3fd00a6f62f75547",
+  "production": {
+    "revision": "playsmart-api-cowlaxy-6c786e3d94d6",
+    "image": "gcr.io/playsmart-test/super-admin-api@sha256:dacc09d1db4bd1504675135f38d8b43691787c017d5e789ec253733c7ac81b73",
+    "service": "playsmart-api",
+    "region": "us-central1",
+    "mainTrafficPercent": 100,
+    "runtimePreserved": true,
+    "iamPreserved": true,
+    "otherTagsPreserved": true
+  },
+  "compatibleFallback": {
+    "buildId": "ea470825-e4fd-4bb0-bb1d-557f7a30a4f1",
+    "image": "gcr.io/playsmart-test/super-admin-api@sha256:74a172f3376959d17b886e1d370b2aa5d67b1a5feaec67cd56efd240f57fb3c9",
+    "tested": 42,
+    "deployed": false
+  },
+  "preservedFiles": 197,
+  "windowsNativeBuild": "not run: macOS host",
+  "admin": {
+    "version": "f5b41a6d-927b-4e0e-8173-c784204111a0",
+    "trafficPercent": 100,
+    "sourceSha256": "16ed0e20b6eb5fd3d2075991de909700f3c4313ca2eb2d29ae558b72643aff49",
+    "settingsPreserved": true,
+    "routingPreserved": true,
+    "customerRecordsAccessed": false,
+    "probes": [
+      {
+        "path": "/admin/store",
+        "status": 302,
+        "accessRequired": true
+      },
+      {
+        "path": "/api/admin/store/products",
+        "status": 302,
+        "accessRequired": true
+      },
+      {
+        "path": "/api/admin/store/cowlaxy",
+        "status": 302,
+        "accessRequired": true
+      }
+    ]
+  },
+  "validation": {
+    "exactCandidateTests": 168,
+    "fallbackReaderTests": 42,
+    "adminTests": 109,
+    "candidateHealthAuthChecks": 101,
+    "productionHealthAuthChecks": 101,
+    "adminBrowserRuntime": "passed",
+    "nativeWindows": "not run"
+  }
+}

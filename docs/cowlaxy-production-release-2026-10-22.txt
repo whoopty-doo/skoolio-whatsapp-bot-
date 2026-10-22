@@ -1,0 +1,125 @@
+PLAYSMART — COWLAXY / UPLOAD XP-OR-MOOLA PRODUCTION RELEASE
+22 October 2026
+
+STATUS
+Backend released to 100% normal US production traffic.
+Super Admin Store released at https://ai.skoolio.co.za/admin/store .
+App source committed and pushed; installed client binaries are not updated by
+backend deployment. Windows compilation and native acceptance remain pending.
+
+AUTHORIZATION
+After the implementation report identified the repository production restriction,
+the owner explicitly instructed: “can you commit ? and deploy? i want to release.
+i approve depoyment . and push”. This later direct approval authorizes this scoped
+Cowlaxy/Store release and non-main pushes. No merge/main push, database repair,
+financial seed, backfill, secrets, IAM, rules or configuration changes were made.
+
+RELEASE
+Branch in all three repositories: engineering/cowlaxy-discoveries.
+Feature commits: app 7520be3; backend d7f1286; Store admin fec323c. All pushed.
+Release documentation is committed separately on the same branches.
+API: playsmart-api / playsmart-test / us-central1.
+Revision: playsmart-api-cowlaxy-6c786e3d94d6.
+Image: gcr.io/playsmart-test/super-admin-api@sha256:dacc09d1db4bd1504675135f38d8b43691787c017d5e789ec253733c7ac81b73.
+Cloud Build: 7079db92-6b87-4be1-8d93-c9c3ed346616, SUCCESS.
+Source set SHA256: 6c786e3d94d6d329d23a7fd592199e85f644ad5c43164622c3821e1a7aeb4753.
+Eight reviewed runtime modules layered on the exact running Calendar image.
+197 other runtime/admin/package files remain byte-identical. Reward calculation
+modules, dependency versions and the embedded Flutter admin bundle are preserved.
+Runtime configuration, IAM and all existing traffic tags were compared and
+preserved. South Africa services/tags were not changed by this release.
+Worker version: f5b41a6d-927b-4e0e-8173-c784204111a0 at 100%.
+Worker source SHA256: 16ed0e20b6eb5fd3d2075991de909700f3c4313ca2eb2d29ae558b72643aff49.
+Worker bindings, secrets, text variables and routes compare identical before/after.
+106 unrelated admin/support source files were preserved. Pending Nova admin code
+and the previously unreleased privacy route were excluded from the release.
+
+WHAT IS AVAILABLE
+Upload a supported Store item, choose Moola price or lifetime XP target, save a
+draft, then publish. Publishing an XP item atomically creates its scoped discovery.
+Characters, skins, planets, keys, gadgets, badges, themes and titles use the existing
+supported digital-item inventory. This does not add arbitrary game mechanics or
+physical merchandise fulfilment. XP is never spent. The app shows the target and
+progress; eligible Store-only visits trigger server confirmation. Earned ownership
+survives target edits and archival. Built-in key fragment: 100 XP; glow: 1,000 XP.
+Preset Brumble/Klik/Lumi/Pip XP grants were removed; upload characters to configure
+their acquisition. Existing earned metadata/artwork remains supported.
+Only existing verified learner reward accounts receive these discoveries; no
+legacy account migration or reward activation was performed by deployment.
+
+VALIDATION
+Exact live-runtime-plus-overlay: 168/168 backend tests passed with credentials
+and outbound network blocked. Command list: candidate-test-command.json.
+Compatible fallback reader regression: 42/42 passed.
+Prior feature checks: 55/55 backend, 53/53 Flutter, 8/8 focused admin tests passed.
+Final Store/support admin regression: 109/109 passed. Full admin run additionally
+contains two known privacy-route tests expecting an unreleased route (404 vs 200);
+these are excluded from the scoped live-preservation suite, not reported as fixed.
+Actual local Workers runtime and Chrome desktop/mobile upload/publish/XP/Moola,
+scoping, responsive layout, error handling and Access checks passed.
+Generated Store bundle parity and Wrangler dry run passed. Deployed Worker source
+hash equals the reviewed dry-run bundle.
+Cloud Build preservation and module resolution guards passed.
+Candidate health/auth probes: 101/101 passed.
+Production default client endpoint: 101/101 passed:
+https://playsmart-api-691560694221.us-central1.run.app .
+Live /admin/store, /api/admin/store/products and /api/admin/store/cowlaxy each
+redirect to the existing Cloudflare Access gate. These are unauthenticated checks;
+they do not claim signed-in production upload or learner-device acceptance.
+No production learner/parent records were read or written for verification.
+
+ROLLBACK
+Do not downgrade to a backend that predates new reward metadata after discoveries
+are granted. A compatible fallback image was built (not activated):
+gcr.io/playsmart-test/super-admin-api@sha256:74a172f3376959d17b886e1d370b2aa5d67b1a5feaec67cd56efd240f57fb3c9.
+Build ea470825-e4fd-4bb0-bb1d-557f7a30a4f1: SUCCESS.
+It retains the updated account readers, ownership, Store schema and purchase
+guards but uses the prior Arcade route table, stopping the new grant endpoint.
+Prepared rollback.py verifies image, configuration, IAM and health before switching
+traffic. The fallback was tested synthetically; it was not deployed or live-probed.
+
+WINDOWS / CURRENT DEBUG APP
+See docs/run-current-production-client.txt. Fetch/pull engineering/cowlaxy-discoveries,
+then fully restart the current debug app. Hot reload alone may retain old state.
+On Windows with the existing supported SDK/Visual Studio C++ toolchain:
+  flutter pub get
+  flutter build windows --release
+Distribute the complete Release directory after device acceptance. A Windows
+binary, installer, signature or store submission was not produced on this Mac.
+No app version/signing changes or data deletion were performed.
+
+REQUIRED TASK RECORD
+case_id: N/A.
+investigation_result: N/A — explicitly approved release task.
+investigation_summary: Compared live immutable API and Worker source with the
+  approved feature commits; built scoped artifacts, tested, deployed and verified.
+root_cause: N/A — deployment of previously implemented feature.
+confidence: High for tested runtime contracts and infrastructure preservation;
+  native Windows and authenticated device acceptance remain unverified.
+evidence: Companion public manifest; private build/test/probe receipts under
+  /private/tmp/playsmart-cowlaxy-release-20261022.
+files_inspected: Repository AGENTS.md; feature commits and validation report;
+  current Cloud Run service/IAM/image; runtime diffs; Worker source/settings/routes;
+  existing deploy scripts and Windows source instructions.
+files_changed: Deployment image runtime modules listed in companion manifest;
+  Store admin files listed in implementation report; this release report/manifest;
+  app docs/run-current-production-client.txt; implementation report release addendum.
+tests_added: No new application tests in this deployment turn; exact-runtime,
+  fallback-reader and health/auth verification scripts prepared locally.
+tests_run: Named suites and commands above; npm build from validated feature;
+  Workers/browser runtime and deployment dry run; Cloud Build preservation guards.
+test_results: Above. No customer-record mutation used as a test.
+flutter_analyze_result: Feature analysis: 0 errors, 0 warnings, 10 existing infos
+  in selected files. No app logic changed in this release turn; not rerun.
+branch: engineering/cowlaxy-discoveries in app/backend/admin repositories.
+commit: App 7520be3; backend d7f1286; admin fec323c, pushed. Containing documentation
+  commit hashes are in the final completion handoff and repository history.
+pull_request: N/A — not requested; no merge or main push.
+risk: Older app versions retain their existing UI; the new showcase needs the
+  current app source/binary. Not every historic native build has been tested.
+  Current XP accounts require compatible backend readers after first unlock.
+  Native device performance and signed distribution require Windows acceptance.
+release_notes: Backend and Store admin feature live; existing data, learning and
+  payment policies preserved. Source branch ready for native Windows compilation.
+information_needed: N/A for deployment. Windows build/device acceptance and any
+  signed distribution remain release gates; no claim of app-store readiness.
