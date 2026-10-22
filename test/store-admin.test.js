@@ -10,10 +10,23 @@ function request(path='/products',method='GET',extra={}){
     ...(method==='POST'?{body:path==='/assets'?new Uint8Array([137,80,78,71]):JSON.stringify({revision:0,action:'save'})}:{})});
 }
 test('store admin page and API retain the existing Access gate',async()=>{
-  for(const path of ['/admin/store','/api/admin/store/products']){
+  for(const path of ['/admin/store','/api/admin/store/products','/api/admin/store/cowlaxy']){
     const response=await worker.fetch(new Request('https://admin.example.test'+path),{});
     assert.equal(response.status,401);
   }
+});
+test('discovery config uses the existing protected fixed-route proxy with bounded JSON',async()=>{
+  for(const method of ['GET','POST']){
+    const result=await storeProxy(request('/cowlaxy',method),env,async(url,options)=>{
+      assert.equal(String(url),env.PLAYSMART_STORE_API_URL+'/v1/store-admin/cowlaxy');
+      assert.equal(options.method,method);assert.equal(options.headers.Authorization,undefined);
+      return Response.json({schemaVersion:1,revision:1,rules:[]});
+    });assert.equal(result.status,200);
+  }
+  const noFetch=async()=>{throw Error('must not forward');};
+  assert.equal((await storeProxy(request('/cowlaxy','POST',{Origin:'https://outside.test'}),env,noFetch)).status,403);
+  const huge=new Request('https://admin.example.test/api/admin/store/cowlaxy',{method:'POST',headers:request('/cowlaxy','POST').headers,body:' '.repeat(128*1024+1)});
+  assert.equal((await storeProxy(huge,env,noFetch)).status,413);
 });
 test('proxy is fixed to store routes and forwards no cookies or unrelated credentials',async()=>{
   let calls=0;
@@ -51,7 +64,7 @@ test('upload bytes and private preview content are preserved; unexpected upstrea
 test('store page has restrictive CSP, upload limits and explicit draft/publish controls',async()=>{
   const response=storeAdminResponse(),html=await response.text();
   assert.match(response.headers.get('Content-Security-Policy'),/frame-ancestors 'none'/);
-  assert.match(html,/Publish saved draft/);assert.match(html,/accept="image\/png"/);
+  assert.match(html,/Publish saved draft/);assert.match(html,/accept="image\/png,image\/jpeg,image\/webp"/);
   assert.match(html,/Archive/);assert.match(html,/id="centres"/);assert.doesNotMatch(html,/unsafe-inline/);
 });
 
@@ -63,4 +76,19 @@ test('upstream redirects are never followed with the Access assertion',async()=>
   });
   assert.equal(response.status,502);assert.equal(calls,1);
   assert.match((await response.json()).error,/unexpected redirect/);
+});
+
+
+test('JPEG and WebP preview uploads preserve exact type; SVG and executable formats stay blocked',async()=>{
+  for(const format of ['jpeg','webp']) {
+    const uploaded=await storeProxy(request('/assets','POST',{'Content-Type':`image/${format}`}),env,async(_url,options)=>{
+      assert.equal(options.headers['Content-Type'],`image/${format}`);return Response.json({id:'a'.repeat(64),format});
+    });assert.equal(uploaded.status,200);
+    const preview=await storeProxy(request('/assets/'+'a'.repeat(64)+'.'+format),env,async()=>new Response(new Uint8Array([1]),{headers:{'Content-Type':`image/${format}`}}));
+    assert.equal(preview.status,200);assert.equal(preview.headers.get('X-Content-Type-Options'),'nosniff');
+  }
+  for(const type of ['image/svg+xml','text/html','application/javascript']) {
+    const response=await storeProxy(request('/assets','POST',{'Content-Type':type}),env,async()=>{throw Error('must not forward');});
+    assert.equal(response.status,415);
+  }
 });

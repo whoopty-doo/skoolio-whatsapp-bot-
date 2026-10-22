@@ -1,8 +1,8 @@
 // Called only after the worker's existing Cloudflare Access verification.
 export async function storeProxy(request, env, fetcher = fetch) {
   const url = new URL(request.url), suffix = url.pathname.slice('/api/admin/store'.length);
-  const allowed = request.method === 'GET' && (['/products', '/scopes'].includes(suffix) || /^\/assets\/[a-f0-9]{64}\.png$/.test(suffix))
-    || request.method === 'POST' && ['/products', '/assets'].includes(suffix);
+  const allowed = request.method === 'GET' && (['/products', '/scopes', '/assets', '/cowlaxy'].includes(suffix) || /^\/assets\/[a-f0-9]{64}\.(png|jpeg|webp)$/.test(suffix))
+    || request.method === 'POST' && ['/products', '/assets', '/cowlaxy'].includes(suffix);
   const json = (error, status) => Response.json({ error }, { status, headers: { 'Cache-Control': 'private, no-store' } });
   if (!allowed || url.search) return json('Not found', 404);
   if (request.method === 'POST' && request.headers.get('Origin') !== url.origin) return json('Invalid origin', 403);
@@ -13,10 +13,10 @@ export async function storeProxy(request, env, fetcher = fetch) {
   catch { return json('The PlaySmart store connection has not been configured.', 503); }
   if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash || base.pathname !== '/' || !base.hostname.endsWith('.run.app')) return json('The PlaySmart store connection is invalid.', 503);
   const image = suffix === '/assets', contentType = request.headers.get('Content-Type')?.split(';')[0];
-  if (request.method === 'POST' && contentType !== (image ? 'image/png' : 'application/json')) return json(image ? 'Upload a PNG image.' : 'JSON product details are required.', 415);
+  if (request.method === 'POST' && !(image ? ['image/png','image/jpeg','image/webp'] : ['application/json']).includes(contentType)) return json(image ? 'Upload PNG, JPEG or static WebP.' : 'JSON product details are required.', 415);
   let body;
   if (request.method === 'POST') {
-    const limit = image ? 2 * 1024 * 1024 : 32 * 1024, chunks = []; let length = 0;
+    const limit = image ? 2 * 1024 * 1024 : suffix === '/cowlaxy' ? 128 * 1024 : 32 * 1024, chunks = []; let length = 0;
     const reader = request.body?.getReader();
     if (!reader) return json('A request body is required.', 400);
     for (;;) {
@@ -34,7 +34,7 @@ export async function storeProxy(request, env, fetcher = fetch) {
     });
     if (response.status >= 300 && response.status < 400) return json('The PlaySmart store returned an unexpected redirect.', 502);
     const type = response.headers.get('Content-Type') || '';
-    if (!type.startsWith('application/json') && !type.startsWith('image/png')) return json('The PlaySmart store returned an unexpected response.', 502);
+    if (!type.startsWith('application/json') && !['image/png','image/jpeg','image/webp'].includes(type.split(';')[0])) return json('The PlaySmart store returned an unexpected response.', 502);
     return new Response(response.body, { status: response.status, headers: { 'Content-Type': type, 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' } });
   } catch { return json('The PlaySmart store could not be reached. Please retry.', 502); }
 }

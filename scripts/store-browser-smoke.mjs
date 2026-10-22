@@ -9,10 +9,16 @@ const require=createRequire(import.meta.url);
 const WebSocket=require('ws');
 const {storeAdminResponse}=await import('../store-admin.js');
 let items=[],uploads=0,fail=false;
+let journey={schemaVersion:1,revision:0,rules:[{id:'synthetic-world',title:'Synthetic World',description:'Memory',active:true,xp:100,order:0,rewardType:'WORLD',rewardId:'memory',worldId:'memory',characterId:'cowlaxy_brumble',celebrate:true,popupTitle:'NEW DISCOVERY!',popupMessage:'Explore with Brumble.'}]};
 const server=http.createServer(async(req,res)=>{
  if(req.url==='/admin/store'){const page=storeAdminResponse();res.writeHead(page.status,Object.fromEntries(page.headers));res.end(await page.text());return;}
  res.setHeader('Content-Type','application/json');
  if(fail){res.statusCode=503;res.end(JSON.stringify({error:'Synthetic unavailable'}));return;}
+ if(req.url.endsWith('/cowlaxy')){
+   if(req.method==='POST'){const chunks=[];for await(const chunk of req)chunks.push(chunk);const input=JSON.parse(Buffer.concat(chunks));assert.equal(input.revision,journey.revision);journey={...input,revision:input.revision+1};}
+   res.end(JSON.stringify(journey));return;
+ }
+ if(req.url.endsWith('/assets')&&req.method==='GET'){res.end(JSON.stringify({items:uploads?[{id:'a'.repeat(64),format:'png',width:1,height:1,bytes:70}]:[]}));return;}
  if(req.url.endsWith('/scopes')){res.end(JSON.stringify({items:[{id:'t',name:'Test tenant',centres:[{id:'c',name:'Test Centre'}]}]}));return;}
  if(req.method==='POST'){
   const chunks=[];for await(const chunk of req)chunks.push(chunk);
@@ -42,12 +48,16 @@ try {
   await send('Emulation.setDeviceMetricsOverride',{width:1512,height:1100,deviceScaleFactor:1,mobile:false});
   await send('Page.navigate',{url:`http://127.0.0.1:${server.address().port}/admin/store`});
   await waitFor("document.getElementById('notice').textContent.includes('Catalogue ready')");
-  await evaluate(`window.confirm=()=>true;document.getElementById('name').value='Bolt <img src=x onerror=alert(1)>';document.getElementById('description').value='Your Cowlaxy companion';document.getElementById('tenant').value='t';document.getElementById('tenant').dispatchEvent(new Event('change'));document.querySelector('#centres input').checked=true;document.getElementById('name').dispatchEvent(new Event('input',{bubbles:true}));`);
+  await waitFor("document.querySelector('#cowlaxy-config [role=status]').textContent.includes('revision 0')");
+  await evaluate("document.querySelector('#cowlaxy-config details').open=true;const xp=document.querySelector('#cowlaxy-config [name=xp]');xp.value='125';xp.dispatchEvent(new Event('change'));document.querySelector('#cowlaxy-config [type=submit]').click()");
+  await waitFor("document.querySelector('#cowlaxy-config [role=status]').textContent.includes('saved, revision 1')");
+  assert.equal(journey.rules[0].xp,125);assert.equal(journey.rules[0].worldId,'memory');
+  await evaluate(`window.confirm=()=>true;document.getElementById('name').value='Bolt <img src=x onerror=alert(1)>';document.getElementById('description').value='Your Cowlaxy companion';document.getElementById('category').value='Space friends';document.getElementById('sort-order').value='7';document.getElementById('tenant').value='t';document.getElementById('tenant').dispatchEvent(new Event('change'));document.querySelector('#centres input').checked=true;document.getElementById('name').dispatchEvent(new Event('input',{bubbles:true}));`);
   await evaluate(`const transfer=new DataTransfer();transfer.items.add(new File([Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg=='),c=>c.charCodeAt(0))],'bolt.png',{type:'image/png'}));document.getElementById('image').files=transfer.files;document.getElementById('image').dispatchEvent(new Event('change'));`);
   await waitFor("document.getElementById('notice').textContent.includes('Artwork uploaded')");assert.equal(uploads,1);
   await evaluate("document.getElementById('save').click()");await waitFor("document.getElementById('notice').textContent.includes('Draft saved')");assert.equal(items[0].status,'draft');assert.deepEqual(items[0].draft.centreIds,['c']);
   assert.equal(await evaluate("document.querySelector('#products img')===null"),true);
-  assert.equal(items[0].draft.collection,'character');
+  assert.equal(items[0].draft.collection,'character');assert.equal(items[0].draft.category,'Space friends');assert.equal(items[0].draft.sortOrder,7);assert.equal(items[0].draft.currency,'MOOLA');assert.equal(items[0].draft.acquisitionMode,'PURCHASE_ONLY');
   await evaluate("document.getElementById('publish').click()");await waitFor("document.getElementById('notice').textContent.startsWith('Published.')");assert.equal(items[0].status,'published');
   assert.equal(await evaluate("document.getElementById('image').disabled"),true);
   await writeFile('/private/tmp/playsmart-store-admin-desktop.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
@@ -58,13 +68,23 @@ try {
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});assert.equal(await evaluate('document.documentElement.scrollWidth<=390'),true);
   await writeFile('/private/tmp/playsmart-store-admin-mobile.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
   assert.deepEqual(errors,[]);console.log('PASS Chrome desktop/mobile: upload, scoped draft, publish, edit without live price change, archive, error recovery, XSS escaping, responsive width.');
-  for (const category of ['key','planet']) {
+  for (const category of ['key','planet','gadget']) {
     await evaluate(`{document.getElementById('new-product').click();document.getElementById('kind').value='${category}';document.getElementById('name').value='Synthetic ${category}';document.getElementById('description').value='A collectible only';const upload=new DataTransfer();upload.items.add(new File([Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg=='),c=>c.charCodeAt(0))],'collectible.png',{type:'image/png'}));document.getElementById('image').files=upload.files;document.getElementById('image').dispatchEvent(new Event('change'));}`);
     await waitFor("document.getElementById('notice').textContent.includes('Artwork uploaded')");
     await evaluate("document.getElementById('save').click()");
     await waitFor("document.getElementById('notice').textContent.includes('Draft saved')");
-    assert.equal(items[0].draft.kind,'badge');assert.equal(items[0].draft.collection,category);
+    assert.equal(items[0].draft.kind,'badge');assert.equal(items[0].draft.collection,category==='gadget'?'badge':category);
     assert.equal(await evaluate("document.getElementById('kind').value"),category);
   }
   console.log('PASS character, key and planet form categories serialize correctly and survive editing.');
-} finally {socket?.close();browser.kill();await new Promise(resolve=>server.close(resolve));await new Promise(resolve=>browser.exitCode!==null?resolve():browser.once('exit',resolve));await rm(profile,{recursive:true,force:true});}
+  await evaluate("document.getElementById('acquisition').value='PURCHASE_OR_UNLOCK';document.getElementById('acquisition').dispatchEvent(new Event('change'));document.getElementById('unlock-xp').value='250';document.getElementById('save').click()");
+  await waitFor("document.getElementById('notice').textContent.includes('Draft saved')");
+  assert.equal(items[0].draft.acquisitionMode,'PURCHASE_OR_UNLOCK');
+  assert.equal(items[0].draft.unlockXp,250);
+  assert.equal(await evaluate("document.getElementById('preview-price').textContent.includes('250 XP')"),true);
+  await evaluate("document.getElementById('acquisition').value='UNLOCK_ONLY';document.getElementById('acquisition').dispatchEvent(new Event('change'));document.getElementById('unlock-xp').value='700';document.getElementById('save').click()");
+  await waitFor("document.getElementById('notice').textContent.includes('Draft saved')");
+  assert.equal(items[0].draft.unlockXp,700);assert.equal(items[0].draft.price,0);
+  assert.equal(await evaluate("document.getElementById('price').disabled"),true);
+  console.log('PASS Cowlaxy rule edit/save and shared Store purchase-or-unlock mode.');
+} finally {socket?.close();browser.kill();await new Promise(resolve=>server.close(resolve));await new Promise(resolve=>browser.exitCode!==null?resolve():browser.once('exit',resolve));await rm(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}
