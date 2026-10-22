@@ -19,7 +19,7 @@
     "test:staging": "node scripts/staging-smoke.mjs",
     "test:staging:cutover": "node scripts/staging-cutover.mjs",
     "browser:staging-owner": "node scripts/staging-owner-browser.mjs",
-    "build:admin": "node scripts/build-admin.mjs && node scripts/build-store-admin.mjs",
+    "build:admin": "node scripts/build-admin.mjs && node scripts/build-store-admin.mjs && node scripts/build-nova-admin.mjs",
     "predev": "npm run knowledge:build && npm run build:admin",
     "test:media:runtime": "node scripts/media-runtime-smoke.mjs",
     "knowledge:build": "node scripts/knowledge-build.mjs",

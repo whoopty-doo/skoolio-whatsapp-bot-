@@ -1,3 +1,5 @@
+import {novaAdminResponse} from './nova-admin.js';
+import {novaProxy} from './nova-admin-proxy.js';
 import { privacyPage } from './privacy-policy.js';
 import { appSupport } from './app-support.js';
 import { storeAdminResponse } from './store-admin.js';
@@ -32,13 +34,15 @@ const worker = {
       const url = new URL(request.url);
       if (['/privacy', '/privacy/', '/account-deletion', '/account-deletion/'].includes(url.pathname)) return privacyPage(request);
       if (url.pathname === '/health' && request.method === 'GET') return jsonResponse({ ok: true, service: 'skoolio-whatsapp-bot', aiConfigured: Boolean(env.OPENAI_API_KEY), writesConfigured: Boolean(env.SUPPORT_COORDINATOR) });
-      const admin = url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
+      const admin = url.pathname === '/admin/novas' || url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
       if (admin && !await isAdminRequest(request, env)) return jsonResponse({ error: 'Unauthorized' }, 401);
       if ((url.pathname.startsWith('/api/admin/maintenance') || url.pathname === '/api/admin/staging-rehearsal' || url.pathname === '/api/admin/guides') && request.method === 'POST') {
         if (request.headers.get('Origin') && request.headers.get('Origin') !== url.origin) return jsonResponse({ error: 'Invalid origin' }, 403);
         if (!request.headers.get('Content-Type')?.startsWith('application/json')) return jsonResponse({ error: 'JSON body required' }, 415);
       }
       if (url.pathname === '/admin/store') return request.method === 'GET' ? storeAdminResponse() : jsonResponse({error:'Method not allowed'},405);
+      if (url.pathname === '/admin/novas') return request.method === 'GET' ? novaAdminResponse() : jsonResponse({error:'Method not allowed'},405);
+      if (url.pathname.startsWith('/api/admin/novas/')) return novaProxy(request,env);
       if (url.pathname === '/admin/moola') return request.method === 'GET' ? moolaAdminResponse() : jsonResponse({error:'Method not allowed'},405);
       if (url.pathname.startsWith('/api/admin/moola/')) return moolaProxy(request,env);
       if (url.pathname.startsWith('/api/admin/store/')) return storeProxy(request,env);

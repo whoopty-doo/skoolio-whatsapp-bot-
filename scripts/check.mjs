@@ -5,6 +5,7 @@ import { renderAdmin } from '../admin.js';
 import { rehearsalPage } from '../staging-rehearsal.js';
 import { productionActivationPage } from '../production-activation.js';
 execFileSync(process.execPath, ['scripts/build-moola-admin.mjs', '--check'], { stdio: 'inherit' });
+execFileSync(process.execPath, ['scripts/build-nova-admin.mjs', '--check'], { stdio: 'inherit' });
 for (const file of readdirSync(new URL('../', import.meta.url)).filter(file => file.endsWith('.js'))) execFileSync(process.execPath, ['--check', file], { stdio: 'inherit' });
 const script = renderAdmin('test').match(/<script[^>]*>([\s\S]*?)<\/script>/)[1];
 new vm.Script(script);
