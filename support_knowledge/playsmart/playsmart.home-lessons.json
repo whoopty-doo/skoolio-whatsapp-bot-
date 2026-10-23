@@ -3,7 +3,7 @@
   "product": "PLAYSMART",
   "module": "home_lessons",
   "title": "Send a prepared lesson home",
-  "content": "For authorised centre staff. Save the learner’s dashboard settings before selecting Send Online. The home lesson uses the saved settings at sending time. A newly sent home lesson replaces older active work for the same learner; completed history remains. Parents should open the currently available assignment. Changes to dashboard settings do not rewrite a lesson already in progress. These source-reviewed changes require compatible centre and parent app builds; ask for app versions if behaviour differs.",
+  "content": "For Centre staff. Open the correct learner dashboard, check language, selected story/files, speeds, activity choices and the rest of the lesson setup. Send home lesson saves the setup first and sends a snapshot of the prepared lesson. Wait for the sent confirmation. Later dashboard edits do not rewrite an assignment already sent; save and send fresh work for a changed setup. A new assignment can replace older active work; completed history remains. Parents open the currently assigned lesson for their linked child in Parent / Kid Mode, rather than an old notification. The roster home-lesson badge means a linked parent has signed in, not that they are currently online. Missing linked-parent errors require the correct parent-child relationship; chat cannot create or infer it. Completion and results return after sync; Centre staff check completed home work in Catch Up and Notifications. Push banners depend on device permission and delivery, so also check the in-app list. Offline completion can wait for reconnection. If settings or learner information differ, compare app versions and the current assignment, preserve local progress, and report the exact message without personal learner details. Do not recreate the learner or reset working cross-device settings.",
   "keywords": [
     "home",
     "online",
@@ -11,12 +11,22 @@
     "assignment",
     "parent",
     "replacement",
-    "homework"
+    "homework",
+    "payload",
+    "settings",
+    "language",
+    "speed",
+    "activities",
+    "Kid Mode",
+    "notification",
+    "finished",
+    "completion",
+    "parent link"
   ],
   "document_type": "FEATURE",
-  "version": "source-c045a58",
-  "updated_at": "2026-09-23",
-  "source": "playsmart@c045a58/docs/home-lesson-lifecycle.md; lib/onboarding/guides/student_dashboard_guide_steps.dart",
+  "version": "parent-payload-calendar-2026-10-23",
+  "updated_at": "2026-10-23",
+  "source": "playsmart/lib/onboarding/guides/student_dashboard_guide_steps.dart; playsmart-backend/docs/calendar-production-audit-20261023.txt; src/services/playerHomeLesson.ts; src/routes/app.ts",
   "visibility": "PUBLIC_SUPPORT",
   "support_safe": true
 }

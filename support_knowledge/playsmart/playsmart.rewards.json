@@ -1,0 +1,30 @@
+{
+  "id": "playsmart.rewards",
+  "product": "PLAYSMART",
+  "module": "rewards",
+  "title": "XP unlocks, Moola purchases and Family Rewards",
+  "content": "Use the XP & Moola guide in the Centre dashboard for the current reward explanation. XP records progress and is not spent or purchased. Confirmed account XP and local practice XP are separate. An XP unlock becomes available when the displayed confirmed XP requirement is met; follow the requirement shown for that item rather than assuming a universal unlock threshold. Moola items use the displayed Moola price and available balance; spending Moola does not remove XP. The catalogue can offer XP-driven unlockables or Moola purchases, so check each item. Characters, worlds and cosmetic assets do not buy reading levels or academic results. Family Rewards use Novas separately; Novas and Moola do not convert into one another. Eligible activities have their own reward limits and confirmation rules. A reward-session verification error is not permission to reset saved progress or retry for duplicate rewards. Keep progress, reconnect and retry the current assignment; if it persists, provide platform, app version and the displayed message without learner details. Support cannot grant XP, change balances or promise eligibility from chat.",
+  "keywords": [
+    "xp",
+    "moola",
+    "unlock",
+    "unlockables",
+    "glow",
+    "characters",
+    "planets",
+    "worlds",
+    "keys",
+    "gadgets",
+    "shop",
+    "rewards",
+    "Novas",
+    "belonings",
+    "ontsluit"
+  ],
+  "document_type": "HOW_TO",
+  "version": "centre-calendar-2026-10-23",
+  "updated_at": "2026-10-23",
+  "source": "playsmart/lib/features/gamification/cowlaxy_rewards_guide.dart; lib/features/platform_v3/rewards_copy.dart; playsmart-backend/src/services/cowlaxyCatalog.ts",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

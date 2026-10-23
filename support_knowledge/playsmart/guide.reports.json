@@ -3,7 +3,7 @@
   "product": "PLAYSMART",
   "module": "reports",
   "title": "View learner progress and reports",
-  "content": "For centre staff using the student dashboard.\n1. Open the relevant learner’s dashboard.\n2. Select Report Card to open the report area.\n3. Review report history and the relevant activity/date. This area also supports evaluation-linked reports and shared parent-facing reading reports.\nExpected result: you can identify the intended report. Are you using the centre dashboard or a parent view? Do not send learner names or report contents in WhatsApp.",
+  "content": "For Centre staff. Open the correct learner or the institution Report Card area, then check the report date, type and filters. Review the intended report revision and approve it before sharing when approval is required. An edit can require fresh approval; REPORT_NOT_READY means refresh and review the current revision rather than bypassing the check. Share to parents requires a linked parent. NO_LINKED_PARENT means the recipient relationship is missing, not that the roster time or lesson settings should be changed. Check the correct parent-child link; do not create duplicate learners. Parents see reports published and made visible to them, with an available report file. A draft or an unshared report is not parent-visible. A new successful share can appear in the parent notification inbox; device push banners also depend on permissions and delivery. Support chat cannot approve reports, invent a link or inspect private scores. If unresolved, collect app versions, screen and the exact message without learner names or report contents.",
   "keywords": [
     "report",
     "results",
@@ -11,12 +11,17 @@
     "history",
     "scores",
     "report card",
-    "verslag"
+    "verslag",
+    "approve",
+    "sharing",
+    "parent",
+    "NO_LINKED_PARENT",
+    "REPORT_NOT_READY"
   ],
   "document_type": "HOW_TO",
-  "version": "source-c045a58",
-  "updated_at": "2026-09-23",
-  "source": "playsmart@c045a58/lib/onboarding/guides/student_dashboard_guide_steps.dart; lib/screens/student_dashboard.dart",
+  "version": "centre-reports-2026-10-23",
+  "updated_at": "2026-10-23",
+  "source": "playsmart/lib/features/report_cards/widgets/institution_report_cards_panel.dart; playsmart-backend/src/services/reportSharing.ts; src/services/reportReview.ts; src/routes/app.ts",
   "visibility": "PUBLIC_SUPPORT",
   "support_safe": true
 }
