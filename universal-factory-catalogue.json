@@ -1,0 +1,6379 @@
+{
+  "version": 3,
+  "definitionSchema": 3,
+  "engineVersion": 5,
+  "engines": {
+    "rocket": {
+      "title": "Rocket Flight",
+      "icon": "🚀",
+      "events": [
+        "collect",
+        "shoot"
+      ],
+      "controls": [
+        "steer",
+        "fire",
+        "launch",
+        "listen"
+      ]
+    },
+    "build": {
+      "title": "Drag & Build",
+      "icon": "🧩",
+      "events": [
+        "drop",
+        "match",
+        "order"
+      ],
+      "controls": [
+        "drag",
+        "tap",
+        "keyboard",
+        "undo",
+        "reset",
+        "listen"
+      ]
+    },
+    "memory": {
+      "title": "Memory & Sequence",
+      "icon": "🃏",
+      "events": [
+        "reveal",
+        "follow_sequence"
+      ],
+      "controls": [
+        "tap",
+        "keyboard",
+        "listen"
+      ]
+    },
+    "runner": {
+      "title": "Runner & Platforms",
+      "icon": "🏃",
+      "events": [
+        "collect",
+        "jump_through",
+        "jump_on"
+      ],
+      "controls": [
+        "steer",
+        "jump",
+        "listen"
+      ]
+    },
+    "explorer": {
+      "title": "Planet Explorer",
+      "icon": "🧑‍🚀",
+      "events": [
+        "find",
+        "collect",
+        "interact"
+      ],
+      "controls": [
+        "steer",
+        "interact",
+        "listen"
+      ]
+    },
+    "racer": {
+      "title": "Racer",
+      "icon": "🏎️",
+      "events": [
+        "drive_through",
+        "collect"
+      ],
+      "controls": [
+        "steer",
+        "accelerate",
+        "brake",
+        "listen"
+      ]
+    },
+    "target": {
+      "title": "Target & Tracking",
+      "icon": "🎯",
+      "events": [
+        "shoot",
+        "select"
+      ],
+      "controls": [
+        "aim",
+        "tap",
+        "keyboard",
+        "listen"
+      ]
+    }
+  },
+  "worlds": [
+    {
+      "id": "moon",
+      "version": 1,
+      "title": "Moon Base",
+      "colors": [
+        "#101c42",
+        "#6483a3"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "moon",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "crystal",
+      "version": 1,
+      "title": "Crystal Planet",
+      "colors": [
+        "#231142",
+        "#ae67e3"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "crystal",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "frozen",
+      "version": 1,
+      "title": "Frozen Planet",
+      "colors": [
+        "#102c4d",
+        "#93e5f8"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "frozen",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "lava",
+      "version": 1,
+      "title": "Lava Planet",
+      "colors": [
+        "#341522",
+        "#ef7658"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "lava",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "jungle",
+      "version": 1,
+      "title": "Alien Jungle",
+      "colors": [
+        "#10342b",
+        "#8ccd66"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "jungle",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "factory",
+      "version": 1,
+      "title": "Robot Factory",
+      "colors": [
+        "#192b34",
+        "#f1be59"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "platforms",
+      "lighting": "soft",
+      "ambient": "factory",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "saturn",
+      "version": 1,
+      "title": "Saturn Rings",
+      "colors": [
+        "#2e214c",
+        "#e5ad72"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "saturn",
+      "provenance": "cowlaxy-world-assets-20261029"
+    },
+    {
+      "id": "nebula",
+      "version": 1,
+      "title": "Nebula Galaxy",
+      "colors": [
+        "#161543",
+        "#d88ce6"
+      ],
+      "anchors": [
+        {
+          "id": "zone_1",
+          "x": 100,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_2",
+          "x": 260,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_3",
+          "x": 420,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_4",
+          "x": 580,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_5",
+          "x": 740,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_6",
+          "x": 900,
+          "y": 110,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_7",
+          "x": 100,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_8",
+          "x": 260,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_9",
+          "x": 420,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_10",
+          "x": 580,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_11",
+          "x": 740,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_12",
+          "x": 900,
+          "y": 250,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_13",
+          "x": 100,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_14",
+          "x": 260,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_15",
+          "x": 420,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_16",
+          "x": 580,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_17",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_18",
+          "x": 900,
+          "y": 390,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_19",
+          "x": 100,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_20",
+          "x": 260,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_21",
+          "x": 420,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_22",
+          "x": 580,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_23",
+          "x": 740,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "zone_24",
+          "x": 900,
+          "y": 530,
+          "kinds": [
+            "educational",
+            "target",
+            "hazard",
+            "collectible",
+            "decoration",
+            "checkpoint",
+            "portal"
+          ]
+        },
+        {
+          "id": "crater_01",
+          "x": 100,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_02",
+          "x": 260,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_03",
+          "x": 420,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_04",
+          "x": 580,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_05",
+          "x": 740,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "crater_06",
+          "x": 900,
+          "y": 570,
+          "kinds": [
+            "target",
+            "decoration"
+          ]
+        },
+        {
+          "id": "spawn",
+          "x": 500,
+          "y": 640,
+          "kinds": [
+            "player"
+          ]
+        },
+        {
+          "id": "landing_pad",
+          "x": 500,
+          "y": 600,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "portal_exit",
+          "x": 900,
+          "y": 560,
+          "kinds": [
+            "portal",
+            "checkpoint",
+            "decoration"
+          ]
+        },
+        {
+          "id": "platform_a",
+          "x": 260,
+          "y": 480,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        },
+        {
+          "id": "platform_b",
+          "x": 740,
+          "y": 390,
+          "kinds": [
+            "decoration",
+            "target"
+          ]
+        }
+      ],
+      "terrain": "planet",
+      "lighting": "soft",
+      "ambient": "nebula",
+      "provenance": "cowlaxy-world-assets-20261029"
+    }
+  ],
+  "assets": [
+    {
+      "id": "world_rocket",
+      "type": "vehicle",
+      "icon": "🚀",
+      "tags": [
+        "rocket"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world rocket",
+      "renderer": "world",
+      "sprite": "rocket"
+    },
+    {
+      "id": "world_spaceship",
+      "type": "vehicle",
+      "icon": "🛸",
+      "tags": [
+        "spaceship"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world spaceship",
+      "renderer": "world",
+      "sprite": "saucer"
+    },
+    {
+      "id": "world_rover",
+      "type": "vehicle",
+      "icon": "🚙",
+      "tags": [
+        "rover"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world rover",
+      "renderer": "world",
+      "sprite": "rover"
+    },
+    {
+      "id": "world_robot",
+      "type": "player",
+      "icon": "🤖",
+      "tags": [
+        "robot"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world robot",
+      "renderer": "world",
+      "sprite": "robot"
+    },
+    {
+      "id": "world_alien",
+      "type": "player",
+      "icon": "👽",
+      "tags": [
+        "alien"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world alien",
+      "renderer": "world",
+      "sprite": "alien"
+    },
+    {
+      "id": "world_astronaut",
+      "type": "player",
+      "icon": "🧑‍🚀",
+      "tags": [
+        "astronaut"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world astronaut",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_planet",
+      "type": "environment",
+      "icon": "🪐",
+      "tags": [
+        "planet"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world planet",
+      "renderer": "world",
+      "sprite": "planet"
+    },
+    {
+      "id": "world_crater",
+      "type": "environment",
+      "icon": "🕳️",
+      "tags": [
+        "crater"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world crater",
+      "renderer": "world",
+      "sprite": "crater"
+    },
+    {
+      "id": "world_platform",
+      "type": "environment",
+      "icon": "🧱",
+      "tags": [
+        "platform"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world platform",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_portal",
+      "type": "environment",
+      "icon": "🌀",
+      "tags": [
+        "portal"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world portal",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_door",
+      "type": "environment",
+      "icon": "🚪",
+      "tags": [
+        "door"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world door",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_asteroid",
+      "type": "environment",
+      "icon": "☄️",
+      "tags": [
+        "asteroid"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world asteroid",
+      "renderer": "world",
+      "sprite": "asteroid"
+    },
+    {
+      "id": "world_crystal",
+      "type": "object",
+      "icon": "💎",
+      "tags": [
+        "crystal"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world crystal",
+      "renderer": "world",
+      "sprite": "crystal"
+    },
+    {
+      "id": "world_fuel",
+      "type": "object",
+      "icon": "🔋",
+      "tags": [
+        "fuel"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world fuel",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_shield",
+      "type": "effect",
+      "icon": "🛡️",
+      "tags": [
+        "shield"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world shield",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_sparkle",
+      "type": "effect",
+      "icon": "✨",
+      "tags": [
+        "sparkle"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world sparkle",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_star",
+      "type": "object",
+      "icon": "⭐",
+      "tags": [
+        "star"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original PlaySmart procedural world art; cowlaxy-world-assets-20261029",
+      "alt": "world star",
+      "renderer": "world",
+      "sprite": "star"
+    },
+    {
+      "id": "world_boost",
+      "type": "effect",
+      "icon": "⚡",
+      "tags": [
+        "boost"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world boost",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_magnet",
+      "type": "effect",
+      "icon": "🧲",
+      "tags": [
+        "magnet"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world magnet",
+      "renderer": "symbol"
+    },
+    {
+      "id": "world_token",
+      "type": "object",
+      "icon": "🔤",
+      "tags": [
+        "token"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "world token",
+      "renderer": "symbol"
+    },
+    {
+      "id": "picture_apple",
+      "type": "object",
+      "icon": "🍎",
+      "tags": [
+        "apple"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture apple",
+      "renderer": "atlas",
+      "cell": 0
+    },
+    {
+      "id": "picture_banana",
+      "type": "object",
+      "icon": "🍌",
+      "tags": [
+        "banana"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture banana",
+      "renderer": "atlas",
+      "cell": 1
+    },
+    {
+      "id": "picture_cherries",
+      "type": "object",
+      "icon": "🍒",
+      "tags": [
+        "cherries"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture cherries",
+      "renderer": "atlas",
+      "cell": 2
+    },
+    {
+      "id": "picture_grapes",
+      "type": "object",
+      "icon": "🍇",
+      "tags": [
+        "grapes"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture grapes",
+      "renderer": "atlas",
+      "cell": 3
+    },
+    {
+      "id": "picture_strawberry",
+      "type": "object",
+      "icon": "🍓",
+      "tags": [
+        "strawberry"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture strawberry",
+      "renderer": "atlas",
+      "cell": 4
+    },
+    {
+      "id": "picture_watermelon",
+      "type": "object",
+      "icon": "🍉",
+      "tags": [
+        "watermelon"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture watermelon",
+      "renderer": "atlas",
+      "cell": 5
+    },
+    {
+      "id": "picture_pear",
+      "type": "object",
+      "icon": "🍐",
+      "tags": [
+        "pear"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture pear",
+      "renderer": "atlas",
+      "cell": 6
+    },
+    {
+      "id": "picture_orange",
+      "type": "object",
+      "icon": "🍊",
+      "tags": [
+        "orange"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture orange",
+      "renderer": "atlas",
+      "cell": 7
+    },
+    {
+      "id": "picture_fox",
+      "type": "object",
+      "icon": "🦊",
+      "tags": [
+        "fox"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture fox",
+      "renderer": "atlas",
+      "cell": 8
+    },
+    {
+      "id": "picture_elephant",
+      "type": "object",
+      "icon": "🐘",
+      "tags": [
+        "elephant"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture elephant",
+      "renderer": "atlas",
+      "cell": 9
+    },
+    {
+      "id": "picture_owl",
+      "type": "object",
+      "icon": "🦉",
+      "tags": [
+        "owl"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture owl",
+      "renderer": "atlas",
+      "cell": 10
+    },
+    {
+      "id": "picture_koala",
+      "type": "object",
+      "icon": "🐨",
+      "tags": [
+        "koala"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture koala",
+      "renderer": "atlas",
+      "cell": 11
+    },
+    {
+      "id": "picture_turtle",
+      "type": "object",
+      "icon": "🐢",
+      "tags": [
+        "turtle"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture turtle",
+      "renderer": "atlas",
+      "cell": 12
+    },
+    {
+      "id": "picture_whale",
+      "type": "object",
+      "icon": "🐳",
+      "tags": [
+        "whale"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture whale",
+      "renderer": "atlas",
+      "cell": 13
+    },
+    {
+      "id": "picture_penguin",
+      "type": "object",
+      "icon": "🐧",
+      "tags": [
+        "penguin"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture penguin",
+      "renderer": "atlas",
+      "cell": 14
+    },
+    {
+      "id": "picture_frog",
+      "type": "object",
+      "icon": "🐸",
+      "tags": [
+        "frog"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture frog",
+      "renderer": "atlas",
+      "cell": 15
+    },
+    {
+      "id": "picture_star",
+      "type": "object",
+      "icon": "⭐",
+      "tags": [
+        "star"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture star",
+      "renderer": "atlas",
+      "cell": 16
+    },
+    {
+      "id": "picture_moon",
+      "type": "object",
+      "icon": "🌙",
+      "tags": [
+        "moon"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture moon",
+      "renderer": "atlas",
+      "cell": 17
+    },
+    {
+      "id": "picture_sun",
+      "type": "object",
+      "icon": "☀️",
+      "tags": [
+        "sun"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture sun",
+      "renderer": "atlas",
+      "cell": 18
+    },
+    {
+      "id": "picture_rainbow",
+      "type": "object",
+      "icon": "🌈",
+      "tags": [
+        "rainbow"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture rainbow",
+      "renderer": "atlas",
+      "cell": 19
+    },
+    {
+      "id": "picture_rocket",
+      "type": "object",
+      "icon": "🚀",
+      "tags": [
+        "rocket"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture rocket",
+      "renderer": "atlas",
+      "cell": 20
+    },
+    {
+      "id": "picture_planet",
+      "type": "object",
+      "icon": "🪐",
+      "tags": [
+        "planet"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture planet",
+      "renderer": "atlas",
+      "cell": 21
+    },
+    {
+      "id": "picture_cloud",
+      "type": "object",
+      "icon": "☁️",
+      "tags": [
+        "cloud"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture cloud",
+      "renderer": "atlas",
+      "cell": 22
+    },
+    {
+      "id": "picture_kite",
+      "type": "object",
+      "icon": "🪁",
+      "tags": [
+        "kite"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture kite",
+      "renderer": "atlas",
+      "cell": 23
+    },
+    {
+      "id": "picture_key",
+      "type": "object",
+      "icon": "🔑",
+      "tags": [
+        "key"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture key",
+      "renderer": "atlas",
+      "cell": 24
+    },
+    {
+      "id": "picture_chest",
+      "type": "object",
+      "icon": "🧰",
+      "tags": [
+        "chest"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture chest",
+      "renderer": "atlas",
+      "cell": 25
+    },
+    {
+      "id": "picture_crown",
+      "type": "object",
+      "icon": "👑",
+      "tags": [
+        "crown"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture crown",
+      "renderer": "atlas",
+      "cell": 26
+    },
+    {
+      "id": "picture_candle",
+      "type": "object",
+      "icon": "🕯️",
+      "tags": [
+        "candle"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture candle",
+      "renderer": "atlas",
+      "cell": 27
+    },
+    {
+      "id": "picture_leaf",
+      "type": "object",
+      "icon": "🍃",
+      "tags": [
+        "leaf"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture leaf",
+      "renderer": "atlas",
+      "cell": 28
+    },
+    {
+      "id": "picture_mushroom",
+      "type": "object",
+      "icon": "🍄",
+      "tags": [
+        "mushroom"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture mushroom",
+      "renderer": "atlas",
+      "cell": 29
+    },
+    {
+      "id": "picture_flower",
+      "type": "object",
+      "icon": "🌸",
+      "tags": [
+        "flower"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture flower",
+      "renderer": "atlas",
+      "cell": 30
+    },
+    {
+      "id": "picture_gem",
+      "type": "object",
+      "icon": "💎",
+      "tags": [
+        "gem"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Original generated PlaySmart picture atlas; docs/memory-match-assets.md; 1774x887, 8x4",
+      "alt": "picture gem",
+      "renderer": "atlas",
+      "cell": 31
+    },
+    {
+      "id": "symbol_ant",
+      "type": "object",
+      "icon": "🐜",
+      "tags": [
+        "ant"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol ant",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_ball",
+      "type": "object",
+      "icon": "⚽",
+      "tags": [
+        "ball"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol ball",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_boat",
+      "type": "object",
+      "icon": "⛵",
+      "tags": [
+        "boat"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol boat",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_cat",
+      "type": "object",
+      "icon": "🐈",
+      "tags": [
+        "cat"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol cat",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_cow",
+      "type": "object",
+      "icon": "🐄",
+      "tags": [
+        "cow"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol cow",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_dog",
+      "type": "object",
+      "icon": "🐕",
+      "tags": [
+        "dog"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol dog",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_egg",
+      "type": "object",
+      "icon": "🥚",
+      "tags": [
+        "egg"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol egg",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_fish",
+      "type": "object",
+      "icon": "🐟",
+      "tags": [
+        "fish"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol fish",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_snake",
+      "type": "object",
+      "icon": "🐍",
+      "tags": [
+        "snake"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol snake",
+      "renderer": "symbol"
+    },
+    {
+      "id": "symbol_sock",
+      "type": "object",
+      "icon": "🧦",
+      "tags": [
+        "sock"
+      ],
+      "engines": [
+        "rocket",
+        "build",
+        "memory",
+        "runner",
+        "explorer",
+        "racer",
+        "target"
+      ],
+      "width": 100,
+      "height": 100,
+      "minScale": 0.5,
+      "maxScale": 1.5,
+      "interactions": [
+        "collect",
+        "select",
+        "drag",
+        "drop",
+        "reveal"
+      ],
+      "animations": [
+        "translate",
+        "pulse"
+      ],
+      "usage": {
+        "kind": "public",
+        "tenantId": null
+      },
+      "provenance": "Unicode symbol rendered by the installed platform font; no bundled artwork rights inferred",
+      "alt": "symbol sock",
+      "renderer": "symbol"
+    }
+  ],
+  "conditions": [
+    "sequence",
+    "first_letter",
+    "category",
+    "answer",
+    "match",
+    "pair",
+    "identity",
+    "any"
+  ],
+  "presets": [
+    {
+      "id": 1,
+      "title": "Beginner",
+      "speed": 180,
+      "targetSpeed": 45,
+      "lives": 5,
+      "timeLimit": 0,
+      "obstacles": 0,
+      "hints": true,
+      "doubleJump": true,
+      "previewTicks": 300,
+      "feedback": "gentle"
+    },
+    {
+      "id": 2,
+      "title": "Developing",
+      "speed": 210,
+      "targetSpeed": 60,
+      "lives": 5,
+      "timeLimit": 0,
+      "obstacles": 1,
+      "hints": true,
+      "doubleJump": true,
+      "previewTicks": 255,
+      "feedback": "gentle"
+    },
+    {
+      "id": 3,
+      "title": "Practising",
+      "speed": 240,
+      "targetSpeed": 75,
+      "lives": 4,
+      "timeLimit": 0,
+      "obstacles": 2,
+      "hints": true,
+      "doubleJump": true,
+      "previewTicks": 210,
+      "feedback": "gentle"
+    },
+    {
+      "id": 4,
+      "title": "Advanced",
+      "speed": 270,
+      "targetSpeed": 90,
+      "lives": 3,
+      "timeLimit": 0,
+      "obstacles": 3,
+      "hints": false,
+      "doubleJump": false,
+      "previewTicks": 165,
+      "feedback": "gentle"
+    },
+    {
+      "id": 5,
+      "title": "Challenge",
+      "speed": 300,
+      "targetSpeed": 105,
+      "lives": 3,
+      "timeLimit": 0,
+      "obstacles": 4,
+      "hints": false,
+      "doubleJump": false,
+      "previewTicks": 120,
+      "feedback": "gentle"
+    }
+  ],
+  "skills": [
+    {
+      "id": "reading_fluency",
+      "title": "Reading fluency"
+    },
+    {
+      "id": "reading_accuracy",
+      "title": "Reading accuracy"
+    },
+    {
+      "id": "word_recognition",
+      "title": "Word recognition"
+    },
+    {
+      "id": "decoding",
+      "title": "Decoding"
+    },
+    {
+      "id": "phonics",
+      "title": "Phonics"
+    },
+    {
+      "id": "vocabulary",
+      "title": "Vocabulary"
+    },
+    {
+      "id": "comprehension",
+      "title": "Comprehension"
+    },
+    {
+      "id": "spelling",
+      "title": "Spelling"
+    },
+    {
+      "id": "visual_memory",
+      "title": "Visual memory"
+    },
+    {
+      "id": "auditory_memory",
+      "title": "Auditory memory"
+    },
+    {
+      "id": "working_memory",
+      "title": "Working memory"
+    },
+    {
+      "id": "sequential_memory",
+      "title": "Sequential memory"
+    },
+    {
+      "id": "sustained_attention",
+      "title": "Focus"
+    },
+    {
+      "id": "selective_attention",
+      "title": "Finding the right signal"
+    },
+    {
+      "id": "inhibition",
+      "title": "Pause and choose"
+    },
+    {
+      "id": "processing_speed",
+      "title": "Quick decisions"
+    },
+    {
+      "id": "cognitive_flexibility",
+      "title": "Switching rules"
+    },
+    {
+      "id": "number_sense",
+      "title": "Number sense"
+    },
+    {
+      "id": "arithmetic",
+      "title": "Arithmetic"
+    },
+    {
+      "id": "math_reasoning",
+      "title": "Maths reasoning"
+    },
+    {
+      "id": "word_problems",
+      "title": "Word problems"
+    },
+    {
+      "id": "logic",
+      "title": "Logic"
+    },
+    {
+      "id": "pattern_recognition",
+      "title": "Patterns"
+    },
+    {
+      "id": "problem_solving",
+      "title": "Problem solving"
+    },
+    {
+      "id": "visual_discrimination",
+      "title": "Spotting details"
+    },
+    {
+      "id": "visual_tracking",
+      "title": "Visual tracking"
+    },
+    {
+      "id": "spatial_reasoning",
+      "title": "Spatial reasoning"
+    },
+    {
+      "id": "auditory_discrimination",
+      "title": "Sound differences"
+    },
+    {
+      "id": "auditory_processing",
+      "title": "Listening skills"
+    }
+  ],
+  "supportedEngineVersions": [
+    3,
+    4,
+    5
+  ]
+}
