@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {createRequire} from 'node:module';
 import {spawn} from 'node:child_process';
-import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import WebSocket from 'ws';
@@ -50,6 +50,7 @@ try {
  socket=new WebSocket(endpoint);await new Promise(r=>socket.once('open',r));let next=0;const pending=new Map();
  socket.on('message',b=>{const m=JSON.parse(b);if(m.id){const c=pending.get(m.id);pending.delete(m.id);m.error?c.reject(Error(m.error.message)):c.resolve(m.result);}});
  const command=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id=++next;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params,sessionId}));});
+ if(previewRoot)await command('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:profile});
  const {targetId}=await command('Target.createTarget',{url:'about:blank'}),{sessionId}=await command('Target.attachToTarget',{targetId,flatten:true});
  const send=(m,p)=>command(m,p,sessionId);
  const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
@@ -97,6 +98,11 @@ try {
    await click('tab-preview');await wait("!!document.getElementById('open-preview')");await click('open-preview');
    await wait("document.getElementById('runtime-preview')?.contentDocument.querySelector('flt-glass-pane') && document.getElementById('notice').textContent.includes('Shared PlaySmart runtime loaded')");
    assert.equal(await evaluate("document.getElementById('workspace').textContent.includes('Test installed native gameplay separately')"),true);
+   await click('download-native-preview');
+   const path=join(profile,'learning-factory-'+kind+'-'+saved.id+'.cowlaxy');
+   let exported;for(let tries=0;tries<200&&!exported;tries++){try{exported=JSON.parse(await readFile(path,'utf8'));}catch{await new Promise(r=>setTimeout(r,50));}}
+   assert.ok(exported,'Native preview download missing');assert.equal(exported.digest,preview.digest);assert.equal(exported.productionAuthorized,false);
+
    // Wait for the shared web runtime's exact-digest acknowledgement transaction.
    const end=Date.now()+15000;while(!saved.preview){if(Date.now()>end)throw Error('Native-source preview acknowledgement missing');await new Promise(r=>setTimeout(r,50));}
    await set('review-note','Explicit synthetic M7 test approval; no educational or live learner approval');
