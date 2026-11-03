@@ -1,4 +1,5 @@
 import {novaAdminResponse} from './nova-admin.js';
+import {learningStudioResponse} from './learning-studio.js';
 import {gameStudioResponse} from './game-studio.js';
 import {universalStudioResponse} from './universal-studio.js';
 import {gameStudioProxy} from './game-studio-proxy.js';
@@ -37,9 +38,10 @@ const worker = {
       const url = new URL(request.url);
       if (['/privacy', '/privacy/', '/account-deletion', '/account-deletion/'].includes(url.pathname)) return privacyPage(request);
       if (url.pathname === '/health' && request.method === 'GET') return jsonResponse({ ok: true, service: 'skoolio-whatsapp-bot', aiConfigured: Boolean(env.OPENAI_API_KEY), writesConfigured: Boolean(env.SUPPORT_COORDINATOR) });
-      const admin = url.pathname === '/admin/game-studio' || url.pathname === '/admin/novas' || url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
+      const admin = url.pathname === '/admin/learning-factory' || url.pathname === '/admin/game-studio' || url.pathname === '/admin/novas' || url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
       if (admin && !await isAdminRequest(request, env)) return jsonResponse({ error: 'Unauthorized' }, 401);
-      if (url.pathname === '/admin/game-studio') return request.method === 'GET' ? (url.searchParams.get('legacy')==='1'?gameStudioResponse():universalStudioResponse()) : jsonResponse({error:'Method not allowed'},405);
+      if (url.pathname === '/admin/learning-factory') return request.method === 'GET' ? learningStudioResponse() : jsonResponse({error:'Method not allowed'},405);
+      if (url.pathname === '/admin/game-studio') return request.method === 'GET' ? (url.searchParams.get('legacy')==='1'?gameStudioResponse():universalStudioResponse({embedded:url.searchParams.get('learning')==='1'})) : jsonResponse({error:'Method not allowed'},405);
       if (url.pathname.startsWith('/api/admin/game-studio/')) return gameStudioProxy(request,env);
       if ((url.pathname.startsWith('/api/admin/maintenance') || url.pathname === '/api/admin/staging-rehearsal' || url.pathname === '/api/admin/guides') && request.method === 'POST') {
         if (request.headers.get('Origin') && request.headers.get('Origin') !== url.origin) return jsonResponse({ error: 'Invalid origin' }, 403);
