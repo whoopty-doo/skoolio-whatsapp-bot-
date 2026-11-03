@@ -3,7 +3,7 @@ export async function gameStudioProxy(request, env, fetcher = fetch) {
   const url = new URL(request.url), suffix = url.pathname.slice('/api/admin/game-studio'.length);
   const fail = (error, status) => Response.json({error}, {status, headers:{'Cache-Control':'private, no-store'}});
   const learning = suffix.startsWith('/learning/');
-  const learningAllowed = request.method==='GET' && (suffix==='/learning/catalogue'||/^\/learning\/revisions\/[a-z][a-z0-9_.-]{0,99}$/.test(suffix)) || request.method==='POST' && ['/learning/engine-tools','/learning/objects','/learning/preview','/learning/klik','/learning/generate'].includes(suffix);
+  const learningAllowed = request.method==='GET' && (suffix==='/learning/catalogue'||/^\/learning\/revisions\/[a-z][a-z0-9_.-]{0,99}$/.test(suffix)) || request.method==='POST' && ['/learning/engine-tools','/learning/objects','/learning/preview','/learning/klik','/learning/compose','/learning/generate'].includes(suffix);
   if (url.search || !(request.method === 'GET' && (['/games','/catalogue','/banks','/compositions','/audio','/progression','/reward-bindings','/appearances','/assets'].includes(suffix) || /^\/assets\/import_[a-f0-9]{64}$/.test(suffix) || /^\/audio\/audio_[a-f0-9]{64}$/.test(suffix)) || learningAllowed || request.method === 'POST' && ['/games','/preview','/banks','/compositions','/audio','/progression','/reward-bindings','/appearances','/assets','/composition-preview'].includes(suffix))) return fail('Not found',404);
   if (request.method === 'POST' && request.headers.get('Origin') !== url.origin) return fail('Invalid origin',403);
   const assertion = request.headers.get('CF-Access-JWT-Assertion');

@@ -20,7 +20,7 @@ test('new authoring proxy fails closed without distinct staging backend; only fi
  const deny=async()=>{throw Error('No upstream call permitted');};
  for(const env of [{},{ENVIRONMENT:'production',LEARNING_FACTORY_TEST_API_URL:'https://test.run.app'},{ENVIRONMENT:'staging',PLAYSMART_STORE_API_URL:'https://same.run.app',LEARNING_FACTORY_TEST_API_URL:'https://same.run.app'}])assert.equal((await gameStudioProxy(make('catalogue'),env,deny)).status,503);
  const env={ENVIRONMENT:'staging',LEARNING_FACTORY_TEST_API_URL:'https://isolated.run.app'};
- for(const [path,method]of [['catalogue','GET'],['objects','POST'],['generate','POST'],['klik','POST'],['engine-tools','POST'],['preview','POST'],['revisions/lf_test','GET']])assert.equal((await gameStudioProxy(make(path,method),env,async(url,options)=>{assert.equal(String(url),'https://isolated.run.app/v1/game-factory-admin/learning/'+path);assert.deepEqual(Object.keys(options.headers).sort(),['CF-Access-JWT-Assertion','Content-Type']);return Response.json({ok:true});})).status,200);
+ for(const [path,method]of [['catalogue','GET'],['objects','POST'],['generate','POST'],['klik','POST'],['engine-tools','POST'],['compose','POST'],['preview','POST'],['revisions/lf_test','GET']])assert.equal((await gameStudioProxy(make(path,method),env,async(url,options)=>{assert.equal(String(url),'https://isolated.run.app/v1/game-factory-admin/learning/'+path);assert.deepEqual(Object.keys(options.headers).sort(),['CF-Access-JWT-Assertion','Content-Type']);return Response.json({ok:true});})).status,200);
  for(const path of ['catalogue?url=other','generate','revisions/../../secrets'])assert.equal((await gameStudioProxy(make(path),env,deny)).status,404);
 });
 
