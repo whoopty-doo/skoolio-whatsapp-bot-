@@ -65,6 +65,8 @@ try {
  await click('validate');await wait("document.getElementById('notice').textContent.includes('Recorded validate')");
  assert.ok(saved.validation);const preview=await workspace.preview(actor,saved.id);
  assert.equal(preview.game.levels[0].config.settings.speed,195);assert.equal(preview.productionAuthorized,false);
+ await click('create-pack');await click('tab-weeks');await wait("document.querySelector('select[id^=engine-]')!==null");
+ assert.deepEqual(await evaluate("Array.from(document.querySelector('select[id^=engine-]').options).map(o=>o.value).sort()"),['BUILD','RESPOND','SELECT','STORY']);
  await writeFile(output,JSON.stringify(preview,null,2));
  await writeFile(output+'.evidence.json',JSON.stringify({passed:true,calls,draft:saved.body.definition,editVersion:saved.editVersion,registryVersion:1,previewDigest:preview.digest,published:false},null,2));
  console.log('PASS: actual parent/iframe registry controls reject unsupported/out-of-range values; existing versioned draft save/validate emits native preview. No live publication.');

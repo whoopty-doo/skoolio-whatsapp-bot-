@@ -28,4 +28,5 @@ test('M5 discovery is opt-in and embedded editor receives installed capabilities
  assert.match(LEARNING_STUDIO_SCRIPT,/catalogue\.engineCapabilities/);
  assert.match(LEARNING_STUDIO_SCRIPT,/engineCapabilities:catalogue\.engineCapabilities/);
  assert.match(LEARNING_STUDIO_SCRIPT,/Klik autonomous generation is disabled/);
+ assert.match(LEARNING_STUDIO_SCRIPT,/Object\.fromEntries\(catalogue\.engineCapabilities\.learning/);
 });
