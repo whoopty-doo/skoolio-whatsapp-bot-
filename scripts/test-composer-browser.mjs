@@ -95,8 +95,9 @@ try {
    await click('validate');await wait("document.getElementById('notice').textContent==='Recorded validate.'");
    await click('send-review');await wait("document.getElementById('notice').textContent==='Recorded review.'");
    await click('tab-preview');await wait("!!document.getElementById('open-preview')");await click('open-preview');
-   await wait("document.getElementById('runtime-preview')?.contentDocument.querySelector('flt-glass-pane') && document.getElementById('notice').textContent.includes('Actual PlaySmart runtime loaded')");
-   // Wait for the real runtime's exact-digest acknowledgement transaction.
+   await wait("document.getElementById('runtime-preview')?.contentDocument.querySelector('flt-glass-pane') && document.getElementById('notice').textContent.includes('Shared PlaySmart runtime loaded')");
+   assert.equal(await evaluate("document.getElementById('workspace').textContent.includes('Test installed native gameplay separately')"),true);
+   // Wait for the shared web runtime's exact-digest acknowledgement transaction.
    const end=Date.now()+15000;while(!saved.preview){if(Date.now()>end)throw Error('Native-source preview acknowledgement missing');await new Promise(r=>setTimeout(r,50));}
    await set('review-note','Explicit synthetic M7 test approval; no educational or live learner approval');
    await click('approve');await wait("document.getElementById('notice').textContent==='Recorded approve.'");
