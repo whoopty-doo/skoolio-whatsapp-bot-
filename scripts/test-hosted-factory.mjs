@@ -20,6 +20,14 @@ try{
  assert.equal((await request('/catalogue',null,{})).status,401);
  const c=await request('/catalogue');assert.equal(c.status,200);const catalogue=await c.json();assert.equal(catalogue.storage,'private-durable');assert.equal(catalogue.records.length,0);assert.equal(catalogue.composer.providerMode,'unavailable');assert.equal(catalogue.templates.length,2);
  const game=catalogue.templates.find(r=>r.kind==='game').body;
+ // Mission must be the first playable draft: no saved Game source exists yet.
+ await runtime.dispose();runtime=create(true);
+ const firstMission=await request('/compose',{version:1,action:'create',kind:'mission',brief:'First mission in an empty Factory',body:{...game,definition:{stages:[]}},levels:3,stages:3});
+ const missionBody=await firstMission.json();assert.equal(firstMission.status,200,JSON.stringify(missionBody));
+ assert.equal(missionBody.item.status,'DRAFT');assert.equal(missionBody.item.body.definition.stages.length,3);assert.equal(providerCalls,1);
+ const missionId=missionBody.item.id;
+ await runtime.dispose();runtime=create();
+ assert.ok((await(await request('/catalogue')).json()).records.some(r=>r.id===missionId));
  const saved=await request('/objects',{action:'save',kind:'game',expectedVersion:0,body:game});assert.equal(saved.status,200);const row=(await saved.json()).item;assert.match(row.createdBy,/^access:[a-f0-9]{64}$/);
  const conflict=await request('/objects',{action:'save',id:row.id,expectedVersion:0,body:game});assert.equal(conflict.status,409);
  const races=await Promise.all(['First edit','Second edit'].map(title=>request('/objects',{action:'save',id:row.id,expectedVersion:1,body:{...game,title}})));assert.deepEqual(races.map(r=>r.status).sort(),[200,409]);
@@ -32,7 +40,7 @@ try{
  assert.equal((await request('/revisions/'+row.id)).status,200);
  await runtime.dispose();runtime=create(true);
  const composed=await request('/compose',{version:1,action:'create',kind:'game',brief:'Runtime transport regression using a fixture provider response',body:game,levels:1,stages:2});
- const composedBody=await composed.json();assert.equal(composed.status,200,JSON.stringify(composedBody));assert.equal(providerCalls,1);assert.equal(composedBody.item.status,'DRAFT');
+ const composedBody=await composed.json();assert.equal(composed.status,200,JSON.stringify(composedBody));assert.equal(providerCalls,2);assert.equal(composedBody.item.status,'DRAFT');
  const generatedId=composedBody.item.id;
  const imageResponse=await request('/generate',{scope:{kind:'GLOBAL',tenantId:null},title:'Runtime image transport regression',request:{assetType:'gameCover',world:'planet-echo',styleFamily:'cowlaxy',brief:'Friendly space world illustration',aspectRatio:'1:1',resolution:'1K',transparent:false,referenceAssetIds:[],negativeConstraints:[],modelChoice:'primary'}});
  assert.equal(imageResponse.status,503);assert.match((await imageResponse.json()).error,/quota/);assert.equal(imageCalls,1);
@@ -40,4 +48,5 @@ try{
  assert.ok((await(await request('/catalogue')).json()).records.some(r=>r.id===generatedId));
  console.log('PASS hosted provider transports: real Worker fetch receiver, fixture OpenAI response saved/reopened, Google quota response handled. No live provider calls.');
  console.log('PASS hosted Worker: verified admin gate, empty workspace starter templates, save, conflicting edits, validate, actual persistent runtime restart/reopen, CSRF rejection, no-key fail-closed.');
+ console.log('PASS first Mission: empty workspace, complete native stage templates, validated save, restart and reopen.');
 }finally{await runtime.dispose();}
