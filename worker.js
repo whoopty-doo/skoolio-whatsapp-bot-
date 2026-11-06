@@ -41,7 +41,7 @@ const worker = {
       const admin = url.pathname === '/admin/learning-factory' || url.pathname === '/admin/game-studio' || url.pathname === '/admin/novas' || url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
       if (admin && !await isAdminRequest(request, env)) return jsonResponse({ error: 'Unauthorized' }, 401);
       if (url.pathname === '/admin/learning-factory') return request.method === 'GET' ? learningStudioResponse() : jsonResponse({error:'Method not allowed'},405);
-      if (url.pathname === '/admin/game-studio') return request.method === 'GET' ? (url.searchParams.get('legacy')==='1'?gameStudioResponse():universalStudioResponse({embedded:url.searchParams.get('learning')==='1'})) : jsonResponse({error:'Method not allowed'},405);
+      if (url.pathname === '/admin/game-studio') return request.method === 'GET' ? (url.searchParams.get('learning')==='1'?universalStudioResponse({embedded:true}):url.searchParams.get('legacy')==='1'?gameStudioResponse():learningStudioResponse()) : jsonResponse({error:'Method not allowed'},405);
       if (url.pathname.startsWith('/api/admin/game-studio/')) return gameStudioProxy(request,env);
       if ((url.pathname.startsWith('/api/admin/maintenance') || url.pathname === '/api/admin/staging-rehearsal' || url.pathname === '/api/admin/guides') && request.method === 'POST') {
         if (request.headers.get('Origin') && request.headers.get('Origin') !== url.origin) return jsonResponse({ error: 'Invalid origin' }, 403);

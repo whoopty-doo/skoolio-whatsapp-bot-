@@ -30,3 +30,16 @@ test('M5 discovery is opt-in and embedded editor receives installed capabilities
  assert.match(LEARNING_STUDIO_SCRIPT,/Klik autonomous generation is disabled/);
  assert.match(LEARNING_STUDIO_SCRIPT,/Object\.fromEntries\(catalogue\.engineCapabilities\.learning/);
 });
+
+
+test('existing Game Studio URL opens the new Factory and preserves embedded editing',async(t)=>{
+ const {accessHeaders,adminConfig}=await import('./helpers.js');
+ const auth=await accessHeaders();
+ t.mock.method(globalThis,'fetch',async()=>Response.json({keys:[auth.publicJwk]}));
+ const get=path=>worker.fetch(new Request('https://example.com'+path,{headers:auth.headers}),adminConfig);
+ for(const path of ['/admin/game-studio','/admin/learning-factory']){
+  const response=await get(path);assert.equal(response.status,200);assert.match(await response.text(),/Generated Asset Review/);
+ }
+ const embedded=await get('/admin/game-studio?learning=1');assert.equal(embedded.status,200);assert.match(embedded.headers.get('Content-Security-Policy'),/frame-ancestors 'self'/);assert.doesNotMatch(await embedded.text(),/Generated Asset Review/);
+ const legacy=await get('/admin/game-studio?legacy=1');assert.equal(legacy.status,200);assert.doesNotMatch(await legacy.text(),/Generated Asset Review/);
+});

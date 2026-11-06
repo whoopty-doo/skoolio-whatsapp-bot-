@@ -15,10 +15,11 @@ const runtime = new Miniflare(convertV4MiniflareOptions({
 try {
   const request = (path, authenticated=true, method='GET') => runtime.dispatchFetch('https://example.com'+path,{method,headers:authenticated?auth.headers:{}});
   for(const path of ['/admin/learning-factory','/admin/game-studio?learning=1','/admin/licence-hub','/api/admin/game-studio/learning/catalogue']) assert.equal((await request(path,false)).status,401);
-  for(const [path,text] of [['/admin/learning-factory','Generated Asset Review'],['/admin/licence-hub','Licence Hub'],['/admin/store','Store'],['/admin/game-studio','Game']]) {
+  for(const [path,text] of [['/admin/learning-factory','Generated Asset Review'],['/admin/licence-hub','Licence Hub'],['/admin/store','Store'],['/admin/game-studio','Generated Asset Review'],['/admin/game-studio?legacy=1','Game']]) {
     const response=await request(path); assert.equal(response.status,200,path); assert.ok((await response.text()).includes(text),path);
   }
-  assert.equal((await request('/admin/learning-factory',true,'POST')).status,405);
+  for(const path of ['/admin/learning-factory','/admin/game-studio','/admin/game-studio?learning=1','/admin/game-studio?legacy=1']) assert.equal((await request(path,true,'POST')).status,405);
+  const home=await request('/admin');assert.ok((await home.text()).includes('href="/admin/game-studio">Game Factory</a>'));
   const embedded=await request('/admin/game-studio?learning=1');assert.equal(embedded.status,200);assert.match(embedded.headers.get('Content-Security-Policy'),/frame-ancestors 'self'/);
   const unavailable=await request('/api/admin/game-studio/learning/catalogue'); assert.equal(unavailable.status,503); assert.match((await unavailable.json()).error,/isolated Factory test backend/);
   console.log('PASS exact release Worker: existing pages preserved, Factory and embedded editor render, authentication enforced, missing workspace fails closed. Synthetic local runtime only.');
