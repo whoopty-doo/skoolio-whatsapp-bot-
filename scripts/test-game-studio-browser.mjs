@@ -1,0 +1,45 @@
+// Synthetic acceptance only; requires the loopback Factory harness on port 8788.
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import WebSocket from 'ws';
+const base='http://127.0.0.1:8788';
+assert.equal((await (await fetch(base+'/fixture/health')).json()).synthetic,true);
+const profile=await mkdtemp(join(tmpdir(),'factory-browser-'));
+const browser=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
+let socket;
+try{
+ const endpoint=await new Promise((resolve,reject)=>{let output='';const timeout=setTimeout(()=>reject(Error('Chrome startup timeout')),15000);browser.stderr.on('data',bytes=>{output+=bytes;const m=output.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){clearTimeout(timeout);resolve(m[1]);}});browser.on('error',reject);});
+ socket=new WebSocket(endpoint);await new Promise(r=>socket.once('open',r));let next=0;const pending=new Map(),errors=[];
+ socket.on('message',raw=>{const message=JSON.parse(raw);if(message.id){const call=pending.get(message.id);pending.delete(message.id);message.error?call.reject(Error(message.error.message)):call.resolve(message.result);}else if(message.method==='Runtime.exceptionThrown')errors.push(message.params.exceptionDetails.text);});
+ const command=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id=++next;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params,sessionId}));});
+ const {targetId}=await command('Target.createTarget',{url:'about:blank'}),{sessionId}=await command('Target.attachToTarget',{targetId,flatten:true});
+ const send=(method,params)=>command(method,params,sessionId);
+ await send('Runtime.enable');await send('Page.enable');
+ const evaluate=async expression=>{const result=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw Error(JSON.stringify(result.exceptionDetails));return result.result.value;};
+ const wait=async expression=>{const end=Date.now()+15000;while(!await evaluate(expression)){if(Date.now()>end)throw Error('Timed out: '+expression);await new Promise(r=>setTimeout(r,50));}};
+ const click=async id=>{await evaluate(`document.getElementById(${JSON.stringify(id)}).click()`);};
+ await send('Emulation.setDeviceMetricsOverride',{width:1250,height:1000,deviceScaleFactor:1,mobile:false});
+ await send('Page.navigate',{url:base+'/admin/game-studio?legacy=1'});
+ await wait("document.getElementById('notice').textContent.includes('Choose a template')");
+ await click('next');await click('next');await click('next');
+ await evaluate("document.getElementById('tenant').value='factory-test';document.getElementById('tenant').dispatchEvent(new Event('change'));document.querySelector('#centres input[value=\"centre-a\"]').checked=true;");
+ await click('next');await wait("document.getElementById('step-title').textContent.startsWith('5')");
+ assert.ok(await evaluate("document.getElementById('preview').textContent.includes('A')"));
+ await click('publish');await wait("document.getElementById('notice').textContent.includes('Published revision 1')");
+ const gameId=await evaluate("document.getElementById('saved').value");
+ await click('back');await click('back');await click('back');
+ await evaluate("document.getElementById('word-en').value='BANANA';document.getElementById('word-af').value='PIESANG';");
+ await click('next');await click('next');await click('next');await wait("document.getElementById('step-title').textContent.startsWith('5')");
+ await click('publish');await wait("document.getElementById('notice').textContent.includes('Published revision 2')");
+ const session=await (await fetch(base+'/fixture/session?role=centre')).json();
+ const games=await (await fetch(base+'/v1/app/arcade/students/student-a/factory/v1/games',{headers:{Authorization:'Bearer '+session.token}})).json();
+ const game=games.items.find(i=>i.game.id===gameId);assert.equal(game.game.levels[0].config.words.en,'BANANA');assert.equal(game.game.revision,2);
+ const old=await (await fetch(base+`/v1/app/arcade/students/student-a/factory/v1/games/${gameId}/revisions/1`,{headers:{Authorization:'Bearer '+session.token}})).json();assert.equal(old.item.game.levels[0].config.words.en,'APPLE');
+ await writeFile('/private/tmp/factory-studio-published.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
+ assert.deepEqual(errors,[]);
+ console.log('Browser PASS: five-step creator, APPLE publish, BANANA edit/publish, immutable old revision, no page exceptions.');
+ console.log('Synthetic game ID: '+gameId);
+}finally{socket?.close();browser.kill();await new Promise(r=>browser.once('exit',r));await rm(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}

@@ -1,0 +1,28 @@
+{
+  "id": "playsmart.roster",
+  "product": "PLAYSMART",
+  "module": "roster",
+  "title": "One shared Centre roster: spaces, sessions and student slots",
+  "content": "For Centre staff in the current PlaySmart institution dashboard. Create teaching spaces and class sessions in PlaySmart, choose the day and space, then place the learner in the correct time slot. PlaySmart is the roster authority; Skoolio schedule imports no longer overwrite PlaySmart placements. Skoolio student/account records and assessment links are separate and may still be connected. To compare devices, check the same centre, date, teaching space and time, then use Reload while connected. Offline changes remain queued until reconnecting; a local display is not proof another device has received the change. Do not create duplicate students, reset progress or clear app data to resolve a mismatch. The weekly roster preview for the linked teaching space includes Download PDF. Historical Skoolio-only times need an actual PlaySmart placement; support cannot repair records from chat. Ask which screen and app version is involved if controls differ.",
+  "keywords": [
+    "roster",
+    "schedule",
+    "space",
+    "session",
+    "slot",
+    "sync",
+    "Skoolio",
+    "mismatch",
+    "cross device",
+    "weekly",
+    "PDF",
+    "rooster",
+    "skedule"
+  ],
+  "document_type": "HOW_TO",
+  "version": "centre-calendar-2026-10-23",
+  "updated_at": "2026-10-23",
+  "source": "playsmart@ff2ddf3/lib/screens/institution_dashboard.dart; playsmart-backend@95f503b/src/services/weeklyRoster.ts; docs/calendar-production-audit-20261023.txt",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

@@ -1,0 +1,32 @@
+{
+  "id": "playsmart.calendar",
+  "product": "PLAYSMART",
+  "module": "calendar",
+  "title": "My Team Calendar: events, lessons and calendar exports",
+  "content": "For Parent/My Team and Kid calendar in the updated client. Choose the child and date or view first. Team plans can appear before centre lessons finish loading. Add event creates an item using the selected child and date; check time zone, start/end times and all-day choice before Save. Accepted saves remain visible while refreshing. Offline edits stay queued until connected; a rejected item needs its displayed error addressed. A signed-in parent can manage permitted team items; Kid Mode only offers its allowed actions. Centre lessons are read from the shared PlaySmart roster and should be changed in Centre, not recreated as family events. An open active calendar refreshes about every 30 seconds; use Refresh for a current check. My Team Schedule creates a PDF for the selected view. Google Calendar and iPhone Calendar open an event copy for confirmation; Export calendar (.ics) exports the selected dated view. These are copies, not a live subscription or two-way sync. Later PlaySmart edits do not rewrite exported entries; repeated import can create duplicates. Pending local changes are excluded from exports. Some controls depend on platform and app version; the newer buttons require the updated app, not only a backend update. Keep app data if loading fails.",
+  "keywords": [
+    "calendar",
+    "event",
+    "add event",
+    "loading",
+    "slow",
+    "parent",
+    "team",
+    "kid",
+    "schedule",
+    "PDF",
+    "Google",
+    "iPhone",
+    "Apple",
+    "ics",
+    "export",
+    "kalender",
+    "aflaai"
+  ],
+  "document_type": "HOW_TO",
+  "version": "centre-calendar-2026-10-23",
+  "updated_at": "2026-10-23",
+  "source": "playsmart@d97e4d9/lib/features/family/calendar/shared_calendar_screen.dart; shared_calendar_store.dart; shared_calendar_export.dart; docs/calendar-production-audit-20261023.txt",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true
+}

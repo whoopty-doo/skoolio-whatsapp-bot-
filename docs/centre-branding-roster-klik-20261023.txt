@@ -1,0 +1,105 @@
+case_id: N/A
+investigation_result: CONFIRMED_BUG for roster sizing/scroll coordination; branding and Klik updates are approved engineering work.
+investigation_summary:
+  Applied the supplied TC badge as the fixed institution identity and desktop icon.
+  Reproduced the dead area below the roster and verified coordinated desktop scrolling.
+  Updated Klik's local walkthroughs, search and existing support knowledge service.
+root_cause:
+  Roster header used a loose Flexible with flex 2 and slots an Expanded with flex 1.
+  A short header left unused space: list bottom 643.33 rather than 980 at 1200x1000.
+  The explicit guide scroll controller bypassed NestedScrollView coordination.
+  Session view omitted the slots coachmark target. Guide search ignored two-letter XP.
+  Existing support docs and a roster walkthrough predated PlaySmart-only authority.
+confidence: High for reproduced layout/search defects and tested source changes; native full-app release validation not performed.
+evidence:
+  Before-fix roster regression failed by 336.67 pixels. All 30 roster viewport/mode
+  cases now fill the available list area and expose the slots guide target.
+  Synthetic mouse-wheel/drag test collapses the outer header and reaches slot 40.
+  Badge bytes match the supplied attachment; generated icon preview inspected.
+  Seven macOS PNG dimensions and the Windows ICO/resource link verified.
+  Native actool generated Assets.car and AppIcon.icns successfully.
+  Synthetic desktop roster capture reviewed; existing styling retained.
+files_inspected:
+  lib/screens/institution_dashboard.dart; lib/widgets/{roster_card,edit_franchise}.dart
+  lib/onboarding/{tour_registry,tina_assistant_widget,coachmark_runner}.dart
+  lib/onboarding/guides/student_dashboard_guide_steps.dart
+  lib/features/support/{tina_help_action,tina_help_popup,support_chat_api,support_chat_screen}.dart
+  lib/features/gamification/cowlaxy_rewards_guide.dart
+  lib/features/platform_v3/rewards_copy.dart
+  pubspec.yaml; macOS asset catalog/project; Windows Runner.rc/window resource loading
+  Skooliochatbot knowledge schema/index/build, curated docs, support handlers and tests
+  Backend weekly roster, report sharing/review and Cowlaxy catalogue sources (read-only)
+files_changed:
+  assets/images/centre_badge.png (unchanged artwork copied from the supplied file)
+  lib/core/centre_branding.dart
+  lib/screens/institution_dashboard.dart; lib/widgets/{roster_card,edit_franchise}.dart
+  lib/onboarding/{tour_registry,tina_assistant_widget}.dart
+  lib/onboarding/guides/student_dashboard_guide_steps.dart
+  lib/features/support/tina_help_action.dart; lib/features/platform_v3/rewards_copy.dart
+  macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_*.png
+  windows/runner/Runner.rc; windows/runner/resources/app_icon.ico
+  pubspec.yaml; flutter_launcher_icons_desktop.yaml
+  test/{centre_desktop,exact_roster_card,tina_popup,tina_help_chat}_test.dart
+  Skooliochatbot: knowledge-index.js; knowledge.generated.js;
+    support_knowledge/playsmart/{playsmart.roster,playsmart.calendar,playsmart.rewards,
+      playsmart.home-lessons,playsmart.dashboard,guide.reports}.json;
+    test/centre-calendar-knowledge.test.js
+  This audit in both repositories. Existing untracked firebase_messaging/pubspec.lock untouched.
+tests_added:
+  Roster list fills its container across existing 30 cases; session/day guide target exists.
+  Nested desktop mouse-wheel/drag coordination and final slot reachability.
+  Fixed Centre badge offers no avatar mutation/save action.
+  XP, Afrikaans roster sync and home payload guide ranking; no substring false match.
+  Institution feature guide remains accessible alongside tours, activated only by user tap.
+  Current support retrieval, cross-product isolation and roster/payload/export semantics.
+tests_run:
+  flutter test --no-pub --concurrency=1 test/centre_desktop_test.dart
+    test/tina_popup_test.dart test/bolt_guide_test.dart test/tina_help_chat_test.dart
+    test/exact_roster_card_test.dart
+  flutter test --no-pub test/cowlaxy_rewards_guide_test.dart
+  flutter test --no-pub test/exact_roster_card_test.dart --name
+    '1200.0 x 1000.0/RosterViewMode.day imported=false'
+    --dart-define=CAPTURE_EXACT_ROSTER=true
+    --dart-define=ROSTER_CAPTURE_DIR=/private/tmp/playsmart-centre-visual-20261023
+  flutter analyze --no-pub
+  dart run flutter_launcher_icons -f flutter_launcher_icons_desktop.yaml
+  xcrun actool macos/Runner/Assets.xcassets --compile /private/tmp/playsmart-centre-icons-20261023
+    --platform macosx --minimum-deployment-target 10.15 --app-icon AppIcon
+    --output-partial-info-plist /private/tmp/playsmart-centre-icons-20261023/icon-info.plist
+  Skooliochatbot: node --test test/centre-calendar-knowledge.test.js test/knowledge.test.js test/app-support.test.js
+  Skooliochatbot: npm run knowledge:build; npm run check; npm test
+  Skooliochatbot: WRANGLER_SEND_METRICS=false npx --no-install wrangler deploy --dry-run
+    --outdir /private/tmp/playsmart-klik-dryrun-20261023
+  git diff --check; icon file/dimension/resource checks.
+test_results:
+  53 core Flutter tests plus 6 rewards-guide tests passed (59 total); visual capture passed.
+  Support targeted suite: 24 passed. Final complete support suite: 118 passed.
+  Support check/generated knowledge validation passed: 14 docs, 13 public,
+  knowledge version 5938bd00a05384b2. Worker dry-run packaging passed; no publication.
+  Desktop icon generation and macOS native asset compilation passed. actool printed
+  sandbox simulator-service diagnostics but successfully produced the macOS artifacts.
+  Initial new tests had fixture omissions/ranking-list omissions; corrected and final suite passed.
+flutter_analyze_result:
+  Final full analysis: 108 existing baseline findings, no errors or new findings.
+  Removed the newly unused typed_data import. No unrelated baseline cleanup.
+branch:
+  PlaySmart: engineering/home-lesson-release-fixes
+  Support service: engineering/cowlaxy-discoveries
+commit: See the commits containing this report and final delivery message.
+pull_request: N/A; no merge or main push.
+risk:
+  Full macOS executable and Windows executable builds not run. Windows requires a
+  Windows build host; Mac disk headroom remains limited after Xcode regenerated caches.
+  Native icons require a rebuild; operating systems can retain cached installed icons.
+  Support AI knowledge is prepared in source; a separate support-service deployment
+  is required before the live chatbot uses it. Existing API calendar release is unaffected.
+  No customer data, settings-save logic, rewards policy, signing identities or app IDs changed.
+release_notes:
+  Fixed TC badge for institution avatar, logo and weekly roster PDF/preview.
+  Windows executable/MSIX and macOS icon assets use the badge; mobile icon configuration retained.
+  Roster uses remaining height; desktop scroll coordinates with the dashboard; no redesign.
+  Klik explains PlaySmart-only scheduling, home payloads/parent links, calendar exports,
+  report approval/sharing and XP/Moola unlocks. Guide matching supports XP and more Afrikaans terms.
+  Knowledge remains in the existing support service; no second assistant or provider added.
+information_needed:
+  Native rebuild/install acceptance and support-service release before those changes are live.

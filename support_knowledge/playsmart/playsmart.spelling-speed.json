@@ -1,0 +1,47 @@
+{
+  "id": "playsmart.spelling-speed",
+  "product": "PLAYSMART",
+  "module": "spelling",
+  "title": "Spelling speed or saved results do not match expectations",
+  "content": "Spelling uses the lesson’s configured word display duration. The reviewed spelling controller does not establish an automatic speed increase after every lesson. Practice is unscored and retry rounds preserve the first-round score. Establish the lesson mode and saved settings before describing this as a bug.",
+  "keywords": [
+    "spelling",
+    "speed",
+    "unchanged",
+    "duration",
+    "saved",
+    "practice",
+    "score",
+    "spel",
+    "spoed"
+  ],
+  "document_type": "TROUBLESHOOTING",
+  "version": "source-c045a58",
+  "updated_at": "2026-09-23",
+  "source": "playsmart@c045a58/lib/features/spelling/state/spelling_session_controller.dart; lib/onboarding/guides/student_dashboard_guide_steps.dart",
+  "visibility": "PUBLIC_SUPPORT",
+  "support_safe": true,
+  "troubleshooting": {
+    "symptoms": [
+      "Word display speed seems unchanged.",
+      "A practice or retry result appears missing or unchanged."
+    ],
+    "questions": [
+      "Is this normal Spelling, Practice Spelling, or an incorrect-word retry?",
+      "Were the dashboard settings saved before starting or sending the lesson?",
+      "Was the scored activity completed, and is its result visible?",
+      "Does this affect one learner or multiple learners?"
+    ],
+    "safe_steps": [
+      "Identify the lesson mode before comparing scores.",
+      "Review the configured duration on the learner dashboard and save intended changes before starting a new lesson.",
+      "For home work, check whether you are using the newly sent assignment."
+    ],
+    "collect_if_unresolved": [
+      "App version, platform and activity mode.",
+      "Expected duration versus observed duration, without learner identity.",
+      "Whether the first-round result was displayed and whether work was online or offline."
+    ],
+    "escalate_as": "SUSPECTED_BUG"
+  }
+}

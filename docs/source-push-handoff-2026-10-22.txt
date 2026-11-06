@@ -1,0 +1,43 @@
+SOURCE COMMIT / PUSH HANDOFF — 22 October 2026
+case_id: N/A
+investigation_result: N/A — explicitly approved source commit/push task.
+investigation_summary: Inspected pending source in app, admin and backend. Saved
+  existing feature work on non-main branches without changing production.
+root_cause: N/A — previously uncommitted source/test work.
+confidence: High for source preservation; native release readiness not established.
+evidence: Git status/diffs, targeted synthetic tests and build/check logs.
+files_inspected: Remaining app Family/Nova test diffs; admin Worker navigation,
+  Nova admin modules/proxy/build/tests; backend product-access routes/services,
+  schema/tests, .gitignore and foundation report.
+files_changed: Commits contain the existing inspected pending code and this report.
+  No application behavior was changed to mask test failures.
+tests_added: None in this handoff; existing pending tests are included.
+tests_run: flutter test --no-pub test/family_unified_ux_test.dart
+  test/nova_ui_test.dart; admin npm test and npm run check; backend node --test
+  --test-concurrency=1 -r ./tools/testing/rewards-test-preload.cjs -r ts-node/register
+  src/services/productAccessService.test.ts src/services/productGrantRepository.test.ts
+  src/routes/productAccess.test.ts src/middleware/appAuth.test.ts
+  src/services/entitlementService.test.ts; npm run build.
+test_results: App 32 passed, 4 failed, 1 optional capture skipped. Failures:
+  existing reward request review, centre lesson composer, and Team reward-editor
+  hit testing at 320x568 / 844x390 with 1.8 text scale. Admin 116/116 passed and
+  check passed. Backend 28/28 passed and TypeScript build passed.
+  Logs: /private/tmp/playsmart-final-source-tests.log;
+  /private/tmp/playsmart-admin-all-{tests,check}.log;
+  /private/tmp/playsmart-product-source-{tests,build}.log.
+flutter_analyze_result: Not rerun; no app library changes in this handoff.
+branch: App/admin engineering/cowlaxy-discoveries. Separate backend product-access
+  work saved on engineering/ribotical-foundation. Current deployed backend release
+  source remains engineering/cowlaxy-discoveries; do not substitute the older
+  foundation branch for the deployed runtime.
+commit: Containing commits and remote synchronization verified in completion output.
+pull_request: N/A — no merge requested/performed.
+risk: Four pending Flutter test failures and no native Windows build on this Mac.
+  Nova admin/product-access code is saved, not deployed or activated by this task.
+  Generated nested plugin pubspec.lock and historical local acceptance artifacts
+  are not release source and remain local; root application lockfile is tracked.
+release_notes: All remaining inspected source saved/pushed on named branches.
+  Pull engineering/cowlaxy-discoveries in Playsmart for the current app source.
+  Prior live backend and Store deployment remain unchanged.
+information_needed: N/A for commit/push. Resolve failing Flutter checks and run
+  Windows native build/device acceptance before claiming a validated new release.

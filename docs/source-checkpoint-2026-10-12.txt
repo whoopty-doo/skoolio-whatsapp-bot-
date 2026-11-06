@@ -1,0 +1,32 @@
+APPROVED SOURCE CHECKPOINT — 12 October 2026
+
+case_id: N/A
+investigation_result: N/A — owner requested commit and push of all source changes.
+investigation_summary: Preserve the existing support-platform work and approved
+  Moola administrator interface in Git on an engineering branch.
+root_cause: N/A — source checkpoint, not a new defect repair.
+confidence: Local automated checks pass; no claim that all source is deployed.
+evidence: 110 unit tests pass, check script passes and four isolated workerd
+  runtime checks pass. Synthetic provider fixtures used; no production sends.
+files_inspected: Modified/untracked application modules, tests, scripts, docs,
+  configuration and test-only GitHub workflow. Secret-pattern review completed.
+files_changed: Existing support, admin/Store/Moola, privacy, recovery, routing,
+  knowledge, runtime test and documentation source; package manifests and CI.
+  See this commit's file list for the exact inventory. Local secret files and
+  generated test artifacts remain excluded by .gitignore.
+tests_added: Existing staged unit/runtime regression tests included in snapshot.
+tests_run: npm test; npm run check; npm run test:runtime; npm run test:cutover;
+  npm run test:staging:runtime; npm run test:media:runtime; git diff --check.
+test_results: 110 unit tests pass; all listed checks pass. Fixed a stray leading
+  character in local wrangler.jsonc back to its committed baseline before check.
+branch: engineering/moola-admin-awards
+commit: See the Git commit containing this report and final delivery message.
+pull_request: N/A — not requested or created.
+risk: This complete source snapshot is broader than the production Moola overlay.
+  The earlier approved Moola release replaced only reviewed Moola module sections
+  in the prior production bundle. Do not treat this commit as proof that the
+  entire workspace was deployed. Existing deployment scripts remain explicit
+  operations; the added push workflow runs tests only.
+release_notes: Source committed for review and backup. No deployment, merge,
+  production state mutation or automatic release accompanies this push.
+information_needed: N/A for source commit/push.

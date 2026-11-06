@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "skoolio-support-local",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-21",
+  "vars": {
+    "ENVIRONMENT": "development",
+    "VALIDATE_TWILIO_SIGNATURE": "false",
+    "COORDINATOR_BOOTSTRAP_APPROVED": "true"
+  },
+  "kv_namespaces": [{ "binding": "NOTES_KV", "id": "00000000000000000000000000000000" }],
+  "durable_objects": { "bindings": [{ "name": "SUPPORT_COORDINATOR", "class_name": "SupportCoordinator" }] },
+  "migrations": [{ "tag": "support-coordinator-v1", "new_sqlite_classes": ["SupportCoordinator"] }]
+}

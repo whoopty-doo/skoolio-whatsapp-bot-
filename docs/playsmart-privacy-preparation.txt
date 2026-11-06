@@ -1,0 +1,65 @@
+PlaySmart privacy pages — 2 October 2026
+
+Prepared routes (LOCAL ONLY):
+https://ai.skoolio.co.za/privacy
+https://ai.skoolio.co.za/account-deletion
+
+The pages are visibly marked drafts and must not be used in store listings yet.
+Owner input required: legal operator name, monitored privacy/deletion email,
+actual retention periods and deletion turnaround, records retained and reasons,
+child age groups and parental authorisation, centre/operator responsibilities,
+provider/advertising practices and cross-border safeguards. Confirm these against
+actual operations; source inspection cannot establish organisational practices.
+Replace marked text, remove draft banner/noindex when approved, update tests,
+and rerun npm test and npm run check before human publication.
+
+Publication is not performed: repository instructions prohibit Codex production
+deployment. Existing checkout has substantial unrelated uncommitted changes;
+a human must review the actual deployment payload, not blindly deploy it.
+After deployment, verify both URLs return readable HTML without login from an
+unauthenticated browser. Cloudflare edge Access configuration was not inspected
+or changed. Preserve protections for /admin and /api/admin.
+
+Store follow-through: use the published privacy URL in App Store Connect and
+Google Play, and the deletion URL in Play Console where required. Add an easily
+accessible policy link inside the app. Align Apple privacy answers and Google
+Data safety declarations with the actual shipped binary/backend. A policy page
+alone does not establish compliance or replace consent flows. Existing Delete
+account action was located on lead_home_screen.dart; deletion across all roles,
+associated records and providers has NOT been verified by this task.
+
+References reviewed:
+https://developer.apple.com/app-store/review/guidelines/#privacy
+https://support.google.com/googleplay/android-developer/answer/10144311?hl=en
+https://support.google.com/googleplay/android-developer/answer/13327111?hl=en
+https://inforegulator.org.za/popia/
+
+case_id: N/A
+investigation_result: NEEDS_INFORMATION
+investigation_summary: Prepared public HTML privacy and deletion draft routes
+  using inspected PlaySmart and Skoolio implementation; organisational details
+  and publication remain outstanding.
+root_cause: N/A — explicitly requested engineering/content task.
+confidence: High for local routing/tests; policy practices need owner confirmation.
+evidence: Local source inspection; official store policies; test logs at
+  /private/tmp/skoolio-privacy-tests.log and /private/tmp/skoolio-privacy-check.log.
+files_inspected: Skoolio package.json, worker.js, privacy.js, app-support.js,
+  app-support-speech.js, test/helpers.js, test/worker.test.js, scripts/deploy.mjs,
+  scripts/check.mjs, docs/ROLLOUT.md; PlaySmart pubspec.yaml,
+  registration_location_service.dart, identity_api.dart, lead_home_screen.dart;
+  related source searches for collection and permissions.
+files_changed: Skoolio worker.js (public route/import only), privacy-policy.js,
+  test/privacy-policy.test.js, docs/playsmart-privacy-preparation.txt.
+tests_added: Three tests for public no-binding/no-network rendering,
+  HEAD/method handling, and unchanged admin authentication requirements.
+tests_run: node --test test/privacy-policy.test.js; npm test; npm run check.
+test_results: 3 targeted tests passed; 103 total tests passed; check passed.
+branch: engineering/playsmart-privacy-policy
+commit: N/A — not created.
+pull_request: N/A
+risk: Draft contains explicit placeholders; do not publish until finalised.
+  Unrelated changes pre-exist in the Worker checkout. No production access,
+  secret changes, data mutation or deployment performed.
+release_notes: Adds draft /privacy and /account-deletion HTML pages without
+  external assets/scripts, cookies, storage access or provider requests.
+information_needed: Owner confirmations listed above and human publication.

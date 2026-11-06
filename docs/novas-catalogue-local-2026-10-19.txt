@@ -1,0 +1,22 @@
+NOVAS CATALOGUE — SUPER ADMIN LOCAL IMPLEMENTATION — 19 OCTOBER 2026
+case_id: N/A
+investigation_result: N/A — approved engineering task
+investigation_summary: Existing ai.skoolio.co.za/admin Worker extended with protected /admin/novas catalogue and existing-owner API proxy; no parallel admin stack.
+root_cause: Approved platform Family catalogue needed a real owner-facing management screen.
+confidence: High for browser/runtime/tests/local bundle; no live release claimed.
+branch: engineering/moola-admin-awards
+commit: N/A — not created.
+pull_request: N/A — not created.
+Implemented: versioned rewards/perks/learning/custom templates; approved60visuals; explicit review/save; bounded Novas/eligibility/recurrence; mandatory parent fulfilment; inactive/active state; existing Access owner guard; backend fixed origin; strict JSON/route allowlist; same-origin POST; nonce CSP/textContent; responsive phone/desktop. No family wallet/mission grant controls or paid-pack activation. Existing Store/Moola modules unchanged. No new dependency.
+Validation: npm test 114 PASS; npm run check PASS; node scripts/test-nova-browser.mjs real Chrome bundled desktop/phone/XSS/zero-save-review/one-save-confirmation PASS. Whole Worker locally esbuild-bundled and node --check PASS. Synthetic loopback only, no production backend. Three rendered PNGs reviewed. git diff --check PASS.
+files_inspected: worker/admin navigation, owner guard, backend proxy patterns and Nova service.
+files_changed: nova-admin.js, nova-admin-client.js/generated.js, nova-admin-proxy.js, worker.js, admin.js, package.json script, scripts/build-nova-admin.mjs, scripts/check.mjs, scripts/test-nova-browser.mjs, test/nova-admin.test.js; this report.
+tests_added: four Node cases and actual bundled browser harness.
+tests_run: commands above.
+test_results: PASS.
+evidence: /private/tmp/playsmart-novas-phase2-20261019/admin-results.json, admin-tests.log, admin-check.log, admin-browser.log, admin-visuals/, worker-build-result.json.
+risk: backend/config protection must precede owner deployment; current parent-approval debit retained. No configuration/secrets/Access/IAM changed.
+release_notes: Owner Family catalogue management and admin navigation link, no ledger operations.
+information_needed: N/A for local scope; release needs separate review/approval.
+Release order: protect novaCatalogue direct clients -> compatible backend -> Worker -> Flutter. No deploy, commit, push, merge or production write.
+Full report: /Users/jaredcowley/DevLocal/playsmart-family/docs/novas-reward-galaxy-phase2-2026-10-19.txt
