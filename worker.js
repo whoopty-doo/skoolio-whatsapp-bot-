@@ -1,3 +1,4 @@
+export {LearningFactoryCoordinator} from './factory-workspace.generated.js';
 import {novaAdminResponse} from './nova-admin.js';
 import {learningStudioResponse} from './learning-studio.js';
 import {gameStudioResponse} from './game-studio.js';

@@ -1,9 +1,9 @@
 // Add the reviewed Factory source to an exact deployed Worker without replacing
 // independently released Store, Licence Hub, support, or authentication code.
-import {readFileSync, writeFileSync} from 'node:fs';
+import {readFileSync, writeFileSync, copyFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {resolve} from 'node:path';
+import {resolve, dirname, join} from 'node:path';
 import {build} from 'esbuild';
 
 export function overlayLearningFactory(baseline, addition) {
@@ -32,7 +32,11 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const sha = value => createHash('sha256').update(value).digest('hex');
   if (sha(baseline) !== expectedHash) throw Error('Live Worker baseline drift');
   const addition = await build({stdin:{contents:"export {learningStudioResponse} from './learning-studio.js'; export {universalStudioResponse} from './universal-studio.js'; export {gameStudioProxy} from './game-studio-proxy.js';", resolveDir:fileURLToPath(new URL('../', import.meta.url)), sourcefile:'learning-release-entry.js'}, bundle:true, format:'iife', globalName:'LearningFactoryRelease', platform:'browser', target:'es2022', write:false});
-  const candidate = overlayLearningFactory(baseline, addition.outputFiles[0].text);
+  const modulePath=fileURLToPath(new URL('../factory-workspace.generated.js',import.meta.url));
+  const manifest=JSON.parse(readFileSync(new URL('../factory-workspace.manifest.json',import.meta.url),'utf8'));
+  if(sha(readFileSync(modulePath))!==manifest.sha256)throw Error('Hosted workspace artifact drift');
+  const candidate = 'import {LearningFactoryCoordinator} from \"./factory-workspace.generated.js\";\nexport {LearningFactoryCoordinator};\n'+overlayLearningFactory(baseline, addition.outputFiles[0].text);
+  copyFileSync(modulePath,join(dirname(outputPath),'factory-workspace.generated.js'));
   writeFileSync(outputPath, candidate, {mode:0o600, flag:'wx'});
   console.log(JSON.stringify({baselineSha256:expectedHash,candidateSha256:sha(candidate),exactInverse:true,backendGateUnchanged:true}));
 }
