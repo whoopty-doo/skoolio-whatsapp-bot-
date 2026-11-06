@@ -33,7 +33,9 @@ export default {
     return new Response(upstream.body,{status:upstream.status,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Factory-Image-Source':'google'}});
    }catch{return reply({error:'Google image provider unavailable'},502);}
   }
-  if(body.model!==env.OPENAI_MODEL||body.store!==false||body.max_output_tokens!==16384||body.text?.format?.type!=='json_object'||typeof body.input!=='string'||typeof body.instructions!=='string'||Object.keys(body).some(k=>!['model','store','max_output_tokens','text','instructions','input'].includes(k)))return reply({error:'Bounded composition only'},400);
+  const format=body.text?.format;
+  const validFormat=format&&(format.type==='json_object'&&Object.keys(format).length===1||format.type==='json_schema'&&format.name==='klik_composition'&&format.strict===true&&format.schema?.type==='object'&&format.schema.additionalProperties===false&&JSON.stringify(format.schema).length<=100000&&Object.keys(format).every(k=>['type','name','strict','schema'].includes(k)));
+  if(body.model!==env.OPENAI_MODEL||body.store!==false||body.max_output_tokens!==16384||!validFormat||Object.keys(body.text).some(k=>k!=='format')||typeof body.input!=='string'||typeof body.instructions!=='string'||Object.keys(body).some(k=>!['model','store','max_output_tokens','text','instructions','input'].includes(k)))return reply({error:'Bounded composition only'},400);
   try{
    const upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',redirect:'manual',signal:AbortSignal.timeout(180000),headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json','User-Agent':'PlaySmart-Klik-Factory/1.0'},body:JSON.stringify(body)});
    if(upstream.status>=300&&upstream.status<400){await upstream.body?.cancel();return reply({error:'Provider redirect refused'},502);}

@@ -28,6 +28,16 @@ test('redirects, model changes, tool calls and oversized requests never bypass t
  assert.equal(calls,1);
 });
 
+test('native schema requests retain private preview bounds and strict provider format',async t=>{
+ const format={type:'json_schema',name:'klik_composition',strict:true,schema:{type:'object',properties:{title:{type:'string'}},required:['title'],additionalProperties:false}};
+ let calls=0;t.mock.method(globalThis,'fetch',async(_url,options)=>{calls++;assert.deepEqual(JSON.parse(options.body).text.format,format);return Response.json({status:'completed'});});
+ assert.equal((await preview.fetch(request({...body,text:{format}}),env)).status,200);
+ for(const bad of [{...format,strict:false},{...format,name:'unapproved'},{...format,schema:{type:'object',additionalProperties:true}},{...format,schema:{...format.schema,description:'x'.repeat(100001)}}]){
+  assert.equal((await preview.fetch(request({...body,text:{format:bad}}),env)).status,400);
+ }
+ assert.equal(calls,1);
+});
+
 test('Nano Banana uses existing Google secret with private session, fixed model and bounded JPEG request',async t=>{
  const google={...env,FACTORY_NANO_BANANA_ENABLED:'true',GEMINI_API_KEY:'synthetic-google-key',NANO_BANANA_MODEL:'gemini-nano-banana-2.1'};
  const value={model:google.NANO_BANANA_MODEL,store:false,input:[{type:'text',text:'Space cover'}],response_format:{type:'image',mime_type:'image/jpeg',aspect_ratio:'1:1',image_size:'1K'}};
