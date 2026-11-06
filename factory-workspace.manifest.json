@@ -1,5 +1,5 @@
 {
-  "sha256": "09d32a02a3a51f5f0d3517788bdd248074e8d5daaaf1e2cfd36d5f3bc73ddb11",
+  "sha256": "603bc27b9970665f890e75b324ac315c448026c2fd4bf991a7d35652ff653b19",
   "decoder": "jpeg-js@0.4.4",
   "inputs": {
     "../../../node_modules/zod/v3/helpers/util.js": "906ef685e5853d496e293ee8f8a2bb8b1ed2d078a1bcdfedb2dfd61d75b6330c",
@@ -31,12 +31,12 @@
     "src/services/factoryEngineCapabilities.ts": "e41d9cb4174bc03bcd8757a1a07ebac7a7fb635d7e8a05f57ee9ca809e5fba48",
     "src/services/learningFactoryAuthoring.ts": "6ec850dd4e5554ce15778d4aa8e3316387860fe1ef30262db32c019d2fcede23",
     "src/services/learningFactoryComposer.ts": "a76e4a7f06d27f4a537331d2f32bd6478f05a409a51988de1910014c37aed9df",
-    "src/services/learningFactoryOpenAI.ts": "249f43baedf0bdf45ceccc3661d50da7b8d16a22e4f1634a18c6254b2dc9b765",
+    "src/services/learningFactoryOpenAI.ts": "f168ab18e13c263e26bfd72fbc9cb2cf13a82b7dbc2727036098aa8a28ea9c4c",
     "src/services/contentPacks.ts": "29d82457f1f1db0df9579e06beddd5cb8d3b6c086035d8b0c797f6595a296799",
     "src/services/contentPackDelivery.ts": "0fc6390ceca2ffe77a10bf7cf4f011d0520fa2b9464678c7a9c35676309c06c2",
     "src/services/learningFactoryWorkspace.ts": "947cab7e1ac95827dcdfb56f343008902efab6a7582577a2e5f5bb183be94cf2",
     "src/services/factoryImagePipeline.ts": "bd7a3319d2e762d912efb9a206a7b2e4e1ad09875a1fa7ff5ad57b2a8ac77cf0",
-    "src/services/learningFactoryGoogle.ts": "686b7a72ca2903727c9763f64063b47703050792b37541edf33e2ac0910b63d0",
+    "src/services/learningFactoryGoogle.ts": "53c6ea6e81f153307b445f0c8e4978ffe9d5ef0ca73622227a83a24a37915892",
     "src/content/word-power-eight-week-draft.v2.json": "63448ea4352d28d10ed1bce536d8fcf7c427200513839a4f1e2327513b4a8334",
     "src/services/wordPowerProgramme.ts": "2e956c4383b194dc52a66a8cce3163483ab9130ccaf0c240e19fc2d6144f8dbb",
     "src/content/learning-factory-game-proof.json": "17d9b3ebd9a60e0ba1c88f45d269481f2c9fe0c1e7f165b61fc5cd6b21454b4a",
@@ -45,5 +45,5 @@
     "tooling/node_modules/jpeg-js/lib/decoder.js": "a3f175fd6f62d142aad94d3bd90f3a30be4e076baf9b6a6fa31c8e84d9d4aa9f",
     "tooling/node_modules/jpeg-js/index.js": "404574b5cede8905627bff9b05975c0472d50425feb6906b0a55335e6743c4b4"
   },
-  "backendCommit": "f034c017d7946ec7e82ed541ef3016f075262949"
+  "backendCommit": "e113530d5b4628eb3208c6247a3e83a8b6733344"
 }

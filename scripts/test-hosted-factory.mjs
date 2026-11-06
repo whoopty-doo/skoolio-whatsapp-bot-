@@ -8,10 +8,11 @@ import {join,resolve,dirname} from 'node:path';
 const auth=await accessHeaders(),persistent=await mkdtemp(join(tmpdir(),'factory-durable-test-'));
 let artifact=process.argv[2];
 if(!artifact){const root=await mkdtemp(join(tmpdir(),'factory-runtime-artifact-'));artifact=join(root,'worker.mjs');const built=await build({entryPoints:['hosted-worker.js'],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});await writeFile(artifact,built.outputFiles[0].text);await copyFile('factory-workspace.generated.js',join(root,'factory-workspace.generated.js'));}
-const create=()=>new Miniflare(convertV4MiniflareOptions({modulesRoot:resolve(dirname(artifact)),modules:[{type:'ESModule',path:resolve(artifact)},{type:'ESModule',path:resolve(dirname(artifact),'factory-workspace.generated.js')}],compatibilityDate:'2026-09-21',compatibilityFlags:['nodejs_compat'],resourcePersistencePath:persistent,isolatedResourcePersistencePath:persistent,name:'hosted-factory-test',
+let providerCalls=0,imageCalls=0;
+const create=(providers=false)=>new Miniflare(convertV4MiniflareOptions({modulesRoot:resolve(dirname(artifact)),modules:[{type:'ESModule',path:resolve(artifact)},{type:'ESModule',path:resolve(dirname(artifact),'factory-workspace.generated.js')}],compatibilityDate:'2026-09-21',compatibilityFlags:['nodejs_compat'],resourcePersistencePath:persistent,isolatedResourcePersistencePath:persistent,name:'hosted-factory-test',
  kvNamespaces:['NOTES_KV'],durableObjects:{SUPPORT_COORDINATOR:{className:'SupportCoordinator',useSQLite:true},LEARNING_FACTORY_WORKSPACE:{className:'LearningFactoryCoordinator',useSQLite:true}},
- bindings:{...adminConfig,ENVIRONMENT:'production',LEARNING_FACTORY_HOSTED_ENABLED:'true',FACTORY_VISUAL_ENABLED:'true',NANO_BANANA_MODEL:'gemini-nano-banana-2.1',OPENAI_MODEL:'gpt-4o-mini'},
- outboundService:async request=>{if(request.url==='https://team.example.com/cdn-cgi/access/certs')return Response.json({keys:[auth.publicJwk]});throw Error('Unexpected external request '+new URL(request.url).hostname);}
+ bindings:{...adminConfig,...(providers?{OPENAI_API_KEY:'synthetic-provider-key-not-a-credential',GEMINI_API_KEY:'synthetic-google-key-not-a-credential'}:{}),ENVIRONMENT:'production',LEARNING_FACTORY_HOSTED_ENABLED:'true',FACTORY_VISUAL_ENABLED:'true',NANO_BANANA_MODEL:'gemini-nano-banana-2.1',OPENAI_MODEL:'gpt-4o-mini'},
+ outboundService:async request=>{if(request.url==='https://team.example.com/cdn-cgi/access/certs')return Response.json({keys:[auth.publicJwk]});if(request.url==='https://api.openai.com/v1/responses'){providerCalls++;assert.equal(request.headers.get('Authorization'),'Bearer synthetic-provider-key-not-a-credential');const sent=await request.json(),input=JSON.parse(sent.input);return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({schema:'klik-composition',version:1,kind:input.request.kind,body:input.template,assetRequests:[]})}]}]});}if(request.url==='https://generativelanguage.googleapis.com/v1beta/interactions'){imageCalls++;assert.equal(request.headers.get('x-goog-api-key'),'synthetic-google-key-not-a-credential');return Response.json({error:'Fixture quota refusal'},{status:429});}throw Error('Unexpected external request '+new URL(request.url).hostname);}
 }));
 let runtime=create();
 const request=(path,body,headers=auth.headers)=>runtime.dispatchFetch('https://example.com/api/admin/game-studio/learning'+path,{method:body?'POST':'GET',headers:{...headers,Origin:'https://example.com','Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
@@ -29,5 +30,14 @@ try{
  await runtime.dispose();runtime=create();
  const restored=await(await request('/catalogue')).json();const reopened=restored.records.find(r=>r.id===row.id);assert.equal(reopened.editVersion,3);assert.ok(['First edit','Second edit'].includes(reopened.body.title));assert.ok(reopened.validation);
  assert.equal((await request('/revisions/'+row.id)).status,200);
+ await runtime.dispose();runtime=create(true);
+ const composed=await request('/compose',{version:1,action:'create',kind:'game',brief:'Runtime transport regression using a fixture provider response',body:game,levels:1,stages:2});
+ const composedBody=await composed.json();assert.equal(composed.status,200,JSON.stringify(composedBody));assert.equal(providerCalls,1);assert.equal(composedBody.item.status,'DRAFT');
+ const generatedId=composedBody.item.id;
+ const imageResponse=await request('/generate',{scope:{kind:'GLOBAL',tenantId:null},title:'Runtime image transport regression',request:{assetType:'gameCover',world:'planet-echo',styleFamily:'cowlaxy',brief:'Friendly space world illustration',aspectRatio:'1:1',resolution:'1K',transparent:false,referenceAssetIds:[],negativeConstraints:[],modelChoice:'primary'}});
+ assert.equal(imageResponse.status,503);assert.match((await imageResponse.json()).error,/quota/);assert.equal(imageCalls,1);
+ await runtime.dispose();runtime=create(true);
+ assert.ok((await(await request('/catalogue')).json()).records.some(r=>r.id===generatedId));
+ console.log('PASS hosted provider transports: real Worker fetch receiver, fixture OpenAI response saved/reopened, Google quota response handled. No live provider calls.');
  console.log('PASS hosted Worker: verified admin gate, empty workspace starter templates, save, conflicting edits, validate, actual persistent runtime restart/reopen, CSRF rejection, no-key fail-closed.');
 }finally{await runtime.dispose();}
