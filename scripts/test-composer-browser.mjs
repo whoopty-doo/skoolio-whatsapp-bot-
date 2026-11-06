@@ -22,17 +22,19 @@ const workspace=await createLocalLearningWorkspace(undefined,true,true,trustedDe
 }:undefined);
 const output=resolve(process.argv[2]),previewRoot=process.argv[3]?resolve(process.argv[3]):null;
 const previewStatic=previewRoot?require('express').static(previewRoot):null;
-let saved,composerVisible=true;const calls=[],drafts=[];
+let saved,composerVisible=true,providerOverride=null;const calls=[],drafts=[];
 const {mockFactoryImage}=require('./src/services/learningFactoryMockProviders.ts');
 const server=createServer(async(req,res)=>{
  try{
   calls.push(req.method+' '+req.url);let result;
   if(previewStatic&&req.url.startsWith('/factory-preview/')){req.url=req.url.slice('/factory-preview'.length);previewStatic(req,res,()=>{res.writeHead(404);res.end();});return;}
   if(req.url==='/admin/learning-factory'||req.url==='/admin/game-studio?learning=1'){
+   // Force the embedded editor readiness race after fast review/edit actions.
+   if(req.url.includes('?'))await new Promise(resolve=>setTimeout(resolve,200));
    const html=req.url.includes('?')?universalStudioResponse({embedded:true}):learningStudioResponse();res.writeHead(200,Object.fromEntries(html.headers));res.end(await html.text());return;
   }
   if(req.method==='GET'&&['/api/admin/game-studio/games','/api/admin/game-studio/banks','/api/admin/game-studio/compositions','/api/admin/store/scopes'].includes(req.url))result={items:[]};
-  else if(req.url==='/api/admin/game-studio/learning/catalogue'){result=await workspace.catalogue(actor);if(!composerVisible)delete result.composer;}
+  else if(req.url==='/api/admin/game-studio/learning/catalogue'){result=await workspace.catalogue(actor);if(providerOverride)result.composer={...result.composer,providerMode:providerOverride.mode,provider:providerOverride};if(!composerVisible)delete result.composer;}
   else if(req.url.startsWith('/api/admin/game-studio/learning/revisions/'))result=await workspace.revisions(actor,req.url.split('/').pop());
   else if(req.method==='POST'){
    let raw='';for await(const b of req)raw+=b;const body=JSON.parse(raw);
@@ -123,6 +125,24 @@ try {
   assert.equal(await evaluate("document.getElementById('generate-brief').value"),'A reviewed Cowlaxy cover request');
  }
  assert.ok(!calls.some(c=>c.includes('/generate')));
+ // Provider discovery rendering only: no live generation is simulated or claimed.
+ const composeCalls=calls.filter(c=>c==='POST /api/admin/game-studio/learning/compose').length;
+ providerOverride={mode:'unavailable',provider:'openai',message:'Live Klik requires approved server configuration.'};
+ await evaluate("document.querySelector('[data-view=klik]').click()");
+ await wait("document.getElementById('workspace').textContent.includes('Live Klik requires approved server configuration.')");
+ await click('compose-new-skillPack');
+ await wait("document.getElementById('object-title')!==null");
+ assert.equal(await evaluate("document.getElementById('composer-create')===null"),true);
+ await evaluate("document.querySelector('[data-view=skillPack]').click()");
+ await wait("document.getElementById('open-"+drafts[2].row.id+"')!==null");
+ await click('open-'+drafts[2].row.id);
+ await wait("document.getElementById('section-save-details')!==null");
+ assert.equal(await evaluate("document.getElementById('section-regenerate-details')===null"),true);
+ providerOverride={mode:'live',provider:'openai:responses',model:'synthetic-display-only',message:'Server AI configured. Human review required.'};
+ await evaluate("document.querySelector('[data-view=klik]').click()");
+ await wait("document.getElementById('workspace').textContent.includes('openai:responses / synthetic-display-only')");
+ assert.equal(calls.filter(c=>c==='POST /api/admin/game-studio/learning/compose').length,composeCalls);
+ providerOverride=null;
  composerVisible=false;
  await evaluate("document.querySelector('[data-view="+(previewRoot?'skillPack':'drafts')+"]').click()");
  await wait("document.getElementById('open-"+drafts[2].row.id+"')!==null");

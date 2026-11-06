@@ -20,7 +20,7 @@ export async function gameStudioProxy(request, env, fetcher = fetch) {
     body=new Uint8Array(length);let offset=0;for(const c of chunks){body.set(c,offset);offset+=c.length;}
   }
   try {
-    const response=await fetcher(new URL('/v1/game-factory-admin'+suffix,base),{method:request.method,redirect:'manual',signal:AbortSignal.timeout(20000),headers:{'CF-Access-JWT-Assertion':assertion,'Content-Type':'application/json'},body});
+    const response=await fetcher(new URL('/v1/game-factory-admin'+suffix,base),{method:request.method,redirect:'manual',signal:AbortSignal.timeout(suffix==='/learning/compose'?100000:20000),headers:{'CF-Access-JWT-Assertion':assertion,'Content-Type':'application/json'},body});
     if(response.status>=300&&response.status<400 || !response.headers.get('Content-Type')?.startsWith('application/json')) return fail('Unexpected PlaySmart response.',502);
     return new Response(response.body,{status:response.status,headers:{'Content-Type':'application/json','Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});
   } catch { return fail('Game Studio could not connect. Please retry.',502); }
