@@ -15,7 +15,7 @@ export default {
   let body;try{body=JSON.parse(new TextDecoder().decode(joined));}catch{return reply({error:'Invalid JSON'},400);}
   if(body.model!==env.OPENAI_MODEL||body.store!==false||body.max_output_tokens!==16384||body.text?.format?.type!=='json_object'||typeof body.input!=='string'||typeof body.instructions!=='string'||Object.keys(body).some(k=>!['model','store','max_output_tokens','text','instructions','input'].includes(k)))return reply({error:'Bounded composition only'},400);
   try{
-   const upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',redirect:'manual',signal:AbortSignal.timeout(90000),headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json','User-Agent':'PlaySmart-Klik-Factory/1.0'},body:JSON.stringify(body)});
+   const upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',redirect:'manual',signal:AbortSignal.timeout(180000),headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json','User-Agent':'PlaySmart-Klik-Factory/1.0'},body:JSON.stringify(body)});
    if(upstream.status>=300&&upstream.status<400){await upstream.body?.cancel();return reply({error:'Provider redirect refused'},502);}
    return new Response(upstream.body,{status:upstream.status,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Klik-Provider-Request-Id':upstream.headers.get('x-request-id')||'unavailable','X-Klik-Response-Source':'openai'}});
   }catch{return reply({error:'Provider unavailable'},502);}
