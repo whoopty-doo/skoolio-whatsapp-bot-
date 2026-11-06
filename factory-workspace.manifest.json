@@ -1,5 +1,5 @@
 {
-  "sha256": "5076af2c4a068524f49d1921e387891daa63acaf643c818dd29bebbf9284c0e0",
+  "sha256": "de9e3587618b5d4a0f8ebe473db8043e55d57f45095271041696309f817e92cf",
   "decoder": "jpeg-js@0.4.4",
   "inputs": {
     "../../../node_modules/zod/v3/helpers/util.js": "906ef685e5853d496e293ee8f8a2bb8b1ed2d078a1bcdfedb2dfd61d75b6330c",
@@ -32,7 +32,7 @@
     "src/services/learningFactoryAuthoring.ts": "6ec850dd4e5554ce15778d4aa8e3316387860fe1ef30262db32c019d2fcede23",
     "src/services/learningFactoryComposer.ts": "a76e4a7f06d27f4a537331d2f32bd6478f05a409a51988de1910014c37aed9df",
     "src/content/learning-factory-game-proof.json": "17d9b3ebd9a60e0ba1c88f45d269481f2c9fe0c1e7f165b61fc5cd6b21454b4a",
-    "src/services/learningFactoryOpenAI.ts": "c6f9b40317e3e444bf54622f49ec6cd8b18026b14c906c467c012e6661f7d481",
+    "src/services/learningFactoryOpenAI.ts": "5083beded80b0b5d3d335665667540ce6236b8fd61d6c8993f2f752eb94b3688",
     "src/services/contentPacks.ts": "29d82457f1f1db0df9579e06beddd5cb8d3b6c086035d8b0c797f6595a296799",
     "src/services/contentPackDelivery.ts": "0fc6390ceca2ffe77a10bf7cf4f011d0520fa2b9464678c7a9c35676309c06c2",
     "src/services/learningFactoryWorkspace.ts": "947cab7e1ac95827dcdfb56f343008902efab6a7582577a2e5f5bb183be94cf2",
@@ -45,5 +45,5 @@
     "tooling/node_modules/jpeg-js/lib/decoder.js": "a3f175fd6f62d142aad94d3bd90f3a30be4e076baf9b6a6fa31c8e84d9d4aa9f",
     "tooling/node_modules/jpeg-js/index.js": "404574b5cede8905627bff9b05975c0472d50425feb6906b0a55335e6743c4b4"
   },
-  "backendCommit": "f01daca115fb3dcfd53d94fd33baba7ea0fc0257"
+  "backendCommit": "14f9ac1555c131856383ed0c717ad415f93a98f7"
 }
