@@ -14292,9 +14292,9 @@ var OpenAIKlikTransport = class {
       let repair;
       for (let attempt = 0; attempt < 2; attempt++) {
         assertComposerBudget({ ...input, template, repair });
-        const response = await this.fetcher("https://api.openai.com/v1/responses", {
+        const response = await this.fetcher.call(globalThis, "https://api.openai.com/v1/responses", {
           method: "POST",
-          redirect: "error",
+          redirect: "manual",
           signal: controller.signal,
           headers: { Authorization: "Bearer " + this.apiKey, "Content-Type": "application/json", "User-Agent": "PlaySmart-Klik-Factory/1.0" },
           body: JSON.stringify({
@@ -15104,7 +15104,7 @@ var GoogleNanoBananaTransport = class {
     const body = { model: input.model, store: false, input: [{ type: "text", text: prompt }, ...references.map((image) => ({ type: "image", mime_type: "image/png", data: image.png }))], response_format: { type: "image", mime_type: "image/jpeg", aspect_ratio: request.aspectRatio, image_size: request.resolution } };
     const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 18e4);
     try {
-      const response = await this.fetcher("https://generativelanguage.googleapis.com/v1beta/interactions", { method: "POST", redirect: "error", signal: controller.signal, headers: { "x-goog-api-key": this.apiKey, "Api-Revision": "2026-05-20", "Content-Type": "application/json", "User-Agent": "PlaySmart-Factory/1.0" }, body: JSON.stringify(body) });
+      const response = await this.fetcher.call(globalThis, "https://generativelanguage.googleapis.com/v1beta/interactions", { method: "POST", redirect: "manual", signal: controller.signal, headers: { "x-goog-api-key": this.apiKey, "Api-Revision": "2026-05-20", "Content-Type": "application/json", "User-Agent": "PlaySmart-Factory/1.0" }, body: JSON.stringify(body) });
       if (!response.ok) {
         await response.body?.cancel();
         throw new FactoryError([402, 429].includes(response.status) ? 503 : 502, response.status === 401 || response.status === 403 ? "Google image credential or model permission rejected. Check GEMINI_API_KEY and paid model access." : response.status === 402 ? "Google image prepayment credits are depleted. Add credits to this key\u2019s existing project at ai.studio/projects." : response.status === 429 ? "Google image quota or billing limit reached." : "Google image request failed (HTTP " + response.status + "). No asset was saved.");
