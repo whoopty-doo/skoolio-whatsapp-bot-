@@ -14,6 +14,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: npm run test:factory:runtime
       - run: npm run test:runtime
       - run: npm run test:cutover
       - run: npm run test:staging:runtime

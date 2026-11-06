@@ -1,11 +1,14 @@
 import {Miniflare,convertV4MiniflareOptions} from 'miniflare';
 import {accessHeaders,adminConfig} from '../test/helpers.js';
 import assert from 'node:assert/strict';
-import {mkdtemp} from 'node:fs/promises';
+import {mkdtemp,writeFile,copyFile} from 'node:fs/promises';
+import {build} from 'esbuild';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname} from 'node:path';
 const auth=await accessHeaders(),persistent=await mkdtemp(join(tmpdir(),'factory-durable-test-'));
-const create=()=>new Miniflare(convertV4MiniflareOptions({modulesRoot:resolve(dirname(process.argv[2])),modules:[{type:'ESModule',path:resolve(process.argv[2])},{type:'ESModule',path:resolve(dirname(process.argv[2]),'factory-workspace.generated.js')}],compatibilityDate:'2026-09-21',compatibilityFlags:['nodejs_compat'],resourcePersistencePath:persistent,isolatedResourcePersistencePath:persistent,name:'hosted-factory-test',
+let artifact=process.argv[2];
+if(!artifact){const root=await mkdtemp(join(tmpdir(),'factory-runtime-artifact-'));artifact=join(root,'worker.mjs');const built=await build({entryPoints:['hosted-worker.js'],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});await writeFile(artifact,built.outputFiles[0].text);await copyFile('factory-workspace.generated.js',join(root,'factory-workspace.generated.js'));}
+const create=()=>new Miniflare(convertV4MiniflareOptions({modulesRoot:resolve(dirname(artifact)),modules:[{type:'ESModule',path:resolve(artifact)},{type:'ESModule',path:resolve(dirname(artifact),'factory-workspace.generated.js')}],compatibilityDate:'2026-09-21',compatibilityFlags:['nodejs_compat'],resourcePersistencePath:persistent,isolatedResourcePersistencePath:persistent,name:'hosted-factory-test',
  kvNamespaces:['NOTES_KV'],durableObjects:{SUPPORT_COORDINATOR:{className:'SupportCoordinator',useSQLite:true},LEARNING_FACTORY_WORKSPACE:{className:'LearningFactoryCoordinator',useSQLite:true}},
  bindings:{...adminConfig,ENVIRONMENT:'production',LEARNING_FACTORY_HOSTED_ENABLED:'true',FACTORY_VISUAL_ENABLED:'true',NANO_BANANA_MODEL:'gemini-nano-banana-2.1',OPENAI_MODEL:'gpt-4o-mini'},
  outboundService:async request=>{if(request.url==='https://team.example.com/cdn-cgi/access/certs')return Response.json({keys:[auth.publicJwk]});throw Error('Unexpected external request '+new URL(request.url).hostname);}
