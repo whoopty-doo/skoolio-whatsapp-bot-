@@ -20,5 +20,5 @@ export async function learningBrowser(base){
  const click=async id=>{await wait(`document.getElementById(${JSON.stringify(id)})?.disabled===false`);return evaluate(`document.getElementById(${JSON.stringify(id)}).click()`);};
  const set=async(id,value)=>evaluate(`(()=>{const e=document.getElementById(${JSON.stringify(id)});e.value=${JSON.stringify(value)};e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));})()`);
  await send('Emulation.setDeviceMetricsOverride',{width:1400,height:1100,deviceScaleFactor:1,mobile:false});
- return {send,evaluate,wait,click,set,errors,network,async close(){socket.close();browser.kill();await new Promise(r=>browser.once('exit',r));await rm(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}};
+ return {send,evaluate,wait,click,set,errors,network,async close(){socket.close();await new Promise(r=>{if(browser.exitCode!==null||browser.signalCode!==null)return r();const timer=setTimeout(()=>browser.kill('SIGKILL'),5000);browser.once('exit',()=>{clearTimeout(timer);r();});browser.kill();});await rm(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}};
 }
