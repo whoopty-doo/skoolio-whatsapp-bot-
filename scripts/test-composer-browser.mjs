@@ -14,7 +14,12 @@ import {universalStudioResponse} from '../universal-studio.js';
 import {learningStudioResponse} from '../learning-studio.js';
 const require=createRequire(join(process.cwd(),'package.json'));
 const {createLocalLearningWorkspace,syntheticAuthor:actor}=require('./tools/testing/learningFactoryWorkspace.ts');
-const workspace=await createLocalLearningWorkspace(undefined,true,true);
+const trustedDelivery=process.env.FACTORY_BROWSER_TRUSTED_DELIVERY==='true';
+const objects=new Map();
+const workspace=await createLocalLearningWorkspace(undefined,true,true,trustedDelivery?{
+ objects:{read:async h=>objects.get(h),put:async(h,b)=>{if(objects.has(h))assert.deepEqual(objects.get(h),b);else objects.set(h,Buffer.from(b));}},
+ assets:async()=>Buffer.from(mockFactoryImage('browser reviewed art').png,'base64'),
+}:undefined);
 const output=resolve(process.argv[2]),previewRoot=process.argv[3]?resolve(process.argv[3]):null;
 const previewStatic=previewRoot?require('express').static(previewRoot):null;
 let saved,composerVisible=true;const calls=[],drafts=[];
@@ -107,8 +112,9 @@ try {
    const end=Date.now()+15000;while(!saved.preview){if(Date.now()>end)throw Error('Native-source preview acknowledgement missing');await new Promise(r=>setTimeout(r,50));}
    await set('review-note','Explicit synthetic M7 test approval; no educational or live learner approval');
    await click('approve');await wait("document.getElementById('notice').textContent==='Recorded approve.'");
-   await click('publish-test');await wait("document.getElementById('notice').textContent.includes('immutable TEST revision')");
+   if(trustedDelivery){await set('delivery-product','isolated.word-power');await evaluate("document.getElementById('delivery-reviewed').checked=true");await click('publish-pack');}else await click('publish-test');await wait("document.getElementById('notice').textContent.includes('immutable TEST revision')");
    assert.equal(saved.publishedRevision,1);assert.equal(saved.status,'PUBLISHED');
+   if(trustedDelivery){const revision=(await workspace.revisions(actor,saved.id)).items[0];assert.ok(revision.contentPackDelivery);assert.ok(objects.has(revision.contentPackDelivery.binding.manifestDigest));}
   }
   drafts.push({kind,row:saved,preview});
   // Opening a prepared asset request only prefills the existing library workflow.
