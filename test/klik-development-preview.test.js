@@ -30,7 +30,7 @@ test('redirects, model changes, tool calls and oversized requests never bypass t
 
 test('Nano Banana uses existing Google secret with private session, fixed model and bounded JPEG request',async t=>{
  const google={...env,FACTORY_NANO_BANANA_ENABLED:'true',GEMINI_API_KEY:'synthetic-google-key',NANO_BANANA_MODEL:'gemini-nano-banana-2.1'};
- const value={model:google.NANO_BANANA_MODEL,store:false,input:[{type:'text',text:'Space cover'}],response_format:{type:'image',mime_type:'image/jpeg',delivery:'inline',aspect_ratio:'1:1',image_size:'1K'}};
+ const value={model:google.NANO_BANANA_MODEL,store:false,input:[{type:'text',text:'Space cover'}],response_format:{type:'image',mime_type:'image/jpeg',aspect_ratio:'1:1',image_size:'1K'}};
  const req=(body=value,headers={})=>new Request('https://preview.invalid/images',{method:'POST',headers:{Authorization:'Bearer '+env.KLIK_PREVIEW_AUTH,...headers},body:JSON.stringify(body)});
  let calls=0;t.mock.method(globalThis,'fetch',async(url,options)=>{calls++;assert.equal(url,'https://generativelanguage.googleapis.com/v1beta/interactions');assert.equal(options.headers['x-goog-api-key'],google.GEMINI_API_KEY);assert.equal(options.headers['Api-Revision'],'2026-05-20');assert.equal(options.redirect,'manual');assert.ok(!options.body.includes(google.GEMINI_API_KEY));return Response.json({status:'completed',steps:[]});});
  assert.equal((await preview.fetch(req(),google)).status,200);assert.equal(calls,1);
