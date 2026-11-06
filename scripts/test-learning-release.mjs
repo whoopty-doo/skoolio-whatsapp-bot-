@@ -1,10 +1,11 @@
 import {readFileSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {Miniflare, convertV4MiniflareOptions} from 'miniflare';
 import {accessHeaders, adminConfig} from '../test/helpers.js';
 const auth = await accessHeaders();
 const runtime = new Miniflare(convertV4MiniflareOptions({
-  modules:true, script:readFileSync(process.argv[2], 'utf8'), compatibilityDate:'2026-09-21',
+  modulesRoot:resolve(dirname(process.argv[2])),modules:[{type:'ESModule',path:resolve(process.argv[2])},{type:'ESModule',path:resolve(dirname(process.argv[2]),'factory-workspace.generated.js')}], compatibilityDate:'2026-09-21',compatibilityFlags:['nodejs_compat'],
   kvNamespaces:['NOTES_KV'], durableObjects:{SUPPORT_COORDINATOR:{className:'SupportCoordinator',useSQLite:true}},
   bindings:{...adminConfig,ENVIRONMENT:'production',LICENCE_HUB_MANAGEMENT_ENABLED:'true'},
   outboundService:async request => {

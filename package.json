@@ -24,7 +24,8 @@
     "test:media:runtime": "node scripts/media-runtime-smoke.mjs",
     "knowledge:build": "node scripts/knowledge-build.mjs",
     "knowledge:validate": "node scripts/knowledge-build.mjs --validate",
-    "knowledge:check": "node scripts/knowledge-build.mjs --check"
+    "knowledge:check": "node scripts/knowledge-build.mjs --check",
+    "test:factory:runtime": "node scripts/test-hosted-factory.mjs"
   },
   "engines": {
     "node": ">=22"
