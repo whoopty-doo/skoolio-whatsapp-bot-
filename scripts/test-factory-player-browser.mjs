@@ -53,7 +53,7 @@ try{
   const frameDoc="document.getElementById('runtime-preview').contentDocument";
   const hasText=text=>`${frameDoc}.body.innerText.includes(${JSON.stringify(text)})`;
   const press=async text=>{
-   const locate=`(()=>{const frame=document.getElementById('runtime-preview'),nodes=[...frame.contentDocument.querySelectorAll('[role=button],[role=option],flt-semantics')];const node=nodes.find(n=>(n.getAttribute('aria-label')||n.innerText||'').trim()===${JSON.stringify(text)});if(!node)return null;const a=node.getBoundingClientRect(),b=frame.getBoundingClientRect();return {x:b.x+a.x+a.width/2+1,y:b.y+a.y+a.height/2+1};})()`;
+   const locate=`(()=>{const frame=document.getElementById('runtime-preview'),nodes=[...frame.contentDocument.querySelectorAll('[role=button],[role=option]')];const node=nodes.find(n=>(n.getAttribute('aria-label')||n.innerText||'').trim()===${JSON.stringify(text)});if(!node)return null;const a=node.getBoundingClientRect(),b=frame.getBoundingClientRect();return {x:b.x+a.x+a.width/2+1,y:b.y+a.y+a.height/2+1};})()`;
    await wait(`!!${locate}`,10000);const point=await e(locate);assert.ok(point.x>0&&point.x<1400&&point.y>0&&point.y<1100,'Control outside browser viewport: '+text);
    await send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
    await new Promise(r=>setTimeout(r,80));
@@ -77,9 +77,10 @@ try{
   await send('Page.captureScreenshot',{format:'png'}).then(r=>writeFile(join(evidence,row.kind+'.png'),Buffer.from(r.data,'base64')));
   results.push({kind:row.kind,loaded:true,startPauseResume:true,keyboard:row.kind!=='skillPack',stageSwitch:row.kind==='mission'});
  }
+ await send('Runtime.evaluate',{expression:"document.getElementById('runtime-preview').requestFullscreen()",awaitPromise:true,userGesture:true});await wait("document.fullscreenElement?.id==='runtime-preview'");await e("document.exitFullscreen()");
  await writeFile(join(evidence,'browser-errors.json'),JSON.stringify(browser.errors,null,2));
  assert.deepEqual(browser.errors,[]);
  assert.deepEqual([...new Set(browser.network.filter(url=>/^https?:/.test(url)&&!url.startsWith(base+'/')))],[]);
- console.log(JSON.stringify({status:'PASS',results,externalGameplayRequests:0,ownerSession:false}));
+ console.log(JSON.stringify({status:'PASS',results,fullscreen:true,externalGameplayRequests:0,ownerSession:false}));
 }catch(error){if(browser){await writeFile(join(evidence,'failure-state.json'),JSON.stringify(await browser.evaluate("document.getElementById('runtime-preview')?.contentDocument?.body?.innerHTML")));await writeFile(join(evidence,'browser-errors.json'),JSON.stringify(browser.errors,null,2));await browser.send('Page.captureScreenshot',{format:'png'}).then(r=>writeFile(join(evidence,'failure.png'),Buffer.from(r.data,'base64')));}throw error;
 }finally{if(browser)await browser.close();await new Promise(r=>server.close(r));await runtime.dispose();}
