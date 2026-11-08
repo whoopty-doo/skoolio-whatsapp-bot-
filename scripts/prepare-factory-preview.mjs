@@ -15,12 +15,13 @@ assert.equal(original.split(anchor).length,2,'Live entry changed; review before 
 const route='\n      if (url.pathname.startsWith("/factory-preview/")) {\n        if (!await isAdminRequest(request, env)) return jsonResponse({error:"Unauthorized"},401);\n        return factoryPreviewResponse(request, env);\n      }';
 const editorPattern=/  var UNIVERSAL_STUDIO_SCRIPT = .*;\n/g;
 assert.equal([...original.matchAll(editorPattern)].length,1,'Expected one embedded Universal editor');
-const updated='import {factoryPreviewResponse} from "./factory-preview.js";\n'+original.replace(client,()=>`  var LEARNING_STUDIO_SCRIPT = ${JSON.stringify(LEARNING_STUDIO_SCRIPT)};\n`).replace(editorPattern,()=>`  var UNIVERSAL_STUDIO_SCRIPT = ${JSON.stringify(UNIVERSAL_STUDIO_SCRIPT)};\n`).replace(anchor,anchor+route);
+const updated=original.replace(client,()=>`  var LEARNING_STUDIO_SCRIPT = ${JSON.stringify(LEARNING_STUDIO_SCRIPT)};\n`).replace(editorPattern,()=>`  var UNIVERSAL_STUDIO_SCRIPT = ${JSON.stringify(UNIVERSAL_STUDIO_SCRIPT)};\n`).replace(route,route.replace('url.pathname.startsWith("/factory-preview/")','url.pathname.startsWith("/factory-preview/") || url.pathname.startsWith("/api/admin/game-studio/learning/player/")'));
+assert.ok(original.includes(route),'Expected the previously deployed preview route');
 await mkdir(out,{recursive:true});
 await writeFile(join(out,'candidate.mjs'),updated);
 await copyFile('factory-preview.js',join(out,'factory-preview.js'));
 await copyFile(join(baseline,'baseline-factory-workspace.generated.js'),join(out,'factory-workspace.generated.js'));
 const sha=x=>createHash('sha256').update(x).digest('hex');
-const manifest={baseline:sha(original),candidate:sha(updated),changes:['Factory preview asset route behind existing admin authentication','Factory preview loading and fullscreen controls','Embedded editor uses supplied Factory context without legacy catalogue requests'],preservedWorkspace:sha(await readFile(join(out,'factory-workspace.generated.js')))};
+const manifest={baseline:sha(original),candidate:sha(updated),changes:['Serve preview under the existing protected Factory API path','Explicit sign-out and truthful session recovery messages','Embedded editor uses supplied Factory context without legacy catalogue requests'],preservedWorkspace:sha(await readFile(join(out,'factory-workspace.generated.js')))};
 await writeFile(join(out,'source-manifest.json'),JSON.stringify(manifest,null,2));
 console.log(JSON.stringify(manifest));
