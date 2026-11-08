@@ -53,7 +53,7 @@ try{
   const frameDoc="document.getElementById('runtime-preview').contentDocument";
   const hasText=text=>`${frameDoc}.body.innerText.includes(${JSON.stringify(text)})`;
   const press=async text=>{
-   const locate=`(()=>{const frame=document.getElementById('runtime-preview'),nodes=[...frame.contentDocument.querySelectorAll('[role=button],[role=option]')];const node=nodes.find(n=>(n.getAttribute('aria-label')||n.innerText||'').trim()===${JSON.stringify(text)});if(!node)return null;const a=node.getBoundingClientRect(),b=frame.getBoundingClientRect();return {x:b.x+a.x+a.width/2+1,y:b.y+a.y+a.height/2+1};})()`;
+   const locate=`(()=>{const frame=document.getElementById('runtime-preview'),nodes=[...frame.contentDocument.querySelectorAll('[role=button],[role=option],[role=menuitem]')];const node=nodes.find(n=>(n.getAttribute('aria-label')||n.innerText||'').trim()===${JSON.stringify(text)});if(!node)return null;const a=node.getBoundingClientRect(),b=frame.getBoundingClientRect();return {x:b.x+a.x+a.width/2+1,y:b.y+a.y+a.height/2+1};})()`;
    await wait(`!!${locate}`,10000);const point=await e(locate);assert.ok(point.x>0&&point.x<1400&&point.y>0&&point.y<1100,'Control outside browser viewport: '+text);
    await send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
    await new Promise(r=>setTimeout(r,80));
