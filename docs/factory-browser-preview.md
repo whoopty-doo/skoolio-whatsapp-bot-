@@ -14,8 +14,10 @@ source checkouts, credentials or server files as static assets.
 
 The Worker requires a `FACTORY_PREVIEW_ASSETS` assets binding, with
 `run_worker_first: true`, `html_handling: none` and `not_found_handling: none`.
-Every player request goes through the existing Super Admin verification before
-asset serving. Private drafts arrive through the same-origin message bridge.
+The browser loads the player under `/api/admin/game-studio/learning/player/`,
+inside the same protected API path as saved drafts. The server maps these requests
+to the stored `/factory-preview/` assets and rewrites the HTML base path. Every
+player request goes through the existing Super Admin verification before asset serving. Private drafts arrive through the same-origin message bridge.
 
 For a scoped update over a captured live Worker, use
 `node scripts/prepare-factory-preview.mjs BASELINE_DIR RELEASE_DIR`. This checks
@@ -25,3 +27,7 @@ workspace module. It does not deploy. Validate the actual candidate with
 That test uses a loopback server and synthetic admin identity, never production
 accounts. It checks Game, Mission and Skill Pack interaction using the real
 compiled player; it is not native-app or owner-session acceptance.
+
+The Factory header provides Cloudflare Access sign-out. Player access failures
+check the existing catalogue session before suggesting sign-in; recovery opens a
+new tab so the current editor stays available.

@@ -25,7 +25,7 @@ const runtime=new Miniflare(convertV4MiniflareOptions({modulesRoot:release,modul
 const server=createServer(async(req,res)=>{try{
  if(req.url==='/fixture/health'){res.setHeader('Content-Type','application/json');res.end('{"synthetic":true}');return;}
  const chunks=[];for await(const c of req)chunks.push(c);
- const response=await runtime.dispatchFetch('http://127.0.0.1:'+server.address().port+req.url,{method:req.method,headers:{...req.headers,...auth.headers},...chunks.length?{body:Buffer.concat(chunks)}:{}});
+ const response=await runtime.dispatchFetch('http://127.0.0.1:'+server.address().port+req.url,{method:req.method,headers:{...req.headers,...(/^\/(admin(?:\/|$)|api\/admin\/)/.test(req.url)?auth.headers:{})},...chunks.length?{body:Buffer.concat(chunks)}:{}});
  res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
 }catch(error){res.writeHead(500);res.end('Isolated test request failed');console.error(error.message);}});
 let browser;
@@ -43,6 +43,7 @@ try{
  const results=[];
  for(const row of rows){
   await send('Page.navigate',{url:base+'/admin/game-studio'});await wait("document.getElementById('notice')?.textContent.includes('ready for isolated testing')");
+  assert.equal(await e("document.getElementById('factory-signout')?.getAttribute('href')"),'/cdn-cgi/access/logout');
   await click('open-'+row.id);await click('tab-preview');await click('open-preview');
   await wait("document.getElementById('preview-status')?.textContent.startsWith('Ready to play')",90000);
   await wait("!!document.getElementById('runtime-preview').contentDocument.querySelector('flt-glass-pane')",20000);
@@ -80,7 +81,9 @@ try{
  await send('Runtime.evaluate',{expression:"document.getElementById('runtime-preview').requestFullscreen()",awaitPromise:true,userGesture:true});await wait("document.fullscreenElement?.id==='runtime-preview'");await e("document.exitFullscreen()");
  await writeFile(join(evidence,'browser-errors.json'),JSON.stringify(browser.errors,null,2));
  assert.deepEqual(browser.errors,[]);
+ assert.ok(browser.network.some(u=>u.includes('/api/admin/game-studio/learning/player/main.dart.js')));
+ assert.equal(browser.network.filter(u=>u.includes('/factory-preview/')).length,0,'Every browser asset must use the existing protected API path');
  assert.deepEqual([...new Set(browser.network.filter(url=>/^https?:/.test(url)&&!url.startsWith(base+'/')))],[]);
- console.log(JSON.stringify({status:'PASS',results,fullscreen:true,externalGameplayRequests:0,ownerSession:false}));
+ console.log(JSON.stringify({status:'PASS',results,fullscreen:true,scopedApiAuthentication:true,logoutLink:true,externalGameplayRequests:0,ownerSession:false}));
 }catch(error){if(browser){await writeFile(join(evidence,'failure-state.json'),JSON.stringify(await browser.evaluate("document.getElementById('runtime-preview')?.contentDocument?.body?.innerHTML")));await writeFile(join(evidence,'browser-errors.json'),JSON.stringify(browser.errors,null,2));await browser.send('Page.captureScreenshot',{format:'png'}).then(r=>writeFile(join(evidence,'failure.png'),Buffer.from(r.data,'base64')));}throw error;
 }finally{if(browser)await browser.close();await new Promise(r=>server.close(r));await runtime.dispose();}

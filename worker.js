@@ -37,7 +37,7 @@ const worker = {
   async fetch(request, env) {
     try {
       const url = new URL(request.url);
-      if (url.pathname.startsWith('/factory-preview/')) {
+      if (url.pathname.startsWith('/factory-preview/') || url.pathname.startsWith('/api/admin/game-studio/learning/player/')) {
         if (!await isAdminRequest(request, env)) return jsonResponse({error:'Unauthorized'},401);
         return factoryPreviewResponse(request, env);
       }

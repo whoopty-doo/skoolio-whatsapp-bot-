@@ -9,7 +9,7 @@ test('browser player requires the existing verified admin identity before any as
  t.mock.method(globalThis,'fetch',async()=>Response.json({keys:[auth.publicJwk]}));
  let calls=0;
  const env={...adminConfig,FACTORY_PREVIEW_ASSETS:{async fetch(request){calls++;assert.equal(request.headers.get('Cookie'),null);assert.equal(request.headers.get('CF-Access-JWT-Assertion'),null);return new Response('compiled player',{headers:{'Content-Type':'application/javascript'}});}}};
- for(const path of ['/factory-preview/index.html','/factory-preview/main.dart.js','/factory-preview/canvaskit/canvaskit.wasm']){
+ for(const path of ['/factory-preview/index.html','/factory-preview/main.dart.js','/factory-preview/canvaskit/canvaskit.wasm','/api/admin/game-studio/learning/player/index.html','/api/admin/game-studio/learning/player/main.dart.js']){
   assert.equal((await worker.fetch(new Request('https://example.com'+path),env)).status,401);
  }
  assert.equal(calls,0);
@@ -20,6 +20,14 @@ test('browser player requires the existing verified admin identity before any as
  assert.equal(r.headers.get('Content-Type'),'application/javascript');
  assert.equal((await worker.fetch(new Request('https://example.com/factory-preview/main.dart.js',{method:'POST',headers:auth.headers}),env)).status,405);
  assert.equal(calls,1);
+});
+
+test('protected API preview rewrites only the player base and maps assets without forwarding credentials',async()=>{
+ const base='/api/admin/game-studio/learning/player/';
+ const env={FACTORY_PREVIEW_ASSETS:{async fetch(r){assert.equal(r.headers.get('CF-Access-JWT-Assertion'),null);assert.equal(r.headers.get('Cookie'),null);assert.equal(new URL(r.url).pathname,'/factory-preview/index.html');return new Response('<html><base href="/factory-preview/"><script src="flutter_bootstrap.js"></script></html>',{headers:{'Content-Type':'text/html',ETag:'old-build','Content-Length':'12'}});}}};
+ const response=await factoryPreviewResponse(new Request('https://example.com'+base+'index.html',{headers:{Cookie:'synthetic','CF-Access-JWT-Assertion':'synthetic'}}),env);
+ assert.equal(response.status,200);assert.equal(response.headers.get('ETag'),null);assert.equal(response.headers.get('Content-Length'),null);
+ const text=await response.text();assert.ok(text.includes('<base href="'+base+'">'));assert.ok(text.includes('src="flutter_bootstrap.js"'));assert.ok(!text.includes('<base href="/factory-preview/">'));
 });
 
 test('player fails visibly without assets and preserves missing-file status and HEAD semantics',async()=>{
