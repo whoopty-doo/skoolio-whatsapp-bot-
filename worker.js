@@ -1,5 +1,6 @@
 import {novaAdminResponse} from './nova-admin.js';
 import {learningStudioResponse} from './learning-studio.js';
+import {factoryPreviewResponse} from './factory-preview.js';
 import {gameStudioResponse} from './game-studio.js';
 import {universalStudioResponse} from './universal-studio.js';
 import {gameStudioProxy} from './game-studio-proxy.js';
@@ -36,6 +37,10 @@ const worker = {
   async fetch(request, env) {
     try {
       const url = new URL(request.url);
+      if (url.pathname.startsWith('/factory-preview/')) {
+        if (!await isAdminRequest(request, env)) return jsonResponse({error:'Unauthorized'},401);
+        return factoryPreviewResponse(request, env);
+      }
       if (['/privacy', '/privacy/', '/account-deletion', '/account-deletion/'].includes(url.pathname)) return privacyPage(request);
       if (url.pathname === '/health' && request.method === 'GET') return jsonResponse({ ok: true, service: 'skoolio-whatsapp-bot', aiConfigured: Boolean(env.OPENAI_API_KEY), writesConfigured: Boolean(env.SUPPORT_COORDINATOR) });
       const admin = url.pathname === '/admin/learning-factory' || url.pathname === '/admin/game-studio' || url.pathname === '/admin/novas' || url.pathname === '/admin/moola' || url.pathname === '/admin/store' || url.pathname === '/admin' || url.pathname === '/admin/' || url.pathname === '/admin/activate' || url.pathname === '/admin/rehearsal' || url.pathname.startsWith('/api/admin/');
