@@ -1,5 +1,5 @@
 {
-  "sha256": "996d0cdd0df714d5c0515938a572e5e0612d9a5a72879e8bc35eb6e9503fd3c6",
+  "sha256": "9a98760a6467881bfe75b2c4dc21e0b01f8bd99da9d1162302e0b7bd0d146372",
   "decoder": "jpeg-js@0.4.4",
   "inputs": {
     "../../../node_modules/zod/v3/helpers/util.js": "906ef685e5853d496e293ee8f8a2bb8b1ed2d078a1bcdfedb2dfd61d75b6330c",
@@ -25,12 +25,13 @@
     "src/services/universalFactoryCatalogue.json": "4b7f085ab9491e90430b76427d91d9855d89b14fb50a1203e58b45ea3ac72140",
     "src/services/universalFactory.ts": "e3f4bee0f605ac1907c4db6e7d130f245e9fe8df5dee2b70dac96117c44cd5eb",
     "src/services/gameFactory.ts": "e7ebb9972408d59b40495b351d01153051c37be64eaf0cdac17f1a41df9f7702",
+    "src/services/learningFactoryElevenLabs.ts": "d55b5249ff128a5bcb7c7e972de6cf4c7fe041e9da25d2af51814f421fe8584b",
     "src/content/word-power-01-pilot.v2.json": "70bdeb5bbc8dca00374128228f0e83815c332e50cc8f6716823f5b7dd9e79722",
     "src/services/learningFactoryContract.ts": "06b3a6e4879e35dc9b258b0ef74a05d07dc9342ef78b6a914126988d93f8dc4c",
     "src/services/factoryLibrary.ts": "1e3454246aafc1baeb4de807db89afe4907b334ec9d56f1f65e85c2c05dae0ee",
     "src/services/factoryEngineCapabilities.ts": "e41d9cb4174bc03bcd8757a1a07ebac7a7fb635d7e8a05f57ee9ca809e5fba48",
     "src/services/learningFactoryAuthoring.ts": "6ec850dd4e5554ce15778d4aa8e3316387860fe1ef30262db32c019d2fcede23",
-    "src/services/learningFactoryComposer.ts": "0585b230381bc10947b026eb9bae032d26380a063d63b0d293170960322e8438",
+    "src/services/learningFactoryComposer.ts": "13e19c66686bd831f3a84f83c3b7010a71569a3d06eaad62924eaa38b793aa96",
     "../../../node_modules/zod-to-json-schema/dist/esm/Options.js": "11bfc58fbf69f3044798d1871b10d1c11951bb51c1a35636ebfcad9c04c0a950",
     "../../../node_modules/zod-to-json-schema/dist/esm/Refs.js": "cefaaa074df0750b62ae164cfe77818eb86ff54d220d9ae39da323af6bd8c845",
     "../../../node_modules/zod-to-json-schema/dist/esm/errorMessages.js": "7ea991477cf69f1f096db2ebf1148cb1dfa3e2e25253cf6f15da3ab5cdbfa40c",
@@ -73,19 +74,20 @@
     "../../../node_modules/zod-to-json-schema/dist/esm/index.js": "449babe88138e129aef94c1696b527898f9e13ab62bce129daee0e85266e48a7",
     "src/services/learningFactoryProviderSchema.ts": "aad33431e2a963701ac11b22cbb08fc01b9a0c64f4316a968b3b56f21d1863d6",
     "src/content/learning-factory-game-proof.json": "17d9b3ebd9a60e0ba1c88f45d269481f2c9fe0c1e7f165b61fc5cd6b21454b4a",
-    "src/services/learningFactoryMissionPlan.ts": "9588d029ef767579f29bdda3881828ae8917cb0a24400252263a448f79578464",
-    "src/services/learningFactoryOpenAI.ts": "71d628d90657d2be28af048ff0164bcafd408da2115abf9e647cb1d72f50ae54",
+    "src/services/learningFactoryMissionPlan.ts": "609aacb35f242177e116374b193c30ac67b99da792f63485c85fe162b4553580",
+    "src/services/learningFactoryLessonPlan.ts": "31347086113a06db83be55919639e52e142b6a638019fe71bb663b6a8aad9f50",
+    "src/services/learningFactoryOpenAI.ts": "553fa6a63c815d60c83055e1c463f576d67e648320f9d3854ad61b4bc4605c96",
     "src/services/contentPacks.ts": "29d82457f1f1db0df9579e06beddd5cb8d3b6c086035d8b0c797f6595a296799",
     "src/services/contentPackDelivery.ts": "0fc6390ceca2ffe77a10bf7cf4f011d0520fa2b9464678c7a9c35676309c06c2",
-    "src/services/learningFactoryWorkspace.ts": "792042c6553f070ea882838bd83ec277cf2abed0854a13426f709db34c7682fd",
+    "src/services/learningFactoryWorkspace.ts": "1fe6cbd73ebe26672ae621c5d13b964537cb300e97d2f677036b2bd923f6b216",
     "src/services/factoryImagePipeline.ts": "bd7a3319d2e762d912efb9a206a7b2e4e1ad09875a1fa7ff5ad57b2a8ac77cf0",
     "src/services/learningFactoryGoogle.ts": "53c6ea6e81f153307b445f0c8e4978ffe9d5ef0ca73622227a83a24a37915892",
     "src/content/word-power-eight-week-draft.v2.json": "63448ea4352d28d10ed1bce536d8fcf7c427200513839a4f1e2327513b4a8334",
     "src/services/wordPowerProgramme.ts": "2e956c4383b194dc52a66a8cce3163483ab9130ccaf0c240e19fc2d6144f8dbb",
-    "src/runtime/hostedLearningFactory.ts": "9ae80e1fd4e642a9e139f878e191dffa5c1c06fe6f2905cf9ce115d26e433930",
+    "src/runtime/hostedLearningFactory.ts": "5594bcfcb5b61d309d815eb7e2472f05423c0add0f577bcff51ad93c16b44c80",
     "tooling/node_modules/jpeg-js/lib/encoder.js": "00bde8df2517eca556669ab6fc27b414e9ba3fc52a0a71e1e37ec7c5f19c3d34",
     "tooling/node_modules/jpeg-js/lib/decoder.js": "a3f175fd6f62d142aad94d3bd90f3a30be4e076baf9b6a6fa31c8e84d9d4aa9f",
     "tooling/node_modules/jpeg-js/index.js": "404574b5cede8905627bff9b05975c0472d50425feb6906b0a55335e6743c4b4"
   },
-  "backendCommit": "2406e7921e8311b68fd0d86fb016383b1b4b1139"
+  "backendCommit": "d2ec2aa4a951696b671d475271a6ee7d937c892d"
 }

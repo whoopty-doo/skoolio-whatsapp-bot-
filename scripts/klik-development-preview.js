@@ -5,8 +5,17 @@ export default {
   if(env.ENVIRONMENT!=='development'||env.FACTORY_KLIK_AI_ENABLED!=='true')return reply({error:'Development preview is disabled'},503);
   const url=new URL(request.url);
   if(!env.KLIK_PREVIEW_AUTH||request.headers.get('Authorization')!=='Bearer '+env.KLIK_PREVIEW_AUTH)return reply({error:'Unauthorized'},401);
-  if(request.method==='GET'&&url.pathname==='/health')return reply({aiConfigured:!!env.OPENAI_API_KEY,model:env.OPENAI_MODEL,temporaryPreview:true});
+  if(request.method==='GET'&&url.pathname==='/health')return reply({aiConfigured:!!env.OPENAI_API_KEY,model:env.OPENAI_MODEL,audioConfigured:!!env.TINA_ELEVENLABS_API_KEY&&!!env.TINA_ELEVENLABS_VOICE_ID,temporaryPreview:true});
   if(request.headers.has('Origin'))return reply({error:'Not found'},404);
+  if(request.method==='POST'&&['/voice','/sound'].includes(url.pathname)){
+   if(!env.TINA_ELEVENLABS_API_KEY||!env.TINA_ELEVENLABS_VOICE_ID)return reply({error:'Existing audio bindings unavailable'},503);
+   const text=await request.text();if(text.length>1000)return reply({error:'Too large'},413);let body;try{body=JSON.parse(text);}catch{return reply({error:'Invalid JSON'},400);}
+   const voice=url.pathname==='/voice';
+   if(typeof body.text!=='string'||body.text.length<2||body.text.length>180||body.model_id!==(voice?'eleven_v3':'eleven_text_to_sound_v2')||Object.keys(body).some(k=>!(voice?['text','language_code','model_id','voice_settings']:['text','duration_seconds','loop','model_id','prompt_influence']).includes(k))||voice&&!['en','af'].includes(body.language_code)||!voice&&(!(body.duration_seconds>=.5&&body.duration_seconds<=4)||body.loop!==false))return reply({error:'Bounded audio only'},400);
+   const endpoint=voice?'text-to-speech/'+encodeURIComponent(env.TINA_ELEVENLABS_VOICE_ID):'sound-generation';
+   const upstream=await fetch('https://api.elevenlabs.io/v1/'+endpoint+'?output_format='+(!voice&&url.searchParams.get('format')==='wav_16000'?'wav_16000':'pcm_16000'),{method:'POST',redirect:'manual',signal:AbortSignal.timeout(90000),headers:{'xi-api-key':env.TINA_ELEVENLABS_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
+   return new Response(upstream.body,{status:upstream.status,headers:{'Content-Type':upstream.ok?'application/octet-stream':'application/json','Cache-Control':'no-store','X-Factory-Audio-Source':'elevenlabs'}});
+  }
   const google=url.pathname==='/images'||url.pathname==='/image-health'||url.pathname==='/image-model';
   if(google){
    if(env.FACTORY_NANO_BANANA_ENABLED!=='true')return reply({error:'Image preview is disabled'},503);
