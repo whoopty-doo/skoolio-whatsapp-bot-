@@ -9,7 +9,7 @@ test('preview requires development opt-in and private session; health never expo
  assert.equal((await preview.fetch(request(),{...env,FACTORY_KLIK_AI_ENABLED:'false'})).status,503);
  assert.equal((await preview.fetch(request(body,{Authorization:'Bearer foreign'}),env)).status,401);
  const health=await preview.fetch(new Request('https://preview.invalid/health',{headers:{Authorization:'Bearer '+env.KLIK_PREVIEW_AUTH}}),env);
- assert.deepEqual(await health.json(),{aiConfigured:true,model:env.OPENAI_MODEL,temporaryPreview:true});
+ assert.deepEqual(await health.json(),{aiConfigured:true,model:env.OPENAI_MODEL,audioConfigured:false,temporaryPreview:true});
  assert.equal((await preview.fetch(request(body,{Origin:'https://foreign.invalid'}),env)).status,404);
 });
 test('edge fetch uses supported redirect mode, application identity and existing secret; preserves upstream error classification',async t=>{
@@ -49,4 +49,21 @@ test('Nano Banana uses existing Google secret with private session, fixed model 
  assert.equal((await preview.fetch(req(),{...google,FACTORY_NANO_BANANA_ENABLED:'false'})).status,503);
  assert.equal(calls,1);
  const health=await preview.fetch(new Request('https://preview.invalid/image-health',{headers:{Authorization:'Bearer '+env.KLIK_PREVIEW_AUTH}}),google);const text=await health.text();assert.ok(!text.includes(google.GEMINI_API_KEY));assert.equal(JSON.parse(text).aiConfigured,true);
+});
+
+test('audio preview keeps the approved voice and sound format server-side and rejects expanded requests',async t=>{
+ const audio={...env,TINA_ELEVENLABS_API_KEY:'synthetic-audio-key',TINA_ELEVENLABS_VOICE_ID:'approved-tina'};
+ const sound={text:'A soft chime.',duration_seconds:1,loop:false,model_id:'eleven_text_to_sound_v2',prompt_influence:.3};
+ const voice={text:'Find the sun.',language_code:'en',model_id:'eleven_v3',voice_settings:{stability:.5,similarity_boost:.75}};
+ const req=(path,body,headers={})=>new Request('https://preview.invalid'+path,{method:'POST',headers:{Authorization:'Bearer '+env.KLIK_PREVIEW_AUTH,...headers},body:JSON.stringify(body)});
+ const calls=[];t.mock.method(globalThis,'fetch',async(url,options)=>{calls.push(url);assert.equal(options.headers['xi-api-key'],audio.TINA_ELEVENLABS_API_KEY);assert.equal(options.redirect,'manual');assert.ok(!options.body.includes(audio.TINA_ELEVENLABS_API_KEY));return new Response(new Uint8Array([0,0]));});
+ assert.equal((await preview.fetch(req('/sound?format=wav_16000',sound),audio)).status,200);
+ assert.equal((await preview.fetch(req('/voice',voice),audio)).status,200);
+ assert.deepEqual(calls,['https://api.elevenlabs.io/v1/sound-generation?output_format=wav_16000','https://api.elevenlabs.io/v1/text-to-speech/approved-tina?output_format=pcm_16000']);
+ for(const bad of [{...sound,duration_seconds:30},{...sound,voice_id:'foreign'},{...sound,loop:true},{...sound,model_id:'unapproved'}])assert.equal((await preview.fetch(req('/sound',bad),audio)).status,400);
+ assert.equal((await preview.fetch(req('/voice',{...voice,language_code:'unknown'}),audio)).status,400);
+ assert.equal((await preview.fetch(req('/sound',sound,{Authorization:'Bearer foreign'}),audio)).status,401);
+ assert.equal((await preview.fetch(req('/sound',sound,{Origin:'https://foreign.invalid'}),audio)).status,404);
+ assert.equal((await preview.fetch(req('/sound',sound),env)).status,503);
+ assert.equal(calls.length,2);
 });
