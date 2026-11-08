@@ -1,7 +1,7 @@
 export function learningStudioApp(){
  const $=id=>document.getElementById(id),root=$('workspace'),clone=x=>JSON.parse(JSON.stringify(x));
  let catalogue,selected=null,draft=null,view='dashboard',tab='details',busy=false,gameFrame=null,previewFrame=null,previewBundle=null,missionEditIndex=0,pendingAssetRequest=null,previewTimer=null;
- const pending=new Map(),klikBriefs=new Map();
+ const pending=new Map(),klikBriefs=new Map(),audioBriefs=new Map();
  let flowStep=0,flowLevel=0,flowWeek=0,flowStage=0,flowPath='spelling',flowBrief='',flowMedia='art',flowMediaTarget='cover',flowCandidate=null,flowUndo=null,flowLastKind=null;
  const flowSteps=['Blueprint','Learning','Scene & audio','Progression','Play','Review'];
  const el=(tag,text,attrs={})=>{const node=document.createElement(tag);if(text!=null)node.textContent=text;for(const [key,value]of Object.entries(attrs))node.setAttribute(key,value);return node;};
@@ -10,10 +10,11 @@ export function learningStudioApp(){
  const notice=(text,error=false)=>{$('notice').textContent=text;$('notice').classList.toggle('error',error);};
  const button=(text,fn,id,primary=false)=>{const b=el('button',text,{type:'button',...id?{id}:{},...primary?{class:'primary'}:{}});b.run=fn;b.onclick=()=>guard(fn);return b;};
  function klikRequest(parent,input,label,run,id){
+  const audio=id==='flow-generate-audio',minimum=audio?1:3;
   const hint=el('p',null,{id:input.id+'-hint',class:'muted',role:'status'});
-  input.required=true;input.minLength=3;input.setAttribute('aria-describedby',hint.id);
-  const submit=button(label,()=>{const brief=input.value.trim();if(brief.length<3){input.focus();throw Error('Tell Klik what to create. Enter at least 3 characters, or use the activity instructions.');}return run(brief);},id,true);
-  const update=()=>{const valid=input.value.trim().length>=3;submit.disabled=!valid||input.disabled;input.setAttribute('aria-invalid',String(input.value.length>0&&!valid));hint.textContent=valid?'Ready to generate. Your request stays editable.':'Tell Klik what to create (at least 3 characters). The example text is a suggestion.';};
+  input.required=true;input.minLength=minimum;input.setAttribute('aria-describedby',hint.id);
+  const submit=button(label,()=>{const brief=input.value.trim();if(brief.length<minimum){input.focus();throw Error(audio?'Enter the words or sound to generate.':'Tell Klik what to create. Enter at least 3 characters, or use the activity instructions.');}return run(brief);},id,true);
+  const update=()=>{const valid=input.value.trim().length>=minimum;submit.disabled=!valid||input.disabled;input.setAttribute('aria-invalid',String(input.value.length>0&&!valid));hint.textContent=valid?'Ready to generate. Your request stays editable.':audio?'Enter the words or sound to generate. The example text is a suggestion.':'Tell Klik what to create (at least 3 characters). The example text is a suggestion.';};
   submit.refreshDisabled=update;input.addEventListener('input',update);input.addEventListener('change',update);parent.append(hint,submit);update();return submit;
  }
  function field(parent,label,value,change,id,type='text'){const l=el('label',label),i=el(type==='textarea'?'textarea':'input',null,{id,...type!=='textarea'?{type}:{},maxlength:'4000'});i.value=value??'';i.oninput=()=>change(type==='number'?Number(i.value):i.value);l.append(i);parent.append(l);return i;}
@@ -157,7 +158,15 @@ export function learningStudioApp(){
  function flowActivity(){const stage=flowMission()?.stages[flowStage];return draft.definition.v2?.games.find(g=>g.id===stage?.game);}
  function flowConfig(){return flowGame()?.levels[flowLevel]?.config;}
  function flowMarkDirty(){const n=$('flow-save-state');if(n)n.textContent='Unsaved changes';}
- async function flowSave(){await syncGame();if(!selected.id||JSON.stringify(draft)!==JSON.stringify(selected.body))await save();}
+ function flowPruneAudio(){
+  const audio=draft.definition?.audio,v=draft.definition?.v2;if(!audio||!v)return;
+  audio.stages=audio.stages.filter(b=>{const stage=v.missions.find(m=>m.id===b.mission)?.stages.find(s=>s.id===b.stage),game=v.games.find(g=>g.id===stage?.game);if(!stage)return false;
+   if(b.instruction&&b.instructionText!==(stage.kind==='teaching'?stage.text:game?.content.instruction)){b.instruction=null;b.instructionText='';}
+   for(const id of Object.keys(b.items))if(b.itemTexts[id]!==game?.content.items.find(i=>i.id===id)?.prompt){delete b.items[id];delete b.itemTexts[id];}
+   return !!b.instruction||Object.keys(b.items).length||Object.keys(b.effects).length;
+  });if(!audio.stages.length)delete draft.definition.audio;
+ }
+ async function flowSave(){await syncGame();flowPruneAudio();if(!selected.id||JSON.stringify(draft)!==JSON.stringify(selected.body))await save();}
  async function flowGo(index){await flowSave();flowStep=index;tab=index===4?'preview':'details';render();$('flow-heading')?.focus();}
  function flowRemember(row){const i=catalogue.records.findIndex(r=>r.id===row.id);if(i<0)catalogue.records.push(row);else catalogue.records[i]=row;}
  function flowNative(parent,step){gameFrame=el('iframe',null,{id:'game-editor-frame',src:'/admin/game-studio?learning=1',title:'Edit '+(flowGame()?.engine||'native')+' '+(step===0?'engine':step===1?'learning content':step===2?'scene':'difficulty'),class:'guided-native guided-native-'+step});parent.append(gameFrame);}
@@ -171,7 +180,7 @@ export function learningStudioApp(){
   if(flowStep===0)flowBlueprint(body);else if(flowStep===1)flowLearning(body);else if(flowStep===2)flowScene(body);else if(flowStep===3)flowProgression(body);else if(flowStep===4){
    const before=[...root.children];previewPanel();for(const n of [...root.children].filter(n=>!before.includes(n)))body.append(n);
    const open=$('open-preview'),play=open.run;open.textContent='▶ Save & play this draft';
-   open.onclick=()=>guard(async()=>{notice('Preparing the playable draft…');await flowSave();if(!selected.validation)update((await api('objects',{id:selected.id,expectedVersion:selected.editVersion,action:'validate'})).item);if(selected.composer&&['DRAFT','GENERATED'].includes(selected.status))update((await api('objects',{id:selected.id,expectedVersion:selected.editVersion,action:'review'})).item);await play();});
+   open.onclick=()=>guard(async()=>{notice('Preparing the playable draft…');await flowSave();if(!selected.validation)update((await api('objects',{id:selected.id,expectedVersion:selected.editVersion,action:'validate'})).item);if(['DRAFT','GENERATED'].includes(selected.status))update((await api('objects',{id:selected.id,expectedVersion:selected.editVersion,action:'review'})).item);await play();});
   }
   else flowReview(body);
   const bottom=el('div',null,{class:'flow-bottom'});if(flowStep)bottom.append(button('← '+flowSteps[flowStep-1],()=>flowGo(flowStep-1),'flow-back'));if(flowStep<5)bottom.append(button(flowSteps[flowStep+1]+' →',()=>flowGo(flowStep+1),'flow-next',true));body.append(bottom);
@@ -279,6 +288,7 @@ export function learningStudioApp(){
   const tabs=el('div',null,{class:'row'});for(const [id,label]of [['art','Artwork · Nano Banana'],['audio','Voice & sound · ElevenLabs'],['library','Approved library']]){const b=button(label,async()=>{await syncGame();flowMedia=id;render();},'flow-media-'+id);b.setAttribute('aria-pressed',String(flowMedia===id));tabs.append(b);}box.append(tabs);
   if(flowMedia==='art')flowArtForm(box);else if(flowMedia==='audio')flowAudioForm(box);else flowLibrary(box);
   if(flowCandidate)flowCandidateReview(box);
+  if(selected.kind==='skillPack')flowAttachedAudio(box);
   if(flowGame())flowNative(parent,2);else{const world=section('World & cover',parent);libraryPicker(world,'Approved world','world',draft.world,v=>draft.world=v,'world-select');libraryPicker(world,'Cover','asset',draft.cover,v=>draft.cover=v,'cover-select');world.append(el('p','Skill Pack activities use the selected world backdrop. Their installed engine controls determine which scene features are available.'));}
  }
  function flowArtForm(parent){
@@ -289,15 +299,36 @@ export function learningStudioApp(){
   parent.append(button('Generate artwork',async()=>{await flowSave();notice('Nano Banana is creating the artwork…');flowCandidate=(await api('generate',{title:(draft.title+' '+type).slice(0,120),scope:draft.scope,reuseApproved:true,request:{assetType:type,world:flowGame()?.world||'planet-echo',styleFamily:'cowlaxy',brief:brief.value,aspectRatio:type==='background'?'16:9':'1:1',resolution:'1K',transparent:false,referenceAssetIds:picked,negativeConstraints:['No text or watermarks','Clear foreground/background contrast','Preserve approved character identities'],modelChoice:'primary'}})).item;flowRemember(flowCandidate);render();notice('Artwork ready for your review.');},'flow-generate-art',true));
   parent.append(el('small',(status?.message||'')+' Select identity references for Tina, Klik or Brumble. Transparent sprites use reviewed PNG uploads.',{class:'muted'}));
  }
+ function flowSkillAudio(create=false){
+  const mission=flowMission(),stage=mission?.stages[flowStage];if(!stage)return null;
+  let audio=draft.definition.audio;if(!audio&&create)audio=draft.definition.audio={version:1,stages:[]};
+  let binding=audio?.stages.find(a=>a.mission===mission.id&&a.stage===stage.id);
+  if(!binding&&create){binding={mission:mission.id,stage:stage.id,instruction:null,instructionText:'',items:{},itemTexts:{},effects:{}};audio.stages.push(binding);}return binding;
+ }
+ function flowSkillAudioTargets(kind){
+  if(!catalogue.skillPackAudio)return [];
+  const game=flowActivity();return kind==='soundEffect'?(game?[['effect:correct','Correct answer'],['effect:incorrect','Try again'],['effect:complete','Activity complete']]:[]):[['prompt','Teaching / activity instructions'],...(game?.content.items||[]).map(i=>['item:'+i.id,'Question: '+i.prompt])];
+ }
+ function flowAttachedAudio(parent){
+  if(selected.kind!=='skillPack')return;const binding=flowSkillAudio();
+  const box=el('section',null,{class:'panel',id:'flow-attached-audio'});box.append(el('h3','Audio for this activity'));
+  const slots=binding?[...(binding.instruction?[['prompt','Instructions',binding.instruction]]:[]),...Object.entries(binding.items).map(([id,r])=>['item:'+id,'Question: '+(flowActivity()?.content.items.find(i=>i.id===id)?.prompt||id),r]),...Object.entries(binding.effects).map(([event,r])=>['effect:'+event,({correct:'Correct answer',incorrect:'Try again',complete:'Activity complete'})[event],r])]:[];
+  if(!slots.length)box.append(el('p','No audio attached yet. Generate a clip or choose one from the approved library.'));
+  for(const [slot,label,reference]of slots){const row=catalogue.records.find(r=>r.id===reference.id),body=row?.publishedBody||row?.body,card=el('div',null,{class:'media-card'});card.append(el('strong',label),el('span',body?.title||reference.id));if(body?.definition.audio)card.append(el('audio',null,{controls:'',preload:'none',src:'data:audio/wav;base64,'+body.definition.audio.wav}));card.append(button('Remove from activity',async()=>{if(slot==='prompt'){binding.instruction=null;binding.instructionText='';}else if(slot.startsWith('item:')){delete binding.items[slot.slice(5)];delete binding.itemTexts[slot.slice(5)];}else delete binding.effects[slot.slice(7)];await flowSave();render();notice('Audio removed from this activity. The library clip is preserved.');},'flow-remove-audio-'+slot));box.append(card);}
+  box.append(el('p','To replace a clip, attach another approved clip to the same slot. Listening during a question is recorded as support.',{class:'capability-note'}));parent.append(box);
+ }
  function flowAudioForm(parent){
-  let kind='narration',language=draft.language==='af'?'af':'en',seconds=2;
-  select(parent,'Create',[['narration','Tina narration'],['soundEffect','Sound effect']],kind,v=>kind=v,'flow-audio-kind');
-  select(parent,'Language',[['en','English'],['af','Afrikaans'],['neutral','Sound effect · no language']],language,v=>language=v,'flow-audio-language');
-  const text=field(parent,'Words to speak / sound to describe','',()=>{},'flow-audio-text','textarea');text.maxLength=180;text.placeholder='Find the letters that spell cat.';
-  const n=field(parent,'Sound effect length (seconds)',seconds,v=>seconds=v,'flow-audio-seconds','number');n.min=.5;n.max=4;n.step=.5;
-  parent.append(button('Generate audio',async()=>{await flowSave();notice('ElevenLabs is generating the clip…');flowCandidate=(await api('generate-audio',{scope:draft.scope,title:(draft.title+' '+kind).slice(0,120),request:{kind,text:text.value,language:kind==='soundEffect'?'neutral':language,seconds}})).item;flowRemember(flowCandidate);render();notice('Audio ready. Listen before approving.');},'flow-generate-audio',true),el('small',catalogue.audioProvider?.message||'Existing server audio binding required.',{class:'muted'}));
-  if(!flowGame())parent.append(el('p','This Skill Pack runtime supports local feedback, but not authored narration or sound effects. Generated clips can be reviewed and saved in the library for Game and Mission activities.',{class:'capability-note'}));
-  else parent.append(el('p','Attach clips to the instruction or a learning item. Generate both English and Afrikaans for narration. Sound effects can use one language-neutral clip. Native limits: eight seconds per clip, 240 KB per level.',{class:'capability-note'}));
+  const pack=selected.kind==='skillPack',key=(selected.id||'new')+':'+(pack?flowMission()?.id+':'+flowStage:flowLevel),saved=audioBriefs.get(key)||{kind:'narration',language:draft.language==='af'?'af':'en',text:'',seconds:2};audioBriefs.set(key,saved);
+  if(pack&&saved.language==='af')saved.language='en';
+  select(parent,'Create',[['narration','Tina narration'],['soundEffect','Sound effect']],saved.kind,v=>{saved.kind=v;saved.language=v==='soundEffect'?'neutral':pack?'en':draft.language==='af'?'af':'en';render();},'flow-audio-kind');
+  select(parent,'Language',saved.kind==='soundEffect'?[['neutral','Sound effect · no language']]:pack?[['en','English']]:[['en','English'],['af','Afrikaans']],saved.language,v=>saved.language=v,'flow-audio-language');
+  const text=field(parent,'Words to speak / sound to describe',saved.text,v=>saved.text=v,'flow-audio-text','textarea');text.maxLength=180;text.placeholder='Find the letters that spell cat.';
+  const source=pack?(flowActivity()?.content.instruction||flowMission()?.stages[flowStage]?.text):flowConfig()?.bank?.instruction?.en;
+  if(source&&saved.kind==='narration')parent.append(button('Use this activity’s instructions',()=>{text.value=source.length<=180?source:'';saved.text=text.value;text.dispatchEvent(new Event('input',{bubbles:true}));notice(text.value?'Instructions copied. Listen to the result before approving.':'Use a short spoken instruction, up to 180 characters.');},'flow-audio-use-instructions'));
+  if(saved.kind==='soundEffect'){const n=field(parent,'Sound effect length (seconds)',saved.seconds,v=>saved.seconds=v,'flow-audio-seconds','number');n.min=.5;n.max=4;n.step=.5;}
+  klikRequest(parent,text,'Generate audio',async brief=>{const request={kind:saved.kind,text:brief,language:saved.kind==='soundEffect'?'neutral':saved.language,seconds:saved.seconds};await flowSave();notice('ElevenLabs is generating the clip…');flowCandidate=(await api('generate-audio',{scope:draft.scope,title:(draft.title+' '+request.kind).slice(0,120),request})).item;flowRemember(flowCandidate);render();notice('Audio ready. Listen before approving.');},'flow-generate-audio');
+  parent.append(el('small',catalogue.audioProvider?.message||'Existing server audio binding required.',{class:'muted'}));
+  parent.append(el('p',pack?'Attach narration to instructions or questions, and sound effects to correct answers, retries or activity completion. Clips play locally. Maximum eight seconds per clip and 600 KB per pack.':'Attach clips to the instruction or a learning item. Generate both English and Afrikaans for narration. Sound effects can use one language-neutral clip. Native limits: eight seconds per clip, 240 KB per level.',{class:'capability-note'}));
  }
  function flowLibrary(parent){
   const grid=el('div',null,{class:'media-grid'});for(const r of published('asset')){const b=r.publishedBody||r.body,card=el('article',null,{class:'media-card'});if(b.definition.image)card.append(art(b.definition.image,'cover'));else card.append(el('span','♫',{class:'media-icon'}));card.append(el('strong',b.title),el('small',b.definition.type),button('Use this asset',async()=>{await syncGame();flowCandidate=r;render();},'flow-use-'+r.id));grid.append(card);}parent.append(grid);if(!grid.children.length)parent.append(el('p','Approved artwork and audio will appear here. Generate a candidate above or upload an image in Assets.'));
@@ -307,8 +338,8 @@ export function learningStudioApp(){
   const box=el('section',null,{class:'media-review'});box.append(el('h3',row.body.title));let listened=false;
   if(definition.image)box.append(art(definition.image));
   if(definition.audio){const a=el('audio',null,{controls:'',preload:'none',src:'data:audio/wav;base64,'+definition.audio.wav,id:'flow-audio-player'});a.onended=()=>{listened=true;};box.append(a);}
-  const sound=!!definition.audio,targets=sound?[['library','Save in audio library'],...(flowGame()?[['prompt','Instruction audio'],...flowConfig().bank.items.map(i=>['item:'+i.id,'Item: '+i.label.en])]:[])]:[['cover','Cover / thumbnail'],['background','World background'],...(flowGame()?[['decoration','New scene prop / NPC'],...flowConfig().objects.filter(o=>!['target'].includes(o.role)).map(o=>['object:'+o.id,'Object: '+o.label.en])]:[])];
-  let target=sound?'library':definition.type==='background'?'background':'cover';select(box,'Use as',targets,target,v=>target=v,'flow-asset-target');
+  const sound=!!definition.audio,targets=sound?[...(selected.kind==='skillPack'?flowSkillAudioTargets(definition.type):flowGame()?[['prompt','Instruction audio'],...flowConfig().bank.items.map(i=>['item:'+i.id,'Item: '+i.label.en])]:[]),['library','Save in audio library']]:[['cover','Cover / thumbnail'],['background','World background'],...(flowGame()?[['decoration','New scene prop / NPC'],...flowConfig().objects.filter(o=>!['target'].includes(o.role)).map(o=>['object:'+o.id,'Object: '+o.label.en])]:[])];
+  let target=sound?(selected.kind==='skillPack'?targets[0][0]:'library'):definition.type==='background'?'background':'cover';select(box,'Use as',targets,target,v=>target=v,'flow-asset-target');
   const label=el('label'),check=el('input',null,{type:'checkbox',id:'flow-media-reviewed'});label.append(check,document.createTextNode(sound?'I listened to the full clip and reviewed pronunciation, content and rights.':'I reviewed this artwork, character identity and usage rights.'));if(!row.publishedRevision)box.append(label);
   box.append(button(row.publishedRevision?'Attach approved asset':'Approve & use asset',async()=>{
    await syncGame();if(!row.publishedRevision){if(!check.checked||sound&&!listened)throw Error(sound?'Listen to the full clip and confirm the review first.':'Confirm the artwork review first.');
@@ -329,6 +360,19 @@ export function learningStudioApp(){
    let world=(await api('objects',{kind:'world',expectedVersion:0,action:'save',body:{...base((draft.title+' world').slice(0,120)),scope:draft.scope,definition:{baseWorld:flowGame()?.world||catalogue.worlds[0].id,identity:draft.description.slice(0,500),assets:{background:ref(row)},zones:[],theme:{accent:'#80E8FF'},audio:[]}}})).item;
    const run=async(action,extra={})=>{world=(await api('objects',{id:world.id,expectedVersion:world.editVersion,action,...extra})).item;};
    await run('validate');await run('review');const p=await api('preview',{id:world.id});await run('previewed',{previewDigest:p.digest});await run('approve',{reviewed:true,note:'Reviewed generated world backdrop and installed base in guided asset approval.'});await run('publish');flowRemember(world);draft.world=ref(world);return;
+  }
+  if(d.audio&&selected.kind==='skillPack'){
+   if(!catalogue.skillPackAudio)throw Error('Reload the Factory to enable Skill Pack audio.');
+   const allowed=flowSkillAudioTargets(d.type).some(([slot])=>slot===target);if(!allowed)throw Error('Choose a compatible audio slot.');
+   if(d.type==='narration'&&row.body.language!==draft.definition.v2.language)throw Error('Choose narration in the Skill Pack language.');
+   const previous=clone(draft.definition.audio||null);
+   const binding=flowSkillAudio(true),game=flowActivity(),stage=flowMission().stages[flowStage];
+   if(target==='prompt'){binding.instruction=ref(row);binding.instructionText=game?.content.instruction||stage.text;}
+   else if(target.startsWith('item:')){const id=target.slice(5),item=game?.content.items.find(i=>i.id===id);if(!item)throw Error('Choose an existing question.');binding.items[id]=ref(row);binding.itemTexts[id]=item.prompt;}
+   else binding.effects[target.slice(7)]=ref(row);
+   const clips=new Map();for(const b of draft.definition.audio.stages)for(const r of [b.instruction,...Object.values(b.items),...Object.values(b.effects)].filter(Boolean)){const asset=catalogue.records.find(a=>a.id===r.id),clip=(asset?.publishedBody||asset?.body)?.definition.audio;if(clip)clips.set(clip.id,clip);}
+   if(clips.size>40||[...clips.values()].reduce((n,a)=>n+atob(a.wav).length,0)>600000){if(previous)draft.definition.audio=previous;else delete draft.definition.audio;throw Error('This pack’s 600 KB audio budget is full. Remove unused clips or use shorter recordings.');}
+   return;
   }
   const c=flowConfig();if(!c)throw Error('Choose a compatible Game or Mission activity.');
   if(d.audio){
